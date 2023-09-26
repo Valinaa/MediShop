@@ -12,6 +12,8 @@
     <artifactId>medishop-web</artifactId>
 
     <properties>
+        <medishop.version>0.0.1-SNAPSHOT</medishop.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,13 +22,17 @@
         <dependency>
             <groupId>tech.valinaa</groupId>
             <artifactId>medishop-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${medishop.version}</version>
         </dependency>
         <dependency>
             <groupId>tech.valinaa</groupId>
             <artifactId>medishop-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>${medishop.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
         </dependency>
     </dependencies>
 </project>
