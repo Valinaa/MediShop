@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import tech.valinaa.medishop.api.product.request.ProductRequest;
 import tech.valinaa.medishop.api.product.response.ProductResponse;
 
 @Tag(name = "药品管理Api", description = "药品相关Api")
@@ -14,9 +15,9 @@ public interface ProductApi {
     
     @Operation(summary = "获取单个药品信息")
     @GetMapping
-    ProductResponse getOne();
+    ProductResponse getOne(Long id);
     
     @Operation(summary = "新增单个药品信息")
     @PostMapping
-    boolean addOne();
+    boolean addOne(ProductRequest productRequest);
 }

@@ -6,14 +6,12 @@
     <parent>
         <groupId>tech.valinaa</groupId>
         <artifactId>MediShop</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>medishop-web</artifactId>
 
     <properties>
-        <medishop.version>0.0.1-SNAPSHOT</medishop.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,17 +20,36 @@
         <dependency>
             <groupId>tech.valinaa</groupId>
             <artifactId>medishop-api</artifactId>
-            <version>${medishop.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>tech.valinaa</groupId>
             <artifactId>medishop-core</artifactId>
-            <version>${medishop.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

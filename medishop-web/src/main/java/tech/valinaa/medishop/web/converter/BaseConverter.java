@@ -1,0 +1,33 @@
+package tech.valinaa.medishop.web.converter;
+
+/**
+ * @author Valinaa
+ * @Date 2023/9/27 9:21
+ * @Description 通用转换器
+ * @param <R1> 请求实体
+ * @param <R2> 响应实体
+ * @param <D> DO对象实体
+ */
+public interface BaseConverter<R1,R2,D> {
+    
+    /**
+     * 请求实体转DO对象
+     * @param reqEntity 请求实体
+     * @return DO对象
+     */
+    D reqEntityToDO(R1 reqEntity);
+    
+    /**
+     * 请求实体转响应实体
+     * @param reqEntity DO对象
+     * @return 响应实体
+     */
+    R2 reqEntityToResponse(R1 reqEntity);
+    
+    /**
+     * DO对象转响应实体
+     * @param dao DO对象
+     * @return 响应实体
+     */
+    R2 daoToResponse(D dao);
+}

@@ -10,7 +10,7 @@
     </parent>
     <groupId>tech.valinaa</groupId>
     <artifactId>MediShop</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
     <name>MediShop</name>
     <description>MediShop</description>
@@ -19,6 +19,7 @@
         <module>medishop-core</module>
         <module>medishop-bootstrap</module>
         <module>medishop-web</module>
+        <module>medishop-utils</module>
     </modules>
     <properties>
         <java.version>17</java.version>
@@ -28,11 +29,12 @@
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <fastjson2.version>2.0.25</fastjson2.version>
         <knife4j.version>4.3.0</knife4j.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <!--配置dependencyManagement锁定依赖的版本-->
+    <!--锁定依赖版本-->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -64,8 +66,20 @@
                 <artifactId>fastjson2</artifactId>
                 <version>${fastjson2.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

@@ -1,0 +1,40 @@
+server:
+  port: 8999
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: medishop
+    password: fN5E7JPPSLpFeHpn
+    url: jdbc:mysql://system.valinaa.tech:3306/medishop?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+  cache:
+    type: redis
+  data:
+    redis:
+      host: system.valinaa.tech
+      password: valina
+      database: 1
+      port: 6379
+      lettuce:
+        pool:
+          max-active: 15
+          max-idle: 10
+          min-idle: 2
+          time-between-eviction-runs: 1000
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: tech.valinaa.medishop.core.model.dataobject
+#logging:
+#  config: classpath:log4j2.xml
+#  level:
+#    web: debug
+knife4j:
+  enable: true
+  setting:
+    enableSwaggerModels: true
+    swaggerModelName: 实体类列表
+    enableVersion: true
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: The MIT License | Copyright  2023-[Valinaa](https://github.com/Valinaa)
+#      production: false
