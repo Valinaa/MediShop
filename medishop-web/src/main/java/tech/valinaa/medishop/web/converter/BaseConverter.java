@@ -15,19 +15,19 @@ public interface BaseConverter<R1,R2,D> {
      * @param reqEntity 请求实体
      * @return DO对象
      */
-    D reqEntityToDO(R1 reqEntity);
+    D req2DO(R1 reqEntity);
     
     /**
      * 请求实体转响应实体
      * @param reqEntity DO对象
      * @return 响应实体
      */
-    R2 reqEntityToResponse(R1 reqEntity);
+    R2 req2Response(R1 reqEntity);
     
     /**
      * DO对象转响应实体
      * @param dao DO对象
      * @return 响应实体
      */
-    R2 daoToResponse(D dao);
+    R2 dao2Response(D dao);
 }

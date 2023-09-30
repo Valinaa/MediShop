@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description MyBatis-plus配置类
  */
 @Configuration
-@MapperScan("tech.valinaa.medishop.core.model.dao")
+@MapperScan("tech.valinaa.medishop.core.dao")
 public class MybatisPlusConfiguration {
     /**
      * 新的插件机制,一缓和二缓遵循mybatis的规则

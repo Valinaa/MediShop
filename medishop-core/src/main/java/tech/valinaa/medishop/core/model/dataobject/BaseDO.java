@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author Valinaa
@@ -22,10 +22,10 @@ public class BaseDO implements Serializable {
     private Long id;
     
     @TableField(fill = FieldFill.INSERT)
-    private Date createdTime;
+    private LocalDateTime createdTime;
     
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date modifiedTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE,update = "now()")
+    private LocalDateTime modifiedTime;
     
     @TableField(fill = FieldFill.INSERT)
     private String creator;

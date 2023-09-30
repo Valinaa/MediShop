@@ -23,11 +23,6 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>tech.valinaa</groupId>
-            <artifactId>medishop-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>

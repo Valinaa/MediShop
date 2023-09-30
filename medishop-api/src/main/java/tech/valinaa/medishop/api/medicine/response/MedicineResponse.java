@@ -1,6 +1,7 @@
-package tech.valinaa.medishop.api.product.response;
+package tech.valinaa.medishop.api.medicine.response;
 
 import lombok.Data;
+import tech.valinaa.medishop.core.model.enums.MedicineStatusEnum;
 
 /**
  * @author Valinaa
@@ -8,12 +9,11 @@ import lombok.Data;
  * @Description 药品返回结果模板
  */
 @Data
-public class ProductResponse {
+public class MedicineResponse {
     private String name;
-    private String description;
+    private String summary;
     private String price;
     private String stock;
     private String category;
-    private String image;
-    private String status;
+    private MedicineStatusEnum status;
 }

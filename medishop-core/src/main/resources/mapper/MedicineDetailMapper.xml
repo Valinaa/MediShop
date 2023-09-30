@@ -2,5 +2,5 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="tech.valinaa.medishop.core.model.dao.ProductMapper">
+<mapper namespace="tech.valinaa.medishop.core.dao.MedicineDetailMapper">
 </mapper>

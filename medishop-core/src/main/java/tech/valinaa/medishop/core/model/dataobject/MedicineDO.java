@@ -3,6 +3,7 @@ package tech.valinaa.medishop.core.model.dataobject;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import tech.valinaa.medishop.core.model.enums.MedicineStatusEnum;
 
 /**
  * @author Valinaa
@@ -11,13 +12,12 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("product")
-public class ProductDO extends BaseDO{
+@TableName("medicine")
+public class MedicineDO extends BaseDO{
     private String name;
-    private String description;
+    private String summary;
     private String price;
     private String stock;
     private String category;
-    private String image;
-    private String status;
+    private MedicineStatusEnum status;
 }

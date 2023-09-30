@@ -24,6 +24,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import tech.valinaa.medishop.utils.exception.RedisOperationException;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -66,7 +67,7 @@ public class LettuceConfiguration implements CachingConfigurer {
                     try {
                         sb.append(new ObjectMapper().writeValueAsString(obj).hashCode());
                     } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
+                        throw new RedisOperationException("20001",new Object[]{obj,sb},"Redis cache key generator error: " + e.getMessage());
                     }
                 }
             }

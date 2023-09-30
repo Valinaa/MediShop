@@ -3,9 +3,9 @@ package tech.valinaa.medishop.core.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tech.valinaa.medishop.core.model.dao.ProductMapper;
-import tech.valinaa.medishop.core.model.dataobject.ProductDO;
-import tech.valinaa.medishop.core.service.ProductService;
+import tech.valinaa.medishop.core.dao.MedicineMapper;
+import tech.valinaa.medishop.core.model.dataobject.MedicineDO;
+import tech.valinaa.medishop.core.service.MedicineService;
 
 /**
  * @author Valinaa
@@ -14,5 +14,5 @@ import tech.valinaa.medishop.core.service.ProductService;
  */
 @Service
 @Slf4j
-public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductDO> implements ProductService {
+public class MedicineServiceImpl extends ServiceImpl<MedicineMapper, MedicineDO> implements MedicineService {
 }

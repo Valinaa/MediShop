@@ -20,7 +20,7 @@ public class BasePageRequest {
     private Boolean desc = true;
 
     @Schema(title = "排序字段", type = "String")
-    private String orderBy = "gmtModified";
+    private String orderBy = "modifiedTime";
 
     private Integer start;
 
