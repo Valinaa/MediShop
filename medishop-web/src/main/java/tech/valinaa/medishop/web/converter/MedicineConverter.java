@@ -15,7 +15,6 @@ import tech.valinaa.medishop.core.model.dataobject.MedicineDetailDO;
  * @Date 2023/9/26 17:50
  * @Description 药品对象转化器
  */
-
 @Mapper
 public interface MedicineConverter extends BaseConverter<MedicineRequest, MedicineResponse, MedicineDO> {
     MedicineConverter INSTANCE = Mappers.getMapper(MedicineConverter.class);
