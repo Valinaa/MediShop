@@ -24,7 +24,7 @@ public class KafkaClusterConfiguration {
         props.put("bootstrap.servers", "master:9092,slave1:9092,slave2:9092");
         //客户端发送服务端失败的重试次数
         props.put("retries", 2);
-        //多个记录被发送到同一个分区时,生产者将尝试将记录一起批处理成更少的请求.
+        //多个记录被发送到同一个分区时,生产者将尝试将记录一起批处理成更少地请求.
         //此设置有助于提高客户端和服务器的性能,配置控制默认批量大小(以字节为单位)
         props.put("batch.size", 16384);
         //生产者可用于缓冲等待发送到服务器的记录的总内存字节数(以字节为单位)
