@@ -21,7 +21,7 @@ import tech.valinaa.medishop.web.converter.MedicineConverter;
 @RestController
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class MedicineController implements MedicineApi {
-
+    
     private final MedicineService medicineService;
     
     @Override

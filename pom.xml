@@ -20,6 +20,7 @@
         <module>medishop-bootstrap</module>
         <module>medishop-web</module>
         <module>medishop-utils</module>
+        <module>medishop-auth</module>
     </modules>
     <properties>
         <cloud.version>2022.0.0</cloud.version>
@@ -29,6 +30,7 @@
         <knife4j.version>4.3.0</knife4j.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <kafka.version>3.4.1</kafka.version>
+        <jose4j-jwt.version>0.9.3</jose4j-jwt.version>
         <java.version>17</java.version>
         <skipTests>true</skipTests>
         <maven.compiler.source>17</maven.compiler.source>
@@ -76,6 +78,11 @@
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
                 <version>${kafka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bitbucket.b_c</groupId>
+                <artifactId>jose4j</artifactId>
+                <version>${jose4j-jwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

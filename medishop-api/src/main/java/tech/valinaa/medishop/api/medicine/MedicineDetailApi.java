@@ -16,11 +16,23 @@ import tech.valinaa.medishop.api.medicine.response.MedicineDetailResponse;
 @RequestMapping("/medicine/detail")
 public interface MedicineDetailApi {
     
+    /**
+     * 获取单个药品所有信息
+     *
+     * @param id 药品id
+     * @return 药品详情
+     */
     @Operation(summary = "获取单个药品所有信息")
     @GetMapping
     MedicineDetailResponse getDetailOne(Long id);
     
-    @Operation(summary = "新增药品详情")
+    /**
+     * 新增药品详情信息
+     *
+     * @param medicineDetailRequest 药品详情请求实体
+     * @return 是否成功
+     */
+    @Operation(summary = "新增药品详情信息")
     @PostMapping
     boolean addDetailOne(MedicineDetailRequest medicineDetailRequest);
     

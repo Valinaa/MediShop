@@ -5,10 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import tech.valinaa.medishop.api.page.BasePageRequest;
-import tech.valinaa.medishop.api.page.PageResult;
 import tech.valinaa.medishop.api.medicine.request.MedicineRequest;
 import tech.valinaa.medishop.api.medicine.response.MedicineResponse;
+import tech.valinaa.medishop.api.page.BasePageRequest;
+import tech.valinaa.medishop.api.page.PageResult;
 
 /**
  * @author Valinaa
@@ -18,14 +18,32 @@ import tech.valinaa.medishop.api.medicine.response.MedicineResponse;
 @RequestMapping("/medicine")
 public interface MedicineApi {
     
+    /**
+     * 获取单个药品信息
+     *
+     * @param id 药品id
+     * @return 药品信息
+     */
     @Operation(summary = "获取单个药品信息")
     @GetMapping
     MedicineResponse getOne(Long id);
     
+    /**
+     * 新增单个药品信息
+     *
+     * @param medicineRequest 药品信息
+     * @return 是否成功
+     */
     @Operation(summary = "新增单个药品信息")
     @PostMapping
     boolean addOne(MedicineRequest medicineRequest);
     
+    /**
+     * 获取药品列表
+     *
+     * @param pageRequest 分页信息
+     * @return 药品列表
+     */
     @Operation(summary = "获取药品列表")
     @GetMapping("/list")
     // TODO 分页

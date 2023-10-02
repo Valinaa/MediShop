@@ -40,4 +40,4 @@ knife4j:
     enableFooter: false
     enableFooterCustom: true
     footerCustomContent: The MIT License | Copyright  2023-[Valinaa](https://github.com/Valinaa)
-#      medicineion: false
+#    production: false

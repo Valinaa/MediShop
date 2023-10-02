@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date 2023/9/26 13:54
  * @Description MediShop启动类
  */
+@SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "checkstyle:MissingJavadocMethod"})
 @SpringBootApplication(scanBasePackages = "tech.valinaa.medishop")
 public class MediShopApplication {
     public static void main(String[] args) {

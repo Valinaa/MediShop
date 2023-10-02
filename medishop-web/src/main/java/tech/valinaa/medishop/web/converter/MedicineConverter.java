@@ -20,13 +20,20 @@ public interface MedicineConverter extends BaseConverter<MedicineRequest, Medici
     MedicineConverter INSTANCE = Mappers.getMapper(MedicineConverter.class);
     
     /**
-     * 转化药品详情
-     * @param dao 药品DO对象
+     * 药品信息合并
+     *
+     * @param dao       药品DO对象
      * @param detailDao 药品详情DO对象
      * @return 药品详情响应实体
      */
     @Mapping(target = "", source = "detailDao.id", ignore = true)
     MedicineDetailResponse mergeDao2DetailResponse(MedicineDO dao, MedicineDetailDO detailDao);
     
+    /**
+     * 请求实体转DO
+     *
+     * @param medicineDetailRequest 药品详情请求实体
+     * @return 药品详情DO对象
+     */
     MedicineDetailDO req2DetailDO(MedicineDetailRequest medicineDetailRequest);
 }

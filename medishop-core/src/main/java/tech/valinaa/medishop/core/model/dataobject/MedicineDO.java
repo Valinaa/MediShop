@@ -13,7 +13,7 @@ import tech.valinaa.medishop.core.model.enums.MedicineStatusEnum;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("medicine")
-public class MedicineDO extends BaseDO{
+public class MedicineDO extends BaseDO {
     private String name;
     private String summary;
     private String price;

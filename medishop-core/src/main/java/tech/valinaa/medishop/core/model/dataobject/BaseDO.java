@@ -24,7 +24,7 @@ public class BaseDO implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdTime;
     
-    @TableField(fill = FieldFill.INSERT_UPDATE,update = "now()")
+    @TableField(fill = FieldFill.INSERT_UPDATE, update = "now()")
     private LocalDateTime modifiedTime;
     
     @TableField(fill = FieldFill.INSERT)

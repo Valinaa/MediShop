@@ -9,10 +9,11 @@ import lombok.Data;
  * @Description 分页请求模版
  */
 @Data
+@SuppressWarnings("checkstyle:MagicNumber")
 public class BasePageRequest {
     @Schema(title = "当前页数", type = "Integer")
     private Integer pageNo = 1;
-
+    
     @Schema(title = "每页显示多少条", type = "Integer")
     private Integer pageSize = 1000;
 
