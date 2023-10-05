@@ -26,7 +26,7 @@ public interface MedicineConverter extends BaseConverter<MedicineRequest, Medici
      * @param detailDao 药品详情DO对象
      * @return 药品详情响应实体
      */
-    @Mapping(target = "", source = "detailDao.id", ignore = true)
+    @Mapping(target = "medicineId", source = "dao.id")
     MedicineDetailResponse mergeDao2DetailResponse(MedicineDO dao, MedicineDetailDO detailDao);
     
     /**

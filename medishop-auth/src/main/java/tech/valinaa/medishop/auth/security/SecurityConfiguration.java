@@ -23,7 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import tech.valinaa.medishop.auth.security.custom.CustomAuthenticationHandler;
 import tech.valinaa.medishop.auth.security.custom.CustomAuthorizationTokenFilter;
-import tech.valinaa.medishop.auth.security.user.UserServiceImpl;
+import tech.valinaa.medishop.auth.security.user.web.UserServiceImpl;
 
 import java.util.ArrayList;
 
@@ -123,6 +123,7 @@ public class SecurityConfiguration {
                         .loginProcessingUrl("/login")
                         .successForwardUrl("/index")
                         .permitAll())
+                .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         // 允许所有OPTIONS请求
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -133,8 +134,7 @@ public class SecurityConfiguration {
                 .logout((logout) -> logout.logoutUrl("/logout")
                         .logoutSuccessUrl("/index")
                         .logoutSuccessHandler(customAuthenticationHandler)
-                        .permitAll())
-                .formLogin(AbstractHttpConfigurer::disable);
+                        .permitAll());
         return http.build();
     }
     

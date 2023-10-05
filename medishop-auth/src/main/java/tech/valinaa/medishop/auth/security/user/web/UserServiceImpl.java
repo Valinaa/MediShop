@@ -1,4 +1,4 @@
-package tech.valinaa.medishop.auth.security.user;
+package tech.valinaa.medishop.auth.security.user.web;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -6,6 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tech.valinaa.medishop.api.Result;
+import tech.valinaa.medishop.auth.security.user.AuthorityEnum;
+import tech.valinaa.medishop.auth.security.user.UserConverter;
+import tech.valinaa.medishop.auth.security.user.UserService;
 import tech.valinaa.medishop.auth.security.user.pojo.UserDO;
 import tech.valinaa.medishop.auth.security.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;

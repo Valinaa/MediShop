@@ -13,8 +13,8 @@ import java.util.stream.Stream;
  * @Description RedisUtil 异常类
  */
 @Setter
-@SuppressWarnings("all")
-public class RedisOperationException extends RuntimeException{
+@SuppressWarnings({"checkstyle:MissingJavadocMethod", "unused"})
+public class RedisOperationException extends RuntimeException {
     
     private String errorCode;
     

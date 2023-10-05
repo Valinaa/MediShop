@@ -22,10 +22,10 @@ public class BaseDO implements Serializable {
     private Long id;
     
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createdTime;
+    private LocalDateTime gmtCreated;
     
     @TableField(fill = FieldFill.INSERT_UPDATE, update = "now()")
-    private LocalDateTime modifiedTime;
+    private LocalDateTime gmtModified;
     
     @TableField(fill = FieldFill.INSERT)
     private String creator;

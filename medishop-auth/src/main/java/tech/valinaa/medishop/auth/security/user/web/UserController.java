@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.RestController;
 import tech.valinaa.medishop.api.Result;
 import tech.valinaa.medishop.auth.security.user.UserService;
@@ -16,6 +15,7 @@ import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Valinaa
@@ -32,25 +32,27 @@ public class UserController implements UserApi {
     
     @Override
     public Result<Map<String, String>> login(UserRequest userRequest) {
+        var map = new HashMap<String, String>();
         var authentication = new UsernamePasswordAuthenticationToken(
                 userRequest.getUsername(), userRequest.getPassword()
         );
-        Authentication authenticate = null;
         try {
-            authenticate = authenticationManager.authenticate(authentication);
-            log.info("authenticate:{}", authenticate);
-        } catch (Exception e) {
+            Optional.ofNullable(authenticationManager.authenticate(authentication))
+                    .ifPresentOrElse(
+                            auth -> {
+                                log.info("authenticate: {}", auth);
+                                var userDetails = userService.loadUserByUsername(userRequest.getUsername());
+                                var token = JwtUtil.createToken(userDetails);
+                                map.put("token", token);
+                            },
+                            () -> log.error("login error: authenticate is null")
+                    );
+        } catch (AuthenticationException e) {
             log.error("login error:{}", e.getMessage());
         }
-        if (authenticate == null) {
-            log.error("login error: authenticate is null");
-            return Result.failure(ResultCodeEnum.LOGIN_ERROR);
-        }
-        UserDetails userDetails = userService.loadUserByUsername(userRequest.getUsername());
-        String token = JwtUtil.createToken(userDetails);
-        return Result.success(new HashMap<>() {{
-            put("token", token);
-        }});
+        return map.isEmpty()
+                ? Result.failure(ResultCodeEnum.LOGIN_ERROR)
+                : Result.success(map);
     }
     
     @Override

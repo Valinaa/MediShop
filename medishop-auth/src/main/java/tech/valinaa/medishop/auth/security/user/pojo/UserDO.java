@@ -1,17 +1,17 @@
 package tech.valinaa.medishop.auth.security.user.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import tech.valinaa.medishop.auth.security.user.AuthorityEnum;
 import tech.valinaa.medishop.auth.security.user.UserTypeEnum;
 import tech.valinaa.medishop.core.model.dataobject.BaseDO;
+import tech.valinaa.medishop.utils.mybatis.List2StringTypeHandler;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,11 +21,12 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("user")
+@TableName(value = "user", autoResultMap = true)
 public class UserDO extends BaseDO implements UserDetails, Serializable {
     
     private String username;
     private String password;
+    @TableField(typeHandler = List2StringTypeHandler.class)
     private List<SimpleGrantedAuthority> authorities;
     private String fullName;
     private String email;
@@ -38,18 +39,6 @@ public class UserDO extends BaseDO implements UserDetails, Serializable {
     /**
      * 设置权限
      *
-     * @param authorityEnum {@link AuthorityEnum}
-     * @see AuthorityEnum
-     */
-    public void setAuthorities(AuthorityEnum authorityEnum) {
-        authorityEnum.getAuthorities().forEach(
-                i -> this.authorities.add(new SimpleGrantedAuthority(i))
-        );
-    }
-    
-    /**
-     * 设置权限
-     *
      * @param authorities 若干 权限名
      */
     public void setAuthorities(String... authorities) {
@@ -58,8 +47,18 @@ public class UserDO extends BaseDO implements UserDetails, Serializable {
         }
     }
     
+    /**
+     * 设置权限
+     *
+     * @param authorityEnum {@link AuthorityEnum}
+     * @see AuthorityEnum
+     */
+    public void setAuthorities(AuthorityEnum authorityEnum) {
+        this.setAuthorities(authorityEnum.getAuthorities().toArray(new String[0]));
+    }
+    
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<SimpleGrantedAuthority> getAuthorities() {
         return this.authorities;
     }
     

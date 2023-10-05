@@ -1,5 +1,7 @@
 package tech.valinaa.medishop.web.converter;
 
+import tech.valinaa.medishop.web.converter.mapping.MappingIgnore;
+
 /**
  * @param <R1> 请求实体
  * @param <R2> 响应实体
@@ -16,6 +18,7 @@ public interface BaseConverter<R1, R2, D> {
      * @param reqEntity 请求实体
      * @return DO对象
      */
+    @MappingIgnore
     D req2DO(R1 reqEntity);
     
     /**

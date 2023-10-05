@@ -10,7 +10,6 @@ import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;
 /**
  * @author Valinaa
  * @Date 2023/10/2 12:36
- * @Description
  */
 public interface UserService extends IService<UserDO>, UserDetailsService {
     /**

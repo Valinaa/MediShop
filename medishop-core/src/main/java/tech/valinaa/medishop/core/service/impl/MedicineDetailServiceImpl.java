@@ -13,5 +13,6 @@ import tech.valinaa.medishop.core.service.MedicineDetailService;
  */
 @Service
 @Slf4j
-public class MedicineDetailServiceImpl extends ServiceImpl<MedicineDetailMapper, MedicineDetailDO> implements MedicineDetailService {
+public class MedicineDetailServiceImpl extends ServiceImpl<MedicineDetailMapper, MedicineDetailDO>
+        implements MedicineDetailService {
 }

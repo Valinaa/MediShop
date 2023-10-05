@@ -14,15 +14,15 @@ import java.time.LocalDateTime;
 public class CustomMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject,"createdTime", LocalDateTime::now,LocalDateTime.class);
-        this.strictInsertFill(metaObject,"modifiedTime",LocalDateTime::now,LocalDateTime.class);
-        this.strictInsertFill(metaObject, "deleted", ()-> 0,Integer.class);
+        this.strictInsertFill(metaObject, "gmtCreated", LocalDateTime::now, LocalDateTime.class);
+        this.strictInsertFill(metaObject, "gmtModified", LocalDateTime::now, LocalDateTime.class);
+        this.strictInsertFill(metaObject, "deleted", () -> 0, Integer.class);
         // TODO 修改用户添加
 //        this.strictInsertFill(metaObject, "version", ()-> 1,Integer.class);
     }
     
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictUpdateFill(metaObject,"modifiedTime",LocalDateTime::now,LocalDateTime.class);
+        this.strictUpdateFill(metaObject, "gmtModified", LocalDateTime::now, LocalDateTime.class);
     }
 }

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,10 +14,12 @@ import org.springframework.context.annotation.Configuration;
  * @Description MyBatis-plus配置类
  */
 @Configuration
-@MapperScan("tech.valinaa.medishop.core.dao")
 public class MybatisPlusConfiguration {
+    
     /**
      * 新的插件机制,一缓和二缓遵循mybatis的规则
+     *
+     * @return MybatisPlusInterceptor
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

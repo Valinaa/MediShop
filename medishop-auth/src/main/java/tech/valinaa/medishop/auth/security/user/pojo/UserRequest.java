@@ -41,4 +41,15 @@ public class UserRequest {
     private UserTypeEnum userType;
     @Schema(title = "licenseImageUrl", description = "证件照", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String licenseImageUrl;
+    
+    /**
+     * 设置权限
+     *
+     * @param authorities 若干 权限名
+     */
+    public void setAuthorities(String... authorities) {
+        for (String authority : authorities) {
+            this.authorities.add(new SimpleGrantedAuthority(authority));
+        }
+    }
 }

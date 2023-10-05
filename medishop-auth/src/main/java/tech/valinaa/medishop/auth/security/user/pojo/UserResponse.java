@@ -1,6 +1,7 @@
 package tech.valinaa.medishop.auth.security.user.pojo;
 
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import tech.valinaa.medishop.auth.security.user.UserTypeEnum;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class UserResponse {
     private String username;
     private String password;
+    @Getter
     private List<SimpleGrantedAuthority> authorities;
     private String fullName;
     private String email;
@@ -23,4 +25,15 @@ public class UserResponse {
     private String ipAddress;
     private UserTypeEnum userType;
     private String licenseImageUrl;
+    
+    /**
+     * 设置权限
+     *
+     * @param authorities 若干 权限名
+     */
+    public void setAuthorities(String... authorities) {
+        for (String authority : authorities) {
+            this.authorities.add(new SimpleGrantedAuthority(authority));
+        }
+    }
 }
