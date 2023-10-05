@@ -1,0 +1,229 @@
+hello: 你好
+welcome to: 欢迎来到
+includes features: 是一个开箱即用的 Vue3 模板，它拥有这些功能：
+before coding: 在开始编码之前
+setup ide: 我建议将你的 IDE 设置为
+home: 主页
+name: 名称
+change light: 切换至Light
+change dark: 切换至Dark
+change lang: 切换至英文
+method to using: 使用模板的方法
+template process: 模板配置流程
+cross login: 跨域登录
+data analysis platform: 大数据分析平台
+meta data management: 源数据管理
+view public data: 查看公共数据
+editing interface: 编辑界面
+analysis management: 分析管理
+dashboard management: 仪表板管理
+view dashboard info: 查看仪表板信息
+view default dashboard: 预览默认仪表板
+edit default dashboard: 编辑默认仪表板
+self info management: 关于作者
+create time: 创建时间
+update time: 修改时间
+watermark: 存在水印
+operation: 操作
+view: 预览
+edit: 编辑
+more extends: 功能待扩展
+logout: 注销
+self info: 个人信息
+username: 用户名
+click to view: 点击预览数据表
+click to edit: 点击修改数据表
+type: 类型
+create by: 创建者
+engine: 引擎(来源)
+dataset info: 数据集信息
+able to update: 允许更新
+dir: 文件夹
+dataset: 数据集
+yes: 是
+no: 否
+db_t: DB表
+sql_t: SQL表
+other_t: Excel、自助数据集、其它
+other: 其他
+direct: 直连
+spider: 抽取
+contact me: 联系我
+emails: 邮箱
+email content: 下面是我的邮箱，任何一个都能联系到我
+contact info: 想要用邮箱和我联系嘛?
+thank for visit: 感谢您的到访！
+thank for read: 感谢热情网民的审阅!
+nickname: 昵称
+address: 详细地址
+detail address: 上海市徐汇区梅陇路130号
+city: 城市
+shanghai: 上海
+telephone: 电话
+age: 年龄
+gender: 性别
+male: 男
+female: 女
+ability: 技能点
+author card: 作者的小秘密
+like: 赏!!!
+after like: 感谢来自热情网民的赞赏!
+no repeat like: 可不许取消嗷~
+motto: 生活的理想, 就是为了理想的生活
+read: 已阅 !
+go away: 开溜~
+close: 不想走了
+go where: 看看我们去哪里
+view home: 还是回主页吧
+view blog: 去看看Blog
+view muse: 观摩下作者的灵感乍现
+view life: 了解下作者的日常生活
+view github: 去作者的GitHub扒扒
+category: 类别
+skill: 技术栈
+grade: 自我评级
+programming: 编程语言
+computers: 计算机原理
+components: 大数据组件
+see skills: 看看我都会些啥 ?
+skills list: 技能小清单
+welcome: 热烈欢迎 !
+blog: 博客
+intro: 作者
+muse: 灵感
+life: 生活
+issue: 如果在使用过程中出现了任何问题, 请在该项目下提出Issue
+personal site: 的个人网站
+coming soon: 该网站尚在开发中，敬请期待！
+data analysis module not available: 大数据分析平台模块暂未开放
+try clicking the button below: 您可以尝试点击下方按钮
+if the response is successful: 若返回成功
+it means it is already available: 说明已经对外开放
+sys:
+  api:
+    operationFailed: 操作失败
+    errorTip: 错误提示
+    errorMessage: 操作失败系统异常!
+    timeoutMessage: 登录超时请重新登录!
+    apiTimeoutMessage: 接口请求超时请刷新页面重试!
+    apiRequestFailed: 请求出错，请稍候重试
+    networkException: 网络异常
+    networkExceptionMsg: 网络异常，请检查您的网络连接是否正常!
+
+    errMsg401: 用户没有权限（令牌、用户名、密码错误）!
+    errMsg403: 用户得到授权，但是访问是被禁止的。!
+    errMsg404: 网络请求错误未找到该资源!
+    errMsg405: 网络请求错误请求方法未允许!
+    errMsg408: 网络请求超时!
+    errMsg500: 服务器错误请联系管理员!
+    errMsg501: 网络未实现!
+    errMsg502: 网络错误!
+    errMsg503: 服务不可用，服务器暂时过载或维护!
+    errMsg504: 网络超时!
+    errMsg505: http版本不支持该请求!
+  app:
+    logoutTip: 温馨提醒
+    logoutMessage: 是否确认退出系统?
+    menuLoading: 菜单加载中...
+  errorLog:
+    tableTitle: 错误日志列表
+    tableColumnType: 类型
+    tableColumnDate: 时间
+    tableColumnFile: 文件
+    tableColumnMsg: 错误信息
+    tableColumnStackMsg: stack信息
+
+    tableActionDesc: 详情
+
+    modalTitle: 错误详情
+
+    fireVueError: 点击触发vue错误
+    fireResourceError: 点击触发资源加载错误
+    fireAjaxError: 点击触发ajax错误
+
+    enableMessage: 只在`/src/settings/projectSetting.ts` 内的useErrorHandle=true时生效.
+  exception:
+    backLogin: 返回登录
+    backHome: 返回首页
+    subTitle403: 抱歉，您无权访问此页面。
+    subTitle404: 抱歉，您访问的页面不存在。
+    subTitle500: 抱歉，服务器报告错误。
+    noDataTitle: 当前页无数据
+    networkErrorTitle: 网络错误
+    networkErrorSubTitle: 抱歉，您的网络连接已断开，请检查您的网络！
+
+  lock:
+    unlock: 点击解锁
+    alert: 锁屏密码错误
+    backToLogin: 返回登录
+    entry: 进入系统
+    placeholder: 请输入锁屏密码或者用户密码
+  login:
+    backSignIn: 返回
+    signInFormTitle: 登录
+    mobileSignInFormTitle: 手机登录
+    qrSignInFormTitle: 二维码登录
+    signUpFormTitle: 注册
+    forgetFormTitle: 重置密码
+
+    signInTitle: 开箱即用的中后台管理系统
+    signInDesc: 输入您的个人详细信息开始使用！
+    policy: 我同意xxx隐私政策
+    scanSign: 扫码后点击"确认"，即可完成登录
+
+    loginButton: 登录
+    registerButton: 注册
+    rememberMe: 记住我
+    forgetPassword: 忘记密码?
+    otherSignIn: 其他登录方式
+
+    # notify
+    loginSuccessTitle: 登录成功
+    loginSuccessDesc: 欢迎回来
+
+    # placeholder
+    accountPlaceholder: 请输入账号
+    passwordPlaceholder: 请输入密码
+    smsPlaceholder: 请输入验证码
+    mobilePlaceholder: 请输入手机号码
+    policyPlaceholder: 勾选后才能注册
+    diffPwd: 两次输入密码不一致
+
+    userName: 账号
+    password: 密码
+    confirmPassword: 确认密码
+    email: 邮箱
+    smsCode: 短信验证码
+    mobile: 手机号码
+
+auction:
+  home: 竞拍首页
+  addGoods: 添加商品
+  myAuctions: 我的竞拍
+  myGoods: 商品列表
+  hotGoods: 热卖商品
+  userInfo: 个人信息
+  getRanks: 排行榜
+  shopCart: 购物车
+  startTime: 竞拍开始时间
+  createTime: 竞拍时间
+  endTime: 竞拍结束时间
+  salerName: 卖家
+  goodInfo: 商品信息
+  goodName: 商品名称
+  goodType: 商品类型
+  goodsDec: 商品描述
+  nowPrice: 当前价格
+  startPrice: 起拍价格
+  pricePlus: 最低加价幅度
+  pic: 商品图片
+  deleteCart: 移除商品
+  status: 状态
+  viewGood: 查看商品
+  editGood: 编辑商品
+  deleteGood: 删除商品
+  preferentialInfo: 优惠信息
+  viewRank: 查看排名
+  rank: 排名
+  rankName: 昵称
+  rankPrice: 出价

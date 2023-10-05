@@ -1,0 +1,16 @@
+@layer base, components, utilities;
+
+@layer base {
+    @unocss preflights;
+}
+
+@layer utilities {
+    @unocss default;
+    @unocss;
+}
+
+@layer components {
+}
+
+@screen at-sm {
+}
