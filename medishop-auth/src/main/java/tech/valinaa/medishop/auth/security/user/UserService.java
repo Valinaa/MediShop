@@ -2,16 +2,28 @@ package tech.valinaa.medishop.auth.security.user;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.RequestBody;
 import tech.valinaa.medishop.api.Result;
 import tech.valinaa.medishop.auth.security.user.pojo.UserDO;
 import tech.valinaa.medishop.auth.security.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;
+
+import java.util.Map;
 
 /**
  * @author Valinaa
  * @Date 2023/10/2 12:36
  */
 public interface UserService extends IService<UserDO>, UserDetailsService {
+    
+    /**
+     * 用户登录Api
+     *
+     * @param userRequest 用户请求实体
+     * @return token
+     */
+    Result<Map<String, String>> login(@RequestBody UserRequest userRequest);
+    
     /**
      * 用户注册
      *

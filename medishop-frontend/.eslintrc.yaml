@@ -1,259 +1,259 @@
 ---
 root: true
 env:
-  node: true
-  browser: true
-  es2020: true
+    node: true
+    browser: true
+    es2020: true
 globals:
-  defineEmits: true
-  document: true
-  localStorage: true
-  GLOBAL_VAR: true
-  window: true
-  defineProps: true
-  defineExpose: true
-  withDefaults: true
+    defineEmits: true
+    document: true
+    localStorage: true
+    GLOBAL_VAR: true
+    window: true
+    defineProps: true
+    defineExpose: true
+    withDefaults: true
 extends:
-  - ./.eslintrc-auto-import.json
-  - '@zmtlwzy'
-  - '@unocss'
-  - plugin:prettier/recommended
+    - ./.eslintrc-auto-import.json
+    - '@zmtlwzy'
+    - '@unocss'
+    - plugin:prettier/recommended
 parser: vue-eslint-parser
 parserOptions:
-  parser: '@typescript-eslint/parser'
-  ecmaVersion: latest
-  sourceType: module
-  project:
-    - './tsconfig.json'
-  extraFileExtensions:
-    - '.vue'
-    - '.html'
-  vueFeatures:
-    filter: false
+    parser: '@typescript-eslint/parser'
+    ecmaVersion: latest
+    sourceType: module
+    project:
+        - './tsconfig.json'
+    extraFileExtensions:
+        - '.vue'
+        - '.html'
+    vueFeatures:
+        filter: false
 rules:
-  antfu/top-level-function: 0
-  # 取消此规则
-  # disallow reassignment of function parameters
-  import/no-unresolved: 0
-  #只保留vue、CSS等的文件后缀
-  import/extensions:
-    - 2
-    - never
-    - vue: always
-      css: always
-      scss: always
-      json: always
-  # 禁止使用AMD或Commonjs语法如require/define
-  import/no-amd: 2
-  import/no-commonjs: 2
-  # 引入模块检查
-  import/no-extraneous-dependencies:
-    - 1
-    - devDependencies: true
-  # import/default: 1
-  import/prefer-default-export: 1
-  import/order:
-    - error
-    - newlines-between: always-and-inside-groups
-      groups:
-        - builtin
-        - external
-        - internal
-        - parent
-        - sibling
-        - index
-        - object
-        - type
-      pathGroups:
-        - pattern: vue
-          group: external
-          position: before
-        - pattern: 'vue-router'
-          group: 'external'
-          position: 'before'
-        - pattern: 'pinia'
-          group: 'external'
-          position: 'before'
-        - pattern: 'naive-ui'
-          group: 'external'
-          position: 'before'
-        - pattern: '@/config'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/settings'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/design'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/enum'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/layouts'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/views'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/components'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/router'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/api'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/store'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/composables'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/hooks'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/utils'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/assets'
-          group: 'internal'
-          position: 'before'
-        - pattern: '@/**'
-          group: 'internal'
-          position: 'before'
-      pathGroupsExcludedImportTypes:
-        - vue
-        - vue-router
-        - pinia
-        - naive-ui
-  no-use-before-define: 0
-  no-param-reassign:
-    - error
-    - props: true
-      ignorePropertyModificationsFor:
-        - state # for vuex state
-        - acc # for reduce accumulators
-        - e # for e.return value
-  prettier/prettier:
-    - error
-    - endOfLine: auto
-      semi: false
+    antfu/top-level-function: 0
+    # 取消此规则
+    # disallow reassignment of function parameters
+    import/no-unresolved: 0
+    #只保留vue、CSS等的文件后缀
+    import/extensions:
+        - 2
+        - never
+        -   vue: always
+            css: always
+            scss: always
+            json: always
+    # 禁止使用AMD或Commonjs语法如require/define
+    import/no-amd: 2
+    import/no-commonjs: 2
+    # 引入模块检查
+    import/no-extraneous-dependencies:
+        - 1
+        -   devDependencies: true
+    # import/default: 1
+    import/prefer-default-export: 1
+    import/order:
+        - error
+        -   newlines-between: always-and-inside-groups
+            groups:
+                - builtin
+                - external
+                - internal
+                - parent
+                - sibling
+                - index
+                - object
+                - type
+            pathGroups:
+                -   pattern: vue
+                    group: external
+                    position: before
+                -   pattern: 'vue-router'
+                    group: 'external'
+                    position: 'before'
+                -   pattern: 'pinia'
+                    group: 'external'
+                    position: 'before'
+                -   pattern: 'naive-ui'
+                    group: 'external'
+                    position: 'before'
+                -   pattern: '@/config'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/settings'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/design'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/enum'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/layouts'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/views'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/components'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/router'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/api'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/store'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/composables'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/hooks'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/utils'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/assets'
+                    group: 'internal'
+                    position: 'before'
+                -   pattern: '@/**'
+                    group: 'internal'
+                    position: 'before'
+            pathGroupsExcludedImportTypes:
+                - vue
+                - vue-router
+                - pinia
+                - naive-ui
+    no-use-before-define: 0
+    no-param-reassign:
+        - error
+        -   props: true
+            ignorePropertyModificationsFor:
+                - state # for vuex state
+                - acc # for reduce accumulators
+                - e # for e.return value
+    prettier/prettier:
+        - error
+        -   endOfLine: auto
+            semi: false
 
-  # ? 不需要
-  no-undef: 0 # 允许有未定义的变量
-  vars-on-top: 0 # 禁止使用var，此规则取消
-  no-redeclare: 0 # 与ts规则重复
-  space-before-function-paren: 0 # 函数定义时括号前面要不要有空格
-  comma-dangle: 0 # 对象字面量项尾可有逗号
-  eol-last: 0 # 文件以单一的换行符结束
-  no-extra-semi: 0 # 可以多余的冒号
-  semi: 0 # 语句可以不需要分号结尾
-  # todo 警告
-  no-extra-boolean-cast: 1 # 不必要的bool转换
-  no-extra-parens: 1 # 非必要的括号
-  no-empty: 1 # 块语句中的内容不能为空
-  # 循环复杂度
-  complexity:
-    - 1
-    - 10
-  global-require: 1 # 所有调用require()都位于模块的顶层
-  #! 错误
-  eqeqeq: 2 # 必须使用全等
-  one-var: 2 # 禁止连续声明
-  # 为属性强制执行驼峰命名
-  camelcase:
-    - 2
-    - properties: always
-  # 始终或从不指定return
-  consistent-return:
-    - 1
-    - treatUndefinedAsUnspecified: true
-  '@typescript-eslint/ban-types': 1
-  # 禁止使用debugger
-  no-debugger: 2
-  no-constant-condition: 2 # 禁止在条件中使用常量表达式 if(true) if(1)
-  no-dupe-args: 2 # 函数参数不能重复
-  no-dupe-keys: 2 # 在创建对象字面量时不允许键重复 {a:1a:1}
-  no-duplicate-case: 2 # switch中的case标签不能重复
-  no-empty-character-class: 2 # 正则表达式中的[]内容不能为空
-  no-invalid-regexp: 2 # 禁止无效的正则表达式
-  no-func-assign: 2 # 禁止重复的函数声明
-  valid-typeof: 2 # 必须使用合法的typeof的值
-  no-unreachable: 2 # 不能有无法执行的代码
-  no-unexpected-multiline: 2 # 避免多行表达式
-  no-sparse-arrays: 2 # 禁止稀疏数组， [12]
-  no-shadow-restricted-names: 2 # 严格模式中规定的限制标识符不能作为声明时的变量名使用
-  no-cond-assign: 2 # 禁止在条件表达式中使用赋值语句
-  no-native-reassign: 2 # 不能重写native对象
-  # 代码风格
-  no-else-return: 2 # 如果if语句里面有return后面不能跟else语句
-  no-multi-spaces: 1 # 不能用多余的空格
-  # 对象字面量中冒号的前后空格
-  key-spacing:
-    - 1
-    - beforeColon: false
-      afterColon: true
-  block-scoped-var: 2 # 块语句中使用var
-  accessor-pairs: 2 # 在对象中使用getter/setter
-  # 对象访问符的位置，换行的时候在行首还是行尾
-  dot-location:
-    - 2
-    - property
-  no-lone-blocks: 2 # 禁止不必要的嵌套块
-  no-labels: 2 # 禁止标签声明
-  no-extend-native: 2 # 禁止扩展native对象
-  no-floating-decimal: 2 # 禁止省略浮点数中的0 .5 3.
-  no-loop-func: 2 # 禁止在循环中使用函数（如果没有引用外部变量不形成闭包就可以）
-  no-new-func: 2 # 禁止使用new Function
-  no-self-compare: 2 # 不能比较自身
-  no-sequences: 2 # 禁止使用逗号运算符
-  no-throw-literal: 2 # 禁止抛出字面量错误 throw error
-  # return 语句中不能有赋值表达式
-  no-return-assign:
-    - 2
-    - always
-  # 禁止无用的表达式
-  no-unused-expressions:
-    - 1
-    - allowShortCircuit: true
-      allowTernary: true
-  no-useless-call: 2 # 禁止不必要的call和apply
-  no-useless-concat: 2
-  no-void:
-    - 2 # 禁用void操作符
-    - allowAsStatement: true # 可以使用void表示statement
-  no-with: 2 # 禁用with
-  vue/multi-word-component-names:
-    - 1
-    - ignores:
-        - '404'
-        - '403'
-        - '401'
-        - index
-        - register
-        - login
+    # ? 不需要
+    no-undef: 0 # 允许有未定义的变量
+    vars-on-top: 0 # 禁止使用var，此规则取消
+    no-redeclare: 0 # 与ts规则重复
+    space-before-function-paren: 0 # 函数定义时括号前面要不要有空格
+    comma-dangle: 0 # 对象字面量项尾可有逗号
+    eol-last: 0 # 文件以单一的换行符结束
+    no-extra-semi: 0 # 可以多余的冒号
+    semi: 0 # 语句可以不需要分号结尾
+    # todo 警告
+    no-extra-boolean-cast: 1 # 不必要的bool转换
+    no-extra-parens: 1 # 非必要的括号
+    no-empty: 1 # 块语句中的内容不能为空
+    # 循环复杂度
+    complexity:
+        - 1
+        - 10
+    global-require: 1 # 所有调用require()都位于模块的顶层
+    #! 错误
+    eqeqeq: 2 # 必须使用全等
+    one-var: 2 # 禁止连续声明
+    # 为属性强制执行驼峰命名
+    camelcase:
+        - 2
+        -   properties: always
+    # 始终或从不指定return
+    consistent-return:
+        - 1
+        -   treatUndefinedAsUnspecified: true
+    '@typescript-eslint/ban-types': 1
+    # 禁止使用debugger
+    no-debugger: 2
+    no-constant-condition: 2 # 禁止在条件中使用常量表达式 if(true) if(1)
+    no-dupe-args: 2 # 函数参数不能重复
+    no-dupe-keys: 2 # 在创建对象字面量时不允许键重复 {a:1a:1}
+    no-duplicate-case: 2 # switch中的case标签不能重复
+    no-empty-character-class: 2 # 正则表达式中的[]内容不能为空
+    no-invalid-regexp: 2 # 禁止无效正则表达式
+    no-func-assign: 2 # 禁止重复的函数声明
+    valid-typeof: 2 # 必须使用合法的typeof的值
+    no-unreachable: 2 # 不能有无法执行的代码
+    no-unexpected-multiline: 2 # 避免多行表达式
+    no-sparse-arrays: 2 # 禁止稀疏数组， [12]
+    no-shadow-restricted-names: 2 # 严格模式中规定的限制标识符不能作为声明时的变量名使用
+    no-cond-assign: 2 # 禁止在条件表达式中使用赋值语句
+    no-native-reassign: 2 # 不能重写native对象
+    # 代码风格
+    no-else-return: 2 # 如果if语句里面有return后面不能跟else语句
+    no-multi-spaces: 1 # 不能用多余的空格
+    # 对象字面量中冒号的前后空格
+    key-spacing:
+        - 1
+        -   beforeColon: false
+            afterColon: true
+    block-scoped-var: 2 # 块语句中使用var
+    accessor-pairs: 2 # 在对象中使用getter/setter
+    # 对象访问符的位置，换行的时候在行首还是行尾
+    dot-location:
+        - 2
+        - property
+    no-lone-blocks: 2 # 禁止不必要嵌套块
+    no-labels: 2 # 禁止标签声明
+    no-extend-native: 2 # 禁止扩展native对象
+    no-floating-decimal: 2 # 禁止省略浮点数中的0 .5 3.
+    no-loop-func: 2 # 禁止在循环中使用函数（如果没有引用外部变量不形成闭包就可以）
+    no-new-func: 2 # 禁止使用new Function
+    no-self-compare: 2 # 不能比较自身
+    no-sequences: 2 # 禁止使用逗号运算符
+    no-throw-literal: 2 # 禁止抛出字面量错误 throw error
+    # return 语句中不能有赋值表达式
+    no-return-assign:
+        - 2
+        - always
+    # 禁止无用的表达式
+    no-unused-expressions:
+        - 1
+        -   allowShortCircuit: true
+            allowTernary: true
+    no-useless-call: 2 # 禁止不必要的call和apply
+    no-useless-concat: 2
+    no-void:
+        - 2 # 禁用void操作符
+        -   allowAsStatement: true # 可以使用void表示statement
+    no-with: 2 # 禁用with
+    vue/multi-word-component-names:
+        - 1
+        -   ignores:
+                - '404'
+                - '403'
+                - '401'
+                - index
+                - register
+                - login
 settings:
-  prettier-vue:
-    SFCBlocks:
-      style: false
-  import/core-modules:
-    - uno.css
-    - '~icons/*'
-    - virtual:svg-icons-register
-  import/extensions:
-    - '.js'
-    - '.ts'
-    - '.vue'
-  import/parsers:
-    '@typescript-eslint/parser':
-      - '.ts'
-      - '.tsx'
-  import/resolver:
-    node: true
-    typescript:
-      # always try to resolve types under `<root>@types` directory even it doesn't contain any source code
-      alwaysTryTypes: true
-  import/ignore:
-    - \.coffee$ # fraught with parse errors
-    - \.(scss|less|css|vue)$ # ignore unprocessed CSS modules,and Vue files because of the auto-import
+    prettier-vue:
+        SFCBlocks:
+            style: false
+    import/core-modules:
+        - uno.css
+        - '~icons/*'
+        - virtual:svg-icons-register
+    import/extensions:
+        - '.js'
+        - '.ts'
+        - '.vue'
+    import/parsers:
+        '@typescript-eslint/parser':
+            - '.ts'
+            - '.tsx'
+    import/resolver:
+        node: true
+        typescript:
+            # always try to resolve types under `<root>@types` directory even it doesn't contain any source code
+            alwaysTryTypes: true
+    import/ignore:
+        - \.coffee$ # fraught with parse errors
+        - \.(scss|less|css|vue)$ # ignore unprocessed CSS modules,and Vue files because of the auto-import

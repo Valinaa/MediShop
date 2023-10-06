@@ -196,7 +196,6 @@ sys:
 auction:
   home: Home
   addGoods: Add Goods
-  myAuctions: Auctions
   myGoods: Goods
   hotGoods: Hot Goods
   userInfo: User Info

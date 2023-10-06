@@ -1,7 +1,12 @@
 package tech.valinaa.medishop.auth.security.user.web;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -12,7 +17,12 @@ import tech.valinaa.medishop.auth.security.user.UserService;
 import tech.valinaa.medishop.auth.security.user.pojo.UserDO;
 import tech.valinaa.medishop.auth.security.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;
+import tech.valinaa.medishop.auth.util.JwtUtil;
 import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Valinaa
@@ -21,6 +31,36 @@ import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
 @Slf4j
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
+    
+    @Lazy
+    @Resource
+    private AuthenticationManager authenticationManager;
+    
+    @Override
+    public Result<Map<String, String>> login(UserRequest userRequest) {
+        var map = new HashMap<String, String>();
+        var authentication = new UsernamePasswordAuthenticationToken(
+                userRequest.getUsername(), userRequest.getPassword()
+        );
+        try {
+            Optional.ofNullable(authenticationManager.authenticate(authentication))
+                    .ifPresentOrElse(
+                            auth -> {
+                                log.info("authenticate: {}", auth);
+                                var userDetails = this.loadUserByUsername(userRequest.getUsername());
+                                var token = JwtUtil.createToken(userDetails);
+                                map.put("token", token);
+                            },
+                            () -> log.error("login error: authenticate is null")
+                    );
+        } catch (AuthenticationException e) {
+            log.error("login error:{}", e.getMessage());
+        }
+        return map.isEmpty()
+                ? Result.failure(ResultCodeEnum.LOGIN_ERROR)
+                : Result.success(map);
+    }
+    
     @Override
     public Result<UserResponse> register(UserRequest userRequest) {
         var username = userRequest.getUsername();

@@ -199,7 +199,6 @@ sys:
 auction:
   home: 竞拍首页
   addGoods: 添加商品
-  myAuctions: 我的竞拍
   myGoods: 商品列表
   hotGoods: 热卖商品
   userInfo: 个人信息

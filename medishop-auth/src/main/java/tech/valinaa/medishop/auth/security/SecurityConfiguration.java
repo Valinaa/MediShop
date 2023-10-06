@@ -119,10 +119,10 @@ public class SecurityConfiguration {
                 .exceptionHandling((exceptionHandling) -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationHandler)
                         .accessDeniedHandler(customAuthenticationHandler))
-                .formLogin((formLogin) -> formLogin.loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .successForwardUrl("/index")
-                        .permitAll())
+//                .formLogin((formLogin) -> formLogin.loginPage("/login")
+//                        .loginProcessingUrl("/login")
+//                        .successForwardUrl("/index")
+//                        .permitAll())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         // 允许所有OPTIONS请求
@@ -145,9 +145,8 @@ public class SecurityConfiguration {
      */
     @Bean
     public AuthenticationManager authenticationManager() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        var daoAuthenticationProvider = new DaoAuthenticationProvider(this.passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userService);
-        daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder());
         return new ProviderManager(daoAuthenticationProvider);
     }
 }

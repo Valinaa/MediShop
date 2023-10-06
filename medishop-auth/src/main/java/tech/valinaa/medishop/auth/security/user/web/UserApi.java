@@ -2,9 +2,7 @@ package tech.valinaa.medishop.auth.security.user.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import tech.valinaa.medishop.api.Result;
 import tech.valinaa.medishop.auth.security.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;
@@ -39,4 +37,24 @@ public interface UserApi {
     @PostMapping("/register")
     @Operation(summary = "用户注册")
     Result<UserResponse> register(@RequestBody UserRequest userRequest);
+    
+    /**
+     * 用户注销Api
+     *
+     * @param userRequest 用户请求实体
+     * @return 注销是否成功
+     */
+    @PostMapping("/logout")
+    @Operation(summary = "用户注销")
+    boolean logout(@RequestBody UserRequest userRequest);
+    
+    /**
+     * 获取单个用户信息
+     *
+     * @param id 用户id
+     * @return 用户信息
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "获取单个用户信息")
+    Result<UserResponse> getOne(@PathVariable Long id);
 }

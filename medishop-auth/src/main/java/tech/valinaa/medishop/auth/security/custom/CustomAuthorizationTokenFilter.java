@@ -12,11 +12,11 @@ import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.lang.JoseException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import tech.valinaa.medishop.auth.security.exception.AuthenticationFailedException;
+import tech.valinaa.medishop.auth.security.user.UserService;
 import tech.valinaa.medishop.auth.util.JwtUtil;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
     
-    private final UserDetailsService userDetailsService;
+    private final UserService userService;
     /**
      * JWT存储的请求头
      */
@@ -70,7 +70,7 @@ public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
         // token存在用户名但未登录
         if (null != username && null == SecurityContextHolder.getContext().getAuthentication()) {
             // 登录
-            var userDetails = userDetailsService.loadUserByUsername(username);
+            var userDetails = userService.loadUserByUsername(username);
             // 验证token是否有效，如果有效，将他重新放到用户对象里。
             // TODO 此处token有效性可以从redis｜数据库中获取
 //            Boolean isTokenValid = true;
