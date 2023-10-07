@@ -195,8 +195,7 @@ sys:
     email: 邮箱
     smsCode: 短信验证码
     mobile: 手机号码
-
-auction:
+medishop:
   home: 竞拍首页
   addGoods: 添加商品
   myGoods: 商品列表

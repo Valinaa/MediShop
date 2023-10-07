@@ -1,4 +1,4 @@
-package tech.valinaa.medishop.auth.security.user.pojo;
+package tech.valinaa.medishop.auth.user.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import tech.valinaa.medishop.auth.security.user.AuthorityEnum;
-import tech.valinaa.medishop.auth.security.user.UserTypeEnum;
+import tech.valinaa.medishop.auth.user.AuthorityEnum;
+import tech.valinaa.medishop.auth.user.UserTypeEnum;
 import tech.valinaa.medishop.core.model.dataobject.BaseDO;
 import tech.valinaa.medishop.utils.mybatis.List2StringTypeHandler;
 

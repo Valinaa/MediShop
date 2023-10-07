@@ -1,12 +1,12 @@
-package tech.valinaa.medishop.auth.security.user;
+package tech.valinaa.medishop.auth.user;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import tech.valinaa.medishop.auth.security.user.pojo.UserDO;
-import tech.valinaa.medishop.auth.security.user.pojo.UserRequest;
-import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;
+import tech.valinaa.medishop.auth.user.pojo.UserDO;
+import tech.valinaa.medishop.auth.user.pojo.UserRequest;
+import tech.valinaa.medishop.auth.user.pojo.UserResponse;
 import tech.valinaa.medishop.web.converter.BaseConverter;
 import tech.valinaa.medishop.web.converter.mapping.MappingIgnore;
 

@@ -1,12 +1,12 @@
-package tech.valinaa.medishop.auth.security.user;
+package tech.valinaa.medishop.auth.user;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.valinaa.medishop.api.Result;
-import tech.valinaa.medishop.auth.security.user.pojo.UserDO;
-import tech.valinaa.medishop.auth.security.user.pojo.UserRequest;
-import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;
+import tech.valinaa.medishop.auth.user.pojo.UserDO;
+import tech.valinaa.medishop.auth.user.pojo.UserRequest;
+import tech.valinaa.medishop.auth.user.pojo.UserResponse;
 
 import java.util.Map;
 

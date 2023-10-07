@@ -1,10 +1,10 @@
-package tech.valinaa.medishop.auth.security.user.pojo;
+package tech.valinaa.medishop.auth.user.pojo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import tech.valinaa.medishop.auth.security.user.UserTypeEnum;
+import tech.valinaa.medishop.auth.user.UserTypeEnum;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class UserRequest {
     @NotBlank
     @Schema(title = "password", description = "密码", type = "string", requiredMode = Schema.RequiredMode.REQUIRED)
     private String password;
-    @Schema(title = "authorities", description = "权限", type = "array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(title = "authorities", description = "权限", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private List<SimpleGrantedAuthority> authorities;
     @NotBlank
     @Schema(title = "fullName", description = "全名", type = "string", requiredMode = Schema.RequiredMode.REQUIRED)

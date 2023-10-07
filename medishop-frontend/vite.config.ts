@@ -1,5 +1,7 @@
 import { resolve } from 'node:path'
 
+import process from 'node:process'
+
 import { defineConfig, loadEnv } from 'vite'
 
 import presets from './presets/presets'
@@ -28,21 +30,12 @@ export default defineConfig((env) => {
       strictPort: true,
       // 接口代理
       proxy: {
-        '/apis': {
-          target: 'http://master:8080/webroot/decision',
+        '/api': {
+          target: 'http://localhost:8999',
+          //     target: 'https://118.89.71.118/',
           changeOrigin: true, // 允许跨域
-          // rewrite: (path) => path.replace('/api/', '/'),
+          rewrite: (path) => path.replace('/api/', '/'),
         },
-        '/auction': {
-          target: 'http://localhost:8000/',
-          changeOrigin: true,
-          rewrite: (path) => path.replace('/auction/', '/'),
-        },
-        // '/auction': {
-        //     target: 'https://118.89.71.118/',
-        //     changeOrigin: true,
-        //     rewrite: (path) => path.replace('/auction/', '/'),
-        // },
       },
       build: {
         // outDir: resolve(__dirname, `dist`), // 指定输出路径

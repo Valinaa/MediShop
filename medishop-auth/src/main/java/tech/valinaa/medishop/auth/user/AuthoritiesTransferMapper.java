@@ -1,4 +1,4 @@
-package tech.valinaa.medishop.auth.security.user;
+package tech.valinaa.medishop.auth.user;
 
 import org.mapstruct.Qualifier;
 

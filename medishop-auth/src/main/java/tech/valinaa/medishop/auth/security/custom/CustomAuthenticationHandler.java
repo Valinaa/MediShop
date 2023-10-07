@@ -1,6 +1,5 @@
 package tech.valinaa.medishop.auth.security.custom;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -22,8 +21,10 @@ import org.springframework.security.web.session.SessionInformationExpiredStrateg
 import org.springframework.stereotype.Component;
 import tech.valinaa.medishop.api.Result;
 import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
+import tech.valinaa.medishop.utils.json.JacksonUtil;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author Valinaa
@@ -38,7 +39,6 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
         , AuthenticationEntryPoint {
     public static final String CONTENT_TYPE = "application/json";
     public static final String CHARACTER_ENCODING = "UTF-8";
-    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     
     /**
      * 认证失败处理
@@ -62,8 +62,10 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().write(OBJECT_MAPPER.writeValueAsString(
-                Result.failure(detailMessage, ResultCodeEnum.NOT_LOGIN)));
+        response.getWriter().write(
+                Objects.requireNonNull(
+                        JacksonUtil.toJSONString(
+                                Result.failure(detailMessage, ResultCodeEnum.NOT_LOGIN))));
     }
     
     /**
@@ -89,8 +91,10 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.getWriter().write(OBJECT_MAPPER.writeValueAsString(
-                Result.failure(detailMessage, ResultCodeEnum.FORBIDDEN)));
+        response.getWriter().write(
+                Objects.requireNonNull(
+                        JacksonUtil.toJSONString(
+                                Result.failure(detailMessage, ResultCodeEnum.FORBIDDEN))));
     }
     
     /**
@@ -107,8 +111,10 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().write(OBJECT_MAPPER.writeValueAsString(
-                Result.failure(detailMessage, ResultCodeEnum.LOGIN_ERROR)));
+        response.getWriter().write(
+                Objects.requireNonNull(
+                        JacksonUtil.toJSONString(
+                                Result.failure(detailMessage, ResultCodeEnum.LOGIN_ERROR))));
     }
     
     /**
@@ -126,10 +132,11 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
         request.getSession().setAttribute(HttpSessionSecurityContextRepository
                 .SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
         response.getWriter().write(
-                OBJECT_MAPPER.writeValueAsString(
-                        Result.build(authentication, HttpStatus.OK.value(),
-                                "登陆成功!")
-                ));
+                Objects.requireNonNull(
+                        JacksonUtil.toJSONString(
+                                Result.build(authentication, HttpStatus.OK.value(),
+                                        "登陆成功!")
+                        )));
         //清理使用过的验证码
 //        request.getSession().removeAttribute(VERIFY_CODE_KEY);
     }
@@ -147,10 +154,11 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().println(OBJECT_MAPPER.writeValueAsString(
-                Result.build(event.getSessionInformation(),
-                        HttpStatus.UNAUTHORIZED.value(), message)
-        ));
+        response.getWriter().println(
+                JacksonUtil.toJSONString(
+                        Result.build(event.getSessionInformation(),
+                                HttpStatus.UNAUTHORIZED.value(), message)
+                ));
     }
     
     /**
@@ -168,7 +176,7 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.OK.value());
-        response.getWriter().println(OBJECT_MAPPER.writeValueAsString(
+        response.getWriter().println(JacksonUtil.toJSONString(
                 Result.build(authentication, HttpStatus.OK.value(), "登出成功!")
         ));
     }

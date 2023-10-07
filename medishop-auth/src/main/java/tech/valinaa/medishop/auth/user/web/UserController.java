@@ -1,12 +1,12 @@
-package tech.valinaa.medishop.auth.security.user.web;
+package tech.valinaa.medishop.auth.user.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 import tech.valinaa.medishop.api.Result;
-import tech.valinaa.medishop.auth.security.user.UserService;
-import tech.valinaa.medishop.auth.security.user.pojo.UserRequest;
-import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;
+import tech.valinaa.medishop.auth.user.UserService;
+import tech.valinaa.medishop.auth.user.pojo.UserRequest;
+import tech.valinaa.medishop.auth.user.pojo.UserResponse;
 
 import java.util.Map;
 

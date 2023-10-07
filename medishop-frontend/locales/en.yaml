@@ -193,7 +193,7 @@ sys:
     email: Email
     smsCode: SMS code
     mobile: Mobile
-auction:
+medishop:
   home: Home
   addGoods: Add Goods
   myGoods: Goods

@@ -1,6 +1,5 @@
 package tech.valinaa.medishop.auth.security;
 
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -23,7 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import tech.valinaa.medishop.auth.security.custom.CustomAuthenticationHandler;
 import tech.valinaa.medishop.auth.security.custom.CustomAuthorizationTokenFilter;
-import tech.valinaa.medishop.auth.security.user.web.UserServiceImpl;
+import tech.valinaa.medishop.auth.user.UserService;
 
 import java.util.ArrayList;
 
@@ -34,13 +34,14 @@ import java.util.ArrayList;
  */
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    @Resource
-    private final UserServiceImpl userService;
-    @Resource
+    
+    private final UserService userService;
+    
     private final CustomAuthenticationHandler customAuthenticationHandler;
-    @Resource
+    
     private final CustomAuthorizationTokenFilter customAuthorizationTokenFilter;
     
     /**
@@ -98,7 +99,7 @@ public class SecurityConfiguration {
      */
     @Bean
     public WebSecurityCustomizer securityCustomizer() {
-        return (web) -> web.httpFirewall(this.httpFirewall());
+        return web -> web.httpFirewall(this.httpFirewall());
     }
     
     /**
@@ -128,8 +129,13 @@ public class SecurityConfiguration {
                         // 允许所有OPTIONS请求
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // 允许直接访问授权登录、注册接口、MVC 默认错误地址
-                        .requestMatchers("/login", "/register", "/error").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/login", "/register", "/error",
+                                "/doc.html", "/swagger**/**", "/webjars/**",
+                                "/v3/api-docs/**", "/favicon.ico")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
+                )
                 .cors((cors) -> cors.configurationSource(this.corsConfigurationSource()))
                 .logout((logout) -> logout.logoutUrl("/logout")
                         .logoutSuccessUrl("/index")

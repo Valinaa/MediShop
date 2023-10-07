@@ -1,7 +1,7 @@
-package tech.valinaa.medishop.auth.security.user.web;
+package tech.valinaa.medishop.auth.user.web;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import tech.valinaa.medishop.auth.security.user.pojo.UserDO;
+import tech.valinaa.medishop.auth.user.pojo.UserDO;
 
 /**
  * @author Valinaa

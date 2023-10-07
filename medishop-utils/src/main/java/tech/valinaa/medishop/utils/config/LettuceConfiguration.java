@@ -2,7 +2,6 @@ package tech.valinaa.medishop.utils.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import jakarta.validation.constraints.NotNull;
@@ -24,10 +23,12 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import tech.valinaa.medishop.utils.exception.RedisOperationException;
+import org.springframework.lang.Nullable;
+import tech.valinaa.medishop.utils.json.JacksonUtil;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * @author Valinaa
@@ -38,7 +39,7 @@ import java.time.Duration;
 @EnableCaching
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings("all")
+//@SuppressWarnings("all")
 public class LettuceConfiguration implements CachingConfigurer {
     
     private final LettuceConnectionFactory connectionFactory;
@@ -55,20 +56,16 @@ public class LettuceConfiguration implements CachingConfigurer {
     @Bean
     public KeyGenerator keyGenerator() {
         return (target, method, params) -> {
-            StringBuilder sb = new StringBuilder();
-            sb.append(target.getClass().getName());
-            sb.append(method.getName());
-            sb.append("&");
-            for (Object obj : params) {
+            var sb = new StringBuilder()
+                    .append(target.getClass().getName())
+                    .append(method.getName())
+                    .append("&");
+            for (var obj : params) {
                 if (obj != null) {
                     sb.append(obj.getClass().getName());
                     sb.append("&");
                     // 由于参数可能不同, hashCode肯定不一样, 缓存的key也需要不一样
-                    try {
-                        sb.append(new ObjectMapper().writeValueAsString(obj).hashCode());
-                    } catch (JsonProcessingException e) {
-                        throw new RedisOperationException("20001",new Object[]{obj,sb},"Redis cache key generator error: " + e.getMessage());
-                    }
+                    sb.append(Objects.requireNonNull(JacksonUtil.toJSONString(obj)).hashCode());
                 }
             }
             log.info("redis cache key str: " + sb);
@@ -85,16 +82,17 @@ public class LettuceConfiguration implements CachingConfigurer {
      */
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        var template = new RedisTemplate<String, Object>();
         // 设置连接工厂，源码默认
         template.setConnectionFactory(connectionFactory);
         // string序列化
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+        var stringRedisSerializer = new StringRedisSerializer();
         // json序列化
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(om,Object.class);
+        var jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(
+                new ObjectMapper()
+                        .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+                        .activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL),
+                Object.class);
         // 序列化key与value
         template.setKeySerializer(stringRedisSerializer);
         template.setHashKeySerializer(stringRedisSerializer);
@@ -106,6 +104,7 @@ public class LettuceConfiguration implements CachingConfigurer {
     
     @Bean
     @Override
+    @SuppressWarnings("checkstyle:MagicNumber")
     public CacheManager cacheManager() {
         return RedisCacheManager.RedisCacheManagerBuilder
                 // Redis链接工厂
@@ -134,9 +133,11 @@ public class LettuceConfiguration implements CachingConfigurer {
                 .defaultCacheConfig()
                 //! 设置key value的序列化方式
                 // 设置key为String
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(
+                        new StringRedisSerializer()))
                 // 设置value 为自动转Json的Object
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
+                        new GenericJackson2JsonRedisSerializer()))
                 //! 不缓存null
                 .disableCachingNullValues()
                 //! 设置缓存的过期时间
@@ -161,18 +162,18 @@ public class LettuceConfiguration implements CachingConfigurer {
             }
             
             @Override
-            
-            public void handleCachePutError(@NotNull RuntimeException e, @NotNull Cache cache, @NotNull Object key, Object value) {
+            public void handleCachePutError(RuntimeException e, Cache cache,
+                                            Object key, @Nullable Object value) {
                 log.error("Redis occur handleCachePutError：key -> [{}]；value -> [{}]", key, value, e);
             }
             
             @Override
-            public void handleCacheEvictError(@NotNull RuntimeException e, @NotNull Cache cache, @NotNull Object key) {
+            public void handleCacheEvictError(RuntimeException e, Cache cache, Object key) {
                 log.error("Redis occur handleCacheEvictError：key -> [{}]", key, e);
             }
             
             @Override
-            public void handleCacheClearError(@NotNull RuntimeException e, @NotNull Cache cache) {
+            public void handleCacheClearError(RuntimeException e, Cache cache) {
                 log.error("Redis occur handleCacheClearError：", e);
             }
         };

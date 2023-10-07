@@ -1,4 +1,4 @@
-package tech.valinaa.medishop.auth.security.user;
+package tech.valinaa.medishop.auth.user;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;

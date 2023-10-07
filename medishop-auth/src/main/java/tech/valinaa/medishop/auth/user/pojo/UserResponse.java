@@ -1,9 +1,9 @@
-package tech.valinaa.medishop.auth.security.user.pojo;
+package tech.valinaa.medishop.auth.user.pojo;
 
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import tech.valinaa.medishop.auth.security.user.UserTypeEnum;
+import tech.valinaa.medishop.auth.user.UserTypeEnum;
 
 import java.util.List;
 

@@ -1,11 +1,11 @@
-package tech.valinaa.medishop.auth.security.user.web;
+package tech.valinaa.medishop.auth.user.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import tech.valinaa.medishop.api.Result;
-import tech.valinaa.medishop.auth.security.user.pojo.UserRequest;
-import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;
+import tech.valinaa.medishop.auth.user.pojo.UserRequest;
+import tech.valinaa.medishop.auth.user.pojo.UserResponse;
 
 import java.util.Map;
 

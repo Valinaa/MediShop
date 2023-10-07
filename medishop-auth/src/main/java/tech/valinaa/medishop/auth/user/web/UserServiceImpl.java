@@ -1,4 +1,4 @@
-package tech.valinaa.medishop.auth.security.user.web;
+package tech.valinaa.medishop.auth.user.web;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
@@ -11,12 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tech.valinaa.medishop.api.Result;
-import tech.valinaa.medishop.auth.security.user.AuthorityEnum;
-import tech.valinaa.medishop.auth.security.user.UserConverter;
-import tech.valinaa.medishop.auth.security.user.UserService;
-import tech.valinaa.medishop.auth.security.user.pojo.UserDO;
-import tech.valinaa.medishop.auth.security.user.pojo.UserRequest;
-import tech.valinaa.medishop.auth.security.user.pojo.UserResponse;
+import tech.valinaa.medishop.auth.user.AuthorityEnum;
+import tech.valinaa.medishop.auth.user.UserConverter;
+import tech.valinaa.medishop.auth.user.UserService;
+import tech.valinaa.medishop.auth.user.pojo.UserDO;
+import tech.valinaa.medishop.auth.user.pojo.UserRequest;
+import tech.valinaa.medishop.auth.user.pojo.UserResponse;
 import tech.valinaa.medishop.auth.util.JwtUtil;
 import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
 
