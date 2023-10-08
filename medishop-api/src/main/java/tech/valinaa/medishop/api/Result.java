@@ -121,4 +121,56 @@ public final class Result<T> {
     public static <T> Result<T> failure(ResultCodeEnum resultCodeEnum) {
         return build(resultCodeEnum);
     }
+    
+    /**
+     * 数据包装器
+     *
+     * @param <E>    操作结果类型
+     * @param oprRes 操作结果
+     * @return Result<E> 响应结果
+     */
+    @SuppressWarnings("checkstyle:ReturnCount")
+    public static <E> Result<E> convert(E oprRes) {
+        if (oprRes == null) {
+            return Result.failure(ResultCodeEnum.NO_SUCH_RECORD);
+        }
+        if (oprRes instanceof Boolean bool) {
+            return bool
+                    ? Result.success()
+                    : Result.failure(ResultCodeEnum.DATABASE_OPERATION_FAILED);
+        }
+        if (oprRes instanceof Integer num) {
+            return num > 0
+                    ? Result.success()
+                    : Result.failure(ResultCodeEnum.DATABASE_OPERATION_FAILED);
+        }
+        return Result.success(oprRes);
+    }
+    
+    /**
+     * 数据包装器
+     *
+     * @param <O>    操作结果类型
+     * @param <E>    数据类型
+     * @param oprRes 操作结果
+     * @param data   数据
+     * @return Result<E> 响应结果
+     */
+    @SuppressWarnings("checkstyle:ReturnCount")
+    public static <O, E> Result<E> convert(O oprRes, E data) {
+        if (data == null) {
+            return Result.failure(ResultCodeEnum.NO_SUCH_RECORD);
+        }
+        if (oprRes instanceof Boolean bool) {
+            return bool
+                    ? Result.success(data)
+                    : Result.failure(data, ResultCodeEnum.DATABASE_OPERATION_FAILED);
+        }
+        if (oprRes instanceof Integer num) {
+            return num > 0
+                    ? Result.success(data)
+                    : Result.failure(data, ResultCodeEnum.DATABASE_OPERATION_FAILED);
+        }
+        return Result.success(data);
+    }
 }

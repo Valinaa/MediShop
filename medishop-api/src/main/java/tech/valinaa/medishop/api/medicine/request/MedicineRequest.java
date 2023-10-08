@@ -13,6 +13,7 @@ import tech.valinaa.medishop.core.model.enums.MedicineStatusEnum;
 @Data
 @Schema(title = "药品请求实体")
 public class MedicineRequest {
+    
     @NotBlank
     @Schema(title = "medicine name", description = "名称", type = "string", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;

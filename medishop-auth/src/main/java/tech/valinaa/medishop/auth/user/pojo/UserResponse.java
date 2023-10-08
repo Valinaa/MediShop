@@ -3,7 +3,7 @@ package tech.valinaa.medishop.auth.user.pojo;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import tech.valinaa.medishop.auth.user.UserTypeEnum;
+import tech.valinaa.medishop.auth.user.pojo.enums.UserTypeEnum;
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class UserResponse {
     private String phoneNumber;
     private String address;
     private String ipAddress;
+    private String ipRegion;
     private UserTypeEnum userType;
     private String licenseImageUrl;
     

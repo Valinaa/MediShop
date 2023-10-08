@@ -9,6 +9,7 @@ import tech.valinaa.medishop.api.medicine.response.MedicineDetailResponse;
 import tech.valinaa.medishop.api.medicine.response.MedicineResponse;
 import tech.valinaa.medishop.core.model.dataobject.MedicineDO;
 import tech.valinaa.medishop.core.model.dataobject.MedicineDetailDO;
+import tech.valinaa.medishop.web.converter.mapping.MappingIgnore;
 
 /**
  * @author Valinaa
@@ -35,5 +36,6 @@ public interface MedicineConverter extends BaseConverter<MedicineRequest, Medici
      * @param medicineDetailRequest 药品详情请求实体
      * @return 药品详情DO对象
      */
+    @MappingIgnore
     MedicineDetailDO req2DetailDO(MedicineDetailRequest medicineDetailRequest);
 }

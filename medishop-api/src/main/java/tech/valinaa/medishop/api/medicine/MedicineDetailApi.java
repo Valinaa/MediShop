@@ -3,8 +3,12 @@ package tech.valinaa.medishop.api.medicine;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import tech.valinaa.medishop.api.Result;
+import tech.valinaa.medishop.api.authorization.BusinessOnly;
+import tech.valinaa.medishop.api.authorization.LoginRequired;
 import tech.valinaa.medishop.api.medicine.request.MedicineDetailRequest;
 import tech.valinaa.medishop.api.medicine.response.MedicineDetailResponse;
 
@@ -13,7 +17,8 @@ import tech.valinaa.medishop.api.medicine.response.MedicineDetailResponse;
  * @Date 2023/9/28 9:50
  */
 @Tag(name = "药品详情Api", description = "药品详情相关Api")
-@RequestMapping("/medicine/detail")
+@RequestMapping("/api/v1/medicine/detail")
+@LoginRequired
 public interface MedicineDetailApi {
     
     /**
@@ -23,8 +28,8 @@ public interface MedicineDetailApi {
      * @return 药品详情
      */
     @Operation(summary = "获取单个药品所有信息")
-    @GetMapping
-    MedicineDetailResponse getDetailOne(Long id);
+    @GetMapping("/{id}")
+    Result<MedicineDetailResponse> getDetailOne(@PathVariable Long id);
     
     /**
      * 新增药品详情信息
@@ -34,7 +39,7 @@ public interface MedicineDetailApi {
      */
     @Operation(summary = "新增药品详情信息")
     @PostMapping
-    boolean addDetailOne(MedicineDetailRequest medicineDetailRequest);
-    
+    @BusinessOnly
+    Result<Boolean> addDetailOne(MedicineDetailRequest medicineDetailRequest);
     
 }

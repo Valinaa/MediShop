@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date 2023/9/26 13:54
  * @Description MediShop启动类
  */
-@MapperScan({"tech.valinaa.medishop.core.dao", "tech.valinaa.medishop.auth.security.user.web"})
+@MapperScan({"tech.valinaa.medishop.core.dao", "tech.valinaa.medishop.auth.user.web"})
 @SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "checkstyle:MissingJavadocMethod"})
 @SpringBootApplication(scanBasePackages = "tech.valinaa.medishop")
 public class MediShopApplication {

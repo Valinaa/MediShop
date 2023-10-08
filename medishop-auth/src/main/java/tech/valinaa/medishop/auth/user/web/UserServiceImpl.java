@@ -1,6 +1,7 @@
 package tech.valinaa.medishop.auth.user.web;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jthinking.common.util.ip.IPInfoUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -10,13 +11,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import tech.valinaa.medishop.api.Result;
-import tech.valinaa.medishop.auth.user.AuthorityEnum;
 import tech.valinaa.medishop.auth.user.UserConverter;
 import tech.valinaa.medishop.auth.user.UserService;
 import tech.valinaa.medishop.auth.user.pojo.UserDO;
 import tech.valinaa.medishop.auth.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.user.pojo.UserResponse;
+import tech.valinaa.medishop.auth.user.pojo.enums.AuthorityEnum;
 import tech.valinaa.medishop.auth.util.JwtUtil;
 import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
 
@@ -63,6 +66,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     
     @Override
     public Result<UserResponse> register(UserRequest userRequest) {
+        var attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        Optional.ofNullable(attributes)
+                .ifPresentOrElse(
+                        attribute -> {
+                            var ipAddr = attribute.getRequest().getRemoteAddr();
+                            userRequest.setIpAddress(ipAddr);
+                            userRequest.setIpRegion(IPInfoUtils.getIpInfo(ipAddr).getAddress());
+                        },
+                        () -> log.warn("Cannot get ip address ———— Request attributes is null!"));
         var username = userRequest.getUsername();
         var userRes = UserConverter.INSTANCE.req2Response(userRequest);
         if (this.getOne(this.lambdaQuery().eq(UserDO::getUsername, username)) != null) {

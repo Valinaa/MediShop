@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import tech.valinaa.medishop.auth.user.AuthorityEnum;
-import tech.valinaa.medishop.auth.user.UserTypeEnum;
+import tech.valinaa.medishop.auth.user.pojo.enums.AuthorityEnum;
+import tech.valinaa.medishop.auth.user.pojo.enums.UserTypeEnum;
 import tech.valinaa.medishop.core.model.dataobject.BaseDO;
 import tech.valinaa.medishop.utils.mybatis.List2StringTypeHandler;
 
@@ -33,6 +33,7 @@ public class UserDO extends BaseDO implements UserDetails, Serializable {
     private String phoneNumber;
     private String address;
     private String ipAddress;
+    private String ipRegion;
     private UserTypeEnum userType;
     private String licenseImageUrl;
     

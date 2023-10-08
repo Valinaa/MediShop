@@ -32,11 +32,9 @@ import java.util.Objects;
  * @Description 自定义认证处理器
  */
 @Component
-@SuppressWarnings("checkstyle:NoWhitespaceBefore")
-public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
-        , AuthenticationFailureHandler, LogoutSuccessHandler
-        , SessionInformationExpiredStrategy, AccessDeniedHandler
-        , AuthenticationEntryPoint {
+public class CustomAuthenticationHandler implements AuthenticationSuccessHandler,
+        AuthenticationFailureHandler, LogoutSuccessHandler, SessionInformationExpiredStrategy,
+        AccessDeniedHandler, AuthenticationEntryPoint {
     public static final String CONTENT_TYPE = "application/json";
     public static final String CHARACTER_ENCODING = "UTF-8";
     
@@ -49,16 +47,10 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
      * @throws IOException 异常
      */
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException)
-            throws IOException {
-        StringBuilder detailMessage = new StringBuilder(authException
-                .getClass().getSimpleName() + " --- ");
-        if (authException instanceof InsufficientAuthenticationException) {
-            detailMessage.append("请登陆后再访问!");
-        } else {
-            detailMessage.append(authException.getLocalizedMessage());
-        }
+    public void commence(HttpServletRequest request,
+                         HttpServletResponse response,
+                         AuthenticationException authException) throws IOException {
+        var detailMessage = getExceptionMessage(authException);
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -76,18 +68,10 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
      * @param accessDeniedException that caused the invocation
      */
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response,
-                       AccessDeniedException accessDeniedException)
-            throws IOException {
-        StringBuilder detailMessage = new StringBuilder(accessDeniedException
-                .getClass().getSimpleName() + " --- ");
-        if (accessDeniedException instanceof MissingCsrfTokenException) {
-            detailMessage.append("缺少CSRF TOKEN,请从表单或HEADER传入");
-        } else if (accessDeniedException instanceof InvalidCsrfTokenException) {
-            detailMessage.append("无效的CSRF TOKEN");
-        } else {
-            detailMessage.append(accessDeniedException.getLocalizedMessage());
-        }
+    public void handle(HttpServletRequest request,
+                       HttpServletResponse response,
+                       AccessDeniedException accessDeniedException) throws IOException {
+        StringBuilder detailMessage = getExceptionMessage(accessDeniedException);
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.FORBIDDEN.value());
@@ -103,11 +87,8 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
     @Override
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
-                                        AuthenticationException authException)
-            throws IOException {
-        StringBuilder detailMessage = new StringBuilder(authException
-                .getClass().getSimpleName() + " --- ");
-        detailMessage.append(authException.getLocalizedMessage());
+                                        AuthenticationException authException) throws IOException {
+        var detailMessage = getExceptionMessage(authException);
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -123,8 +104,7 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
-                                        Authentication authentication)
-            throws IOException {
+                                        Authentication authentication) throws IOException {
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.OK.value());
@@ -135,7 +115,7 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
                 Objects.requireNonNull(
                         JacksonUtil.toJSONString(
                                 Result.build(authentication, HttpStatus.OK.value(),
-                                        "登陆成功!")
+                                        "Login Success!")
                         )));
         //清理使用过的验证码
 //        request.getSession().removeAttribute(VERIFY_CODE_KEY);
@@ -147,10 +127,10 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
      * @throws IOException 异常
      */
     @Override
-    public void onExpiredSessionDetected(SessionInformationExpiredEvent event)
-            throws IOException {
-        String message = "该账号已从其他设备登陆,如果不是您自己的操作请及时修改密码";
-        final HttpServletResponse response = event.getResponse();
+    public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException {
+        var message = "The account has been logged in from other devices, "
+                + "please change the password in time if it is not your own operation.";
+        final var response = event.getResponse();
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -170,15 +150,32 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
      * @throws IOException 异常
      */
     @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-                                Authentication authentication)
-            throws IOException {
+    public void onLogoutSuccess(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Authentication authentication) throws IOException {
         response.setCharacterEncoding(CHARACTER_ENCODING);
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpStatus.OK.value());
         response.getWriter().println(JacksonUtil.toJSONString(
-                Result.build(authentication, HttpStatus.OK.value(), "登出成功!")
+                Result.build(authentication, HttpStatus.OK.value(), "Logout Success!")
         ));
+    }
+    
+    private static StringBuilder getExceptionMessage(RuntimeException runtimeException) {
+        var detailMessage = new StringBuilder(runtimeException
+                .getClass().getSimpleName() + " --- ");
+        if (runtimeException instanceof MissingCsrfTokenException) {
+            detailMessage.append("Not found CSRF TOKEN, post it from form or HEADER please.");
+        }
+        if (runtimeException instanceof InvalidCsrfTokenException) {
+            detailMessage.append("Invalid CSRF TOKEN");
+        }
+        if (runtimeException instanceof InsufficientAuthenticationException) {
+            detailMessage.append("login first please!");
+        } else {
+            detailMessage.append(runtimeException.getLocalizedMessage());
+        }
+        return detailMessage;
     }
 }
 

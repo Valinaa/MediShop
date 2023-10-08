@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import tech.valinaa.medishop.auth.user.UserTypeEnum;
+import tech.valinaa.medishop.auth.user.pojo.enums.UserTypeEnum;
 
 import java.util.List;
 
@@ -36,6 +36,8 @@ public class UserRequest {
     private String address;
     @Schema(title = "ipAddress", description = "IP地址", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String ipAddress;
+    @Schema(title = "ipRegion", description = "IP地址解析出的地址", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String ipRegion;
     @NotBlank
     @Schema(title = "userType", description = "用户类型", type = "string", requiredMode = Schema.RequiredMode.REQUIRED)
     private UserTypeEnum userType;
