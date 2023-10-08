@@ -2,10 +2,12 @@ package tech.valinaa.medishop.auth.user.pojo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import tech.valinaa.medishop.auth.user.pojo.enums.UserTypeEnum;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,8 +24,8 @@ public class UserRequest {
     @NotBlank
     @Schema(title = "password", description = "密码", type = "string", requiredMode = Schema.RequiredMode.REQUIRED)
     private String password;
-    @Schema(title = "authorities", description = "权限", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private List<SimpleGrantedAuthority> authorities;
+    @Schema(title = "authorities", description = "权限", type = "array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     @NotBlank
     @Schema(title = "fullName", description = "全名", type = "string", requiredMode = Schema.RequiredMode.REQUIRED)
     private String fullName;
@@ -34,8 +36,10 @@ public class UserRequest {
     private String phoneNumber;
     @Schema(title = "address", description = "地址", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String address;
+    @Null
     @Schema(title = "ipAddress", description = "IP地址", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String ipAddress;
+    @Null
     @Schema(title = "ipRegion", description = "IP地址解析出的地址", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String ipRegion;
     @NotBlank

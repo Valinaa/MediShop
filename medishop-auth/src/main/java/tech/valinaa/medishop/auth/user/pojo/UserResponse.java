@@ -1,10 +1,10 @@
 package tech.valinaa.medishop.auth.user.pojo;
 
 import lombok.Data;
-import lombok.Getter;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import tech.valinaa.medishop.auth.user.pojo.enums.UserTypeEnum;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,8 +16,7 @@ import java.util.List;
 public class UserResponse {
     private String username;
     private String password;
-    @Getter
-    private List<SimpleGrantedAuthority> authorities;
+    private List<String> authorities = new ArrayList<>();
     private String fullName;
     private String email;
     private String phoneNumber;
@@ -33,8 +32,6 @@ public class UserResponse {
      * @param authorities 若干 权限名
      */
     public void setAuthorities(String... authorities) {
-        for (String authority : authorities) {
-            this.authorities.add(new SimpleGrantedAuthority(authority));
-        }
+        this.authorities.addAll(Arrays.asList(authorities));
     }
 }

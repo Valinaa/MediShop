@@ -26,10 +26,6 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.jthinking.common</groupId>
-            <artifactId>ip-info</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <plugins>

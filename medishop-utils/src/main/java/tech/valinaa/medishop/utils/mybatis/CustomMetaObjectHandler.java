@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 public class CustomMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
+        this.strictInsertFill(metaObject, "creator", () -> "Valinaa", String.class);
+        this.strictInsertFill(metaObject, "modifier", () -> "Valinaa", String.class);
         this.strictInsertFill(metaObject, "gmtCreated", LocalDateTime::now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "gmtModified", LocalDateTime::now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "deleted", () -> 0, Integer.class);
@@ -24,5 +26,6 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         this.strictUpdateFill(metaObject, "gmtModified", LocalDateTime::now, LocalDateTime.class);
+        this.strictUpdateFill(metaObject, "modifier", () -> "Valinaa", String.class);
     }
 }

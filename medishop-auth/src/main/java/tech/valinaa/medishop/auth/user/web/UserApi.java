@@ -2,7 +2,7 @@ package tech.valinaa.medishop.auth.user.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +45,7 @@ public interface UserApi {
      */
     @PutMapping
     @Operation(summary = "更新用户信息")
-    Result<UserResponse> update(@RequestBody @Validated UserRequest userRequest);
+    Result<UserResponse> update(@RequestBody @Valid UserRequest userRequest);
     
     /**
      * 删除用户信息

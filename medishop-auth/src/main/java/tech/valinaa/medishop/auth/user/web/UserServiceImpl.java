@@ -1,7 +1,6 @@
 package tech.valinaa.medishop.auth.user.web;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jthinking.common.util.ip.IPInfoUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -22,10 +21,17 @@ import tech.valinaa.medishop.auth.user.pojo.UserResponse;
 import tech.valinaa.medishop.auth.user.pojo.enums.AuthorityEnum;
 import tech.valinaa.medishop.auth.util.JwtUtil;
 import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
+import tech.valinaa.medishop.utils.json.JacksonUtil;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * @author Valinaa
@@ -65,6 +71,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
     
     @Override
+    @SuppressWarnings("checkstyle:MagicNumber")
     public Result<UserResponse> register(UserRequest userRequest) {
         var attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         Optional.ofNullable(attributes)
@@ -72,7 +79,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                         attribute -> {
                             var ipAddr = attribute.getRequest().getRemoteAddr();
                             userRequest.setIpAddress(ipAddr);
-                            userRequest.setIpRegion(IPInfoUtils.getIpInfo(ipAddr).getAddress());
+                            var uri = URI.create("https://ip.useragentinfo.com/ipv6/" + ipAddr);
+                            final var ipv4Pattern = Pattern.compile("^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
+                                    + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
+                                    + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
+                                    + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+                            var isIpv4 = ipv4Pattern.matcher(ipAddr).matches();
+                            if (isIpv4) {
+                                uri = URI.create("https://ip.useragentinfo.com/jsonp?ip=" + ipAddr);
+                            }
+                            try {
+                                var httpRes = HttpClient.newHttpClient().send(
+                                                HttpRequest.newBuilder().uri(uri).build(),
+                                                HttpResponse.BodyHandlers.ofString())
+                                        .body();
+                                var res = isIpv4 ? httpRes.substring(9, httpRes.length() - 2) : httpRes;
+                                var json = JacksonUtil.parseJSONObject(res);
+                                var ipRegin = JacksonUtil.getString(json, "country");
+                                if (isIpv4) {
+                                    ipRegin += " " + JacksonUtil.getString(json, "province")
+                                            + " " + JacksonUtil.getString(json, "city")
+                                            + " " + JacksonUtil.getString(json, "area");
+                                } else {
+                                    ipRegin += " " + JacksonUtil.getString(json, "region")
+                                            + " " + JacksonUtil.getString(json, "city");
+                                }
+                                userRequest.setIpRegion(ipRegin.strip());
+                            } catch (IOException | InterruptedException e) {
+                                log.error("Cannot get ip address: {}", e.getMessage());
+                            }
                         },
                         () -> log.warn("Cannot get ip address ———— Request attributes is null!"));
         var username = userRequest.getUsername();

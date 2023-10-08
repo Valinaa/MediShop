@@ -31,7 +31,6 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <kafka.version>3.4.1</kafka.version>
         <jose4j-jwt.version>0.9.3</jose4j-jwt.version>
-        <ip-info.version>2.2.0</ip-info.version>
         <java.version>17</java.version>
         <skipTests>true</skipTests>
         <maven.compiler.source>17</maven.compiler.source>
@@ -84,11 +83,6 @@
                 <groupId>org.bitbucket.b_c</groupId>
                 <artifactId>jose4j</artifactId>
                 <version>${jose4j-jwt.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.jthinking.common</groupId>
-                <artifactId>ip-info</artifactId>
-                <version>${ip-info.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

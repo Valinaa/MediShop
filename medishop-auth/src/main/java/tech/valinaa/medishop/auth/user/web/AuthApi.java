@@ -2,7 +2,7 @@ package tech.valinaa.medishop.auth.user.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,7 @@ public interface AuthApi {
      */
     @PostMapping("/login")
     @Operation(summary = "用户登录")
-    Result<Map<String, String>> login(@RequestBody @Validated UserRequest userRequest);
+    Result<Map<String, String>> login(@RequestBody @Valid UserRequest userRequest);
     
     /**
      * 用户注册Api
@@ -39,7 +39,7 @@ public interface AuthApi {
      */
     @PostMapping("/register")
     @Operation(summary = "用户注册")
-    Result<UserResponse> register(@RequestBody @Validated UserRequest userRequest);
+    Result<UserResponse> register(@RequestBody @Valid UserRequest userRequest);
     
     /**
      * 用户注销Api
@@ -49,5 +49,5 @@ public interface AuthApi {
      */
     @PostMapping("/logout")
     @Operation(summary = "用户登出")
-    Result<Boolean> logout(@RequestBody @Validated UserRequest userRequest);
+    Result<Boolean> logout(@RequestBody @Valid UserRequest userRequest);
 }

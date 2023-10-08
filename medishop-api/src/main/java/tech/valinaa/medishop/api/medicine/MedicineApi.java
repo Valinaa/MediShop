@@ -2,7 +2,7 @@ package tech.valinaa.medishop.api.medicine;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +44,7 @@ public interface MedicineApi {
     @Operation(summary = "新增单个药品信息")
     @PostMapping
     @BusinessOnly
-    Result<Boolean> addOne(@RequestBody @Validated MedicineRequest medicineRequest);
+    Result<Boolean> addOne(@RequestBody @Valid MedicineRequest medicineRequest);
     
     /**
      * 获取药品列表

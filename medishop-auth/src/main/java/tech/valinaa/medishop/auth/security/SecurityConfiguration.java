@@ -129,8 +129,8 @@ public class SecurityConfiguration {
                         // 允许所有OPTIONS请求
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // 允许直接访问授权登录、注册接口、MVC 默认错误地址
-                        .requestMatchers("/login", "/register", "/error",
-                                "/doc.html", "/swagger**/**", "/webjars/**",
+                        .requestMatchers("/api/v1/login", "/api/v1/register", "/api/v1/logout",
+                                "/error", "/doc.html", "/swagger**/**", "/webjars/**",
                                 "/v3/api-docs/**", "/favicon.ico")
                         .permitAll()
                         .anyRequest()
