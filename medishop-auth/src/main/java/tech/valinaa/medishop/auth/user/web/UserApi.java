@@ -45,7 +45,7 @@ public interface UserApi {
      */
     @PutMapping
     @Operation(summary = "更新用户信息")
-    Result<UserResponse> update(@RequestBody @Valid UserRequest userRequest);
+    Result<UserResponse> update(@RequestBody @Validated UserRequest userRequest);
     
     /**
      * 删除用户信息

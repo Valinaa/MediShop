@@ -23,7 +23,7 @@ public interface UserService extends IService<UserDO>, UserDetailsService {
      * @param userRequest 用户请求实体
      * @return token
      */
-    Result<Map<String, String>> login(@RequestBody @Valid UserRequest userRequest);
+    Result<Map<String, String>> login(@RequestBody @Validated UserRequest userRequest);
     
     /**
      * 用户注册

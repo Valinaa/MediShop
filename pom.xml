@@ -23,6 +23,7 @@
         <module>medishop-auth</module>
     </modules>
     <properties>
+        <boot.version>3.1.4</boot.version>
         <cloud.version>2022.0.0</cloud.version>
         <alibaba.version>2022.0.0.0-RC2</alibaba.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
@@ -53,6 +54,11 @@
                 <version>${alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
+                <version>${boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>

@@ -44,7 +44,7 @@ public interface MedicineApi {
     @Operation(summary = "新增单个药品信息")
     @PostMapping
     @BusinessOnly
-    Result<Boolean> addOne(@RequestBody @Valid MedicineRequest medicineRequest);
+    Result<Boolean> addOne(@RequestBody @Validated MedicineRequest medicineRequest);
     
     /**
      * 获取药品列表
