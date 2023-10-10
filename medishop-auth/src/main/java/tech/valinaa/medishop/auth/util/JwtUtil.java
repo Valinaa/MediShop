@@ -15,9 +15,9 @@ import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.lang.JoseException;
 import org.springframework.security.core.userdetails.UserDetails;
-import tech.valinaa.medishop.api.Result;
 import tech.valinaa.medishop.auth.security.exception.AuthenticationFailedException;
-import tech.valinaa.medishop.utils.json.JacksonUtil;
+import tech.valinaa.medishop.core.model.Result;
+import tech.valinaa.medishop.utils.JacksonUtil;
 
 /**
  * @author Valinaa

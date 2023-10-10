@@ -2,6 +2,7 @@ package tech.valinaa.medishop.auth.user.pojo.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -27,6 +28,7 @@ public enum UserTypeEnum {
     ADMIN("3", "管理员");
     
     @EnumValue
+    @NotBlank
     private final String code;
     private final String desc;
 }

@@ -1,4 +1,4 @@
-package tech.valinaa.medishop.utils.json;
+package tech.valinaa.medishop.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;

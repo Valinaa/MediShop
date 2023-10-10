@@ -1,6 +1,7 @@
 package tech.valinaa.medishop.auth.user.pojo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Null;
 import lombok.Data;
@@ -42,7 +43,7 @@ public class UserRequest {
     @Null
     @Schema(title = "ipRegion", description = "IP地址解析出的地址", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String ipRegion;
-    @NotBlank
+    @Valid
     @Schema(title = "userType", description = "用户类型", type = "string", requiredMode = Schema.RequiredMode.REQUIRED)
     private UserTypeEnum userType;
     @Schema(title = "licenseImageUrl", description = "证件照", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

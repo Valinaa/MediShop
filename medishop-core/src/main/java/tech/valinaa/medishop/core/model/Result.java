@@ -1,4 +1,4 @@
-package tech.valinaa.medishop.api;
+package tech.valinaa.medishop.core.model;
 
 import lombok.Data;
 import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
@@ -135,7 +135,7 @@ public final class Result<T> {
             return Result.failure(ResultCodeEnum.NO_SUCH_RECORD);
         }
         if (oprRes instanceof Boolean bool) {
-            return bool
+            return Boolean.TRUE.equals(bool)
                     ? Result.success()
                     : Result.failure(ResultCodeEnum.DATABASE_OPERATION_FAILED);
         }
@@ -162,7 +162,7 @@ public final class Result<T> {
             return Result.failure(ResultCodeEnum.NO_SUCH_RECORD);
         }
         if (oprRes instanceof Boolean bool) {
-            return bool
+            return Boolean.TRUE.equals(bool)
                     ? Result.success(data)
                     : Result.failure(data, ResultCodeEnum.DATABASE_OPERATION_FAILED);
         }

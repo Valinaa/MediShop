@@ -24,7 +24,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.lang.Nullable;
-import tech.valinaa.medishop.utils.json.JacksonUtil;
+import tech.valinaa.medishop.utils.JacksonUtil;
 
 import java.io.Serializable;
 import java.time.Duration;

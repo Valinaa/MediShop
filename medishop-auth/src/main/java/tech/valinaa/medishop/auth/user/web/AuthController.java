@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import tech.valinaa.medishop.api.Result;
 import tech.valinaa.medishop.auth.user.UserService;
 import tech.valinaa.medishop.auth.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.user.pojo.UserResponse;
+import tech.valinaa.medishop.core.model.Result;
 
 import java.util.Map;
 

@@ -2,13 +2,13 @@ package tech.valinaa.medishop.auth.user.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-import tech.valinaa.medishop.api.Result;
-import tech.valinaa.medishop.api.page.BasePageRequest;
-import tech.valinaa.medishop.api.page.PageResult;
 import tech.valinaa.medishop.auth.user.UserConverter;
 import tech.valinaa.medishop.auth.user.UserService;
 import tech.valinaa.medishop.auth.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.user.pojo.UserResponse;
+import tech.valinaa.medishop.core.model.Result;
+import tech.valinaa.medishop.core.model.page.BasePageRequest;
+import tech.valinaa.medishop.core.model.page.PageResult;
 
 /**
  * @author Valinaa

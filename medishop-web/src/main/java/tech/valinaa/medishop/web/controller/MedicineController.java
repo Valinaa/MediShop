@@ -2,12 +2,12 @@ package tech.valinaa.medishop.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-import tech.valinaa.medishop.api.Result;
 import tech.valinaa.medishop.api.medicine.MedicineApi;
 import tech.valinaa.medishop.api.medicine.request.MedicineRequest;
 import tech.valinaa.medishop.api.medicine.response.MedicineResponse;
-import tech.valinaa.medishop.api.page.BasePageRequest;
-import tech.valinaa.medishop.api.page.PageResult;
+import tech.valinaa.medishop.core.model.Result;
+import tech.valinaa.medishop.core.model.page.BasePageRequest;
+import tech.valinaa.medishop.core.model.page.PageResult;
 import tech.valinaa.medishop.core.service.MedicineService;
 import tech.valinaa.medishop.web.converter.MedicineConverter;
 

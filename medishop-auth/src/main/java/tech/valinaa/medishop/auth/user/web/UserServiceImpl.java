@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import tech.valinaa.medishop.api.Result;
 import tech.valinaa.medishop.auth.user.UserConverter;
 import tech.valinaa.medishop.auth.user.UserService;
 import tech.valinaa.medishop.auth.user.pojo.UserDO;
@@ -20,8 +19,9 @@ import tech.valinaa.medishop.auth.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.user.pojo.UserResponse;
 import tech.valinaa.medishop.auth.user.pojo.enums.AuthorityEnum;
 import tech.valinaa.medishop.auth.util.JwtUtil;
+import tech.valinaa.medishop.core.model.Result;
 import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
-import tech.valinaa.medishop.utils.json.JacksonUtil;
+import tech.valinaa.medishop.utils.JacksonUtil;
 
 import java.io.IOException;
 import java.net.URI;
@@ -112,7 +112,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                         () -> log.warn("Cannot get ip address ———— Request attributes is null!"));
         var username = userRequest.getUsername();
         var userRes = UserConverter.INSTANCE.req2Response(userRequest);
-        if (this.getOne(this.lambdaQuery().eq(UserDO::getUsername, username)) != null) {
+        if (this.lambdaQuery().eq(UserDO::getUsername, username).one() != null) {
             return Result.failure(userRes, ResultCodeEnum.DUPLICATE_USERNAME);
         }
         if (!this.save(UserConverter.INSTANCE.req2DO(userRequest))) {
@@ -123,18 +123,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     
     @Override
     public UserDetails loadUserByUsername(String username) {
-        var user = this.getOne(this.lambdaQuery().eq(UserDO::getUsername, username));
-        if (user == null) {
-            throw new UsernameNotFoundException("不存在username为" + username + "的用户!");
-        }
-        if (user.getAuthorities().isEmpty()) {
-            switch (user.getUserType()) {
-                case ADMIN -> user.setAuthorities(AuthorityEnum.ADMIN);
-                case BUSINESS -> user.setAuthorities(AuthorityEnum.BUSINESS);
-                case CUSTOMER -> user.setAuthorities(AuthorityEnum.CUSTOMER);
-                default -> user.setAuthorities(AuthorityEnum.GUEST);
-            }
-        }
-        return user;
+        var userDO = this.lambdaQuery().eq(UserDO::getUsername, username).oneOpt();
+        Optional.ofNullable(userDO)
+                .orElseThrow(() -> new UsernameNotFoundException("不存在username为" + username + "的用户!"))
+                .ifPresent(
+                        user -> {
+                            if (user.getAuthorities().isEmpty()) {
+                                switch (user.getUserType()) {
+                                    case ADMIN -> user.setAuthorities(AuthorityEnum.ADMIN);
+                                    case BUSINESS -> user.setAuthorities(AuthorityEnum.BUSINESS);
+                                    case CUSTOMER -> user.setAuthorities(AuthorityEnum.CUSTOMER);
+                                    default -> user.setAuthorities(AuthorityEnum.GUEST);
+                                }
+                            }
+                        }
+                );
+        assert userDO.isPresent();
+        return userDO.get();
     }
 }

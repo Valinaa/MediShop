@@ -1,4 +1,4 @@
-package tech.valinaa.medishop.api.page;
+package tech.valinaa.medishop.core.model.page;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
