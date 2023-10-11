@@ -25,11 +25,11 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         // 获取请求地址
-        String requestUrl = ((FilterInvocation) object).getRequestUrl();
-        log.info("请求地址" + requestUrl);
+        var requestUrl = ((FilterInvocation) object).getRequestUrl();
+        log.info("请求地址: " + requestUrl);
         // 判断是否为登录请求
         if (AUTHENTICATION.equals(requestUrl)) {
-            log.info("登录请求，metadataSource放行！");
+            log.info("登录请求, metadataSource放行！");
             return null;
         } else {
             log.info("metadataSource 获取访问路径所需权限");

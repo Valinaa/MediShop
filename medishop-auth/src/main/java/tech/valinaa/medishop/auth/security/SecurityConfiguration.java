@@ -32,6 +32,7 @@ import java.util.ArrayList;
  * @Date : 2023/10/2 11:39
  * @Description : Spring Security 配置类
  */
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

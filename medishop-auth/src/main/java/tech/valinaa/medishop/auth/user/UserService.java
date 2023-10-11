@@ -2,8 +2,6 @@ package tech.valinaa.medishop.auth.user;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 import tech.valinaa.medishop.auth.user.pojo.UserDO;
 import tech.valinaa.medishop.auth.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.user.pojo.UserResponse;
@@ -20,10 +18,11 @@ public interface UserService extends IService<UserDO>, UserDetailsService {
     /**
      * 用户登录Api
      *
-     * @param userRequest 用户请求实体
+     * @param username 用户名
+     * @param password 密码
      * @return token
      */
-    Result<Map<String, String>> login(@RequestBody @Validated UserRequest userRequest);
+    Result<Map<String, String>> login(String username, String password);
     
     /**
      * 用户注册

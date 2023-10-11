@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -45,18 +47,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Resource
     private AuthenticationManager authenticationManager;
     
+    @Lazy
+    @Resource
+    private BCryptPasswordEncoder passwordEncoder;
+    
     @Override
-    public Result<Map<String, String>> login(UserRequest userRequest) {
+    public Result<Map<String, String>> login(String username, String password) {
         var map = new HashMap<String, String>();
-        var authentication = new UsernamePasswordAuthenticationToken(
-                userRequest.getUsername(), userRequest.getPassword()
-        );
+        var authentication = new UsernamePasswordAuthenticationToken(username, password);
         try {
             Optional.ofNullable(authenticationManager.authenticate(authentication))
                     .ifPresentOrElse(
                             auth -> {
                                 log.info("authenticate: {}", auth);
-                                var userDetails = this.loadUserByUsername(userRequest.getUsername());
+                                authentication.eraseCredentials();
+                                var userDetails = this.loadUserByUsername(username);
+                                SecurityContextHolder.getContext().setAuthentication(authentication);
                                 var token = JwtUtil.createToken(userDetails);
                                 map.put("token", token);
                             },
@@ -111,6 +117,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                         },
                         () -> log.warn("Cannot get ip address ———— Request attributes is null!"));
         var username = userRequest.getUsername();
+        userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         var userRes = UserConverter.INSTANCE.req2Response(userRequest);
         if (this.lambdaQuery().eq(UserDO::getUsername, username).one() != null) {
             return Result.failure(userRes, ResultCodeEnum.DUPLICATE_USERNAME);
@@ -123,22 +130,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     
     @Override
     public UserDetails loadUserByUsername(String username) {
-        var userDO = this.lambdaQuery().eq(UserDO::getUsername, username).oneOpt();
-        Optional.ofNullable(userDO)
-                .orElseThrow(() -> new UsernameNotFoundException("不存在username为" + username + "的用户!"))
-                .ifPresent(
-                        user -> {
-                            if (user.getAuthorities().isEmpty()) {
-                                switch (user.getUserType()) {
-                                    case ADMIN -> user.setAuthorities(AuthorityEnum.ADMIN);
-                                    case BUSINESS -> user.setAuthorities(AuthorityEnum.BUSINESS);
-                                    case CUSTOMER -> user.setAuthorities(AuthorityEnum.CUSTOMER);
-                                    default -> user.setAuthorities(AuthorityEnum.GUEST);
-                                }
-                            }
-                        }
-                );
-        assert userDO.isPresent();
-        return userDO.get();
+        var user = Optional.of(this.lambdaQuery().eq(UserDO::getUsername, username).oneOpt())
+                .orElseThrow(() -> new UsernameNotFoundException("Error when search username from database!"))
+                .orElseThrow(() -> new UsernameNotFoundException("不存在username为" + username + "的用户!"));
+        if (user.getAuthorities().isEmpty()) {
+            switch (user.getUserType()) {
+                case ADMIN -> user.setAuthorities(AuthorityEnum.ADMIN);
+                case BUSINESS -> user.setAuthorities(AuthorityEnum.BUSINESS);
+                case CUSTOMER -> user.setAuthorities(AuthorityEnum.CUSTOMER);
+                default -> user.setAuthorities(AuthorityEnum.GUEST);
+            }
+        }
+        return user;
     }
 }

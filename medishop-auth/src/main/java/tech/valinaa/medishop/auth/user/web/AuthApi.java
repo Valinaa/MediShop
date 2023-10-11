@@ -2,6 +2,7 @@ package tech.valinaa.medishop.auth.user.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,12 +25,13 @@ public interface AuthApi {
     /**
      * 用户登录Api
      *
-     * @param userRequest 用户请求实体
+     * @param username 用户名
+     * @param password 密码
      * @return token
      */
     @PostMapping("/login")
     @Operation(summary = "用户登录", description = "用户登录成功后返回token")
-    Result<Map<String, String>> login(@RequestBody @Validated UserRequest userRequest);
+    Result<Map<String, String>> login(@NotBlank String username, @NotBlank String password);
     
     /**
      * 用户注册Api

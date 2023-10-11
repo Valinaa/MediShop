@@ -6,7 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.function.Supplier;
 
 /**
@@ -18,9 +17,9 @@ import java.util.function.Supplier;
 public class CustomAccessDecisionManager implements AuthorizationManager<Object> {
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, Object object) {
-        Collection<? extends GrantedAuthority> authorities = authentication.get().getAuthorities();
+        var authorities = authentication.get().getAuthorities();
         for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals("ROLE_ANONYMOUS")) {
+            if (authority.getAuthority().equals("ROLE_READ")) {
                 return new AuthorizationDecision(true);
             }
         }

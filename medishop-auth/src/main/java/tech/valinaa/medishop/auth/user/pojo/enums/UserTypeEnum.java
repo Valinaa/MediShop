@@ -14,7 +14,7 @@ import lombok.Getter;
 @Schema(enumAsRef = true, name = "MedicineStatusEnum", title = "药品状态枚举",
         description = "0: guest 游客;   1: customer 消费者;   "
                 + "2: business 卖家;   3: admin 管理员   ",
-        allowableValues = {"0", "1", "2", "3"})
+        allowableValues = {"GUEST", "CUSTOMER", "BUSINESS", "ADMIN"})
 @Getter
 @AllArgsConstructor
 public enum UserTypeEnum {

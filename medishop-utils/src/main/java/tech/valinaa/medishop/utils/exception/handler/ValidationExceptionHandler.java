@@ -1,5 +1,6 @@
 package tech.valinaa.medishop.utils.exception.handler;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +28,7 @@ public class ValidationExceptionHandler {
                 Optional.ofNullable(exception.getBindingResult().getFieldError())
                         .orElseGet(() -> new FieldError("unknown object",
                                 "unknown field", "Unknown validation error"));
-        var msg = fieldError.getField() + "\t" + fieldError.getDefaultMessage();
-        return Result.build(null, 400, msg);
+        var msg = fieldError.getField() + "    " + fieldError.getDefaultMessage();
+        return Result.build(null, HttpStatus.BAD_REQUEST.value(), msg);
     }
 }

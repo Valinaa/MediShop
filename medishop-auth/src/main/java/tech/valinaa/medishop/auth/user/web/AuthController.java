@@ -1,5 +1,6 @@
 package tech.valinaa.medishop.auth.user.web;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @Date 2023/10/8 13:37
  */
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 public class AuthController implements AuthApi {
@@ -23,8 +25,8 @@ public class AuthController implements AuthApi {
     private final UserService userService;
     
     @Override
-    public Result<Map<String, String>> login(@RequestBody @Validated UserRequest userRequest) {
-        return userService.login(userRequest);
+    public Result<Map<String, String>> login(@NotBlank String username, @NotBlank String password) {
+        return userService.login(username, password);
     }
     
     @Override

@@ -26,8 +26,12 @@ public abstract class ListTypeHandler<T> extends BaseTypeHandler<List<T>> {
     @Override
     public void setNonNullParameter(PreparedStatement preparedStatement, int i,
                                     List<T> tList, JdbcType jdbcType) throws SQLException {
-        var content = tList.isEmpty() ? null : JacksonUtil.toJSONString(tList);
-        preparedStatement.setString(i, content);
+        if (tList.isEmpty()) {
+            preparedStatement.setString(i, null);
+        }
+        var sb = new StringBuilder();
+        tList.forEach(item -> sb.append(item).append(","));
+        preparedStatement.setString(i, sb.deleteCharAt(sb.length() - 1).toString());
     }
     
     @Override

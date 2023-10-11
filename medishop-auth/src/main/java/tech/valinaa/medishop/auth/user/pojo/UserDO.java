@@ -12,6 +12,7 @@ import tech.valinaa.medishop.core.model.dataobject.BaseDO;
 import tech.valinaa.medishop.utils.mybatis.List2StringTypeHandler;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class UserDO extends BaseDO implements UserDetails, Serializable {
     private String username;
     private String password;
     @TableField(typeHandler = List2StringTypeHandler.class)
-    private List<SimpleGrantedAuthority> authorities;
+    private List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     private String fullName;
     private String email;
     private String phoneNumber;
@@ -36,6 +37,11 @@ public class UserDO extends BaseDO implements UserDetails, Serializable {
     private String ipRegion;
     private UserTypeEnum userType;
     private String licenseImageUrl;
+    
+    @Override
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
     
     /**
      * 设置权限
@@ -56,11 +62,6 @@ public class UserDO extends BaseDO implements UserDetails, Serializable {
      */
     public void setAuthorities(AuthorityEnum authorityEnum) {
         this.setAuthorities(authorityEnum.getAuthorities().toArray(new String[0]));
-    }
-    
-    @Override
-    public List<SimpleGrantedAuthority> getAuthorities() {
-        return this.authorities;
     }
     
     @Override
