@@ -60,10 +60,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                     .ifPresentOrElse(
                             auth -> {
                                 log.info("authenticate: {}", auth);
-                                authentication.eraseCredentials();
-                                var userDetails = this.loadUserByUsername(username);
-                                SecurityContextHolder.getContext().setAuthentication(authentication);
-                                var token = JwtUtil.createToken(userDetails);
+                                SecurityContextHolder.getContext().setAuthentication(auth);
+                                var token = JwtUtil.createToken((UserDetails) auth.getPrincipal());
                                 map.put("token", token);
                             },
                             () -> log.error("login error: authenticate is null")

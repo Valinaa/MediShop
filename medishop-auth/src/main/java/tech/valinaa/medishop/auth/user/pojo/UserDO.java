@@ -64,6 +64,15 @@ public class UserDO extends BaseDO implements UserDetails, Serializable {
         this.setAuthorities(authorityEnum.getAuthorities().toArray(new String[0]));
     }
     
+    /**
+     * 设置权限
+     *
+     * @param authorities 权限名集合
+     */
+    public void setAuthorities(List<String> authorities) {
+        this.setAuthorities(authorities.toArray(new String[0]));
+    }
+    
     @Override
     public String getPassword() {
         return this.password;

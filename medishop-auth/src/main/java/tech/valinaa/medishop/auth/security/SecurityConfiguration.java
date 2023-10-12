@@ -1,6 +1,10 @@
 package tech.valinaa.medishop.auth.security;
 
 import lombok.RequiredArgsConstructor;
+import org.jose4j.jwk.RsaJsonWebKey;
+import org.jose4j.jwk.RsaJwkGenerator;
+import org.jose4j.jws.AlgorithmIdentifiers;
+import org.jose4j.lang.JoseException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,6 +28,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import tech.valinaa.medishop.auth.security.custom.CustomAuthenticationHandler;
 import tech.valinaa.medishop.auth.security.custom.CustomAuthorizationTokenFilter;
 import tech.valinaa.medishop.auth.user.UserService;
+import tech.valinaa.medishop.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -155,5 +160,25 @@ public class SecurityConfiguration {
         var daoAuthenticationProvider = new DaoAuthenticationProvider(this.passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userService);
         return new ProviderManager(daoAuthenticationProvider);
+    }
+    
+    /**
+     * 公钥密钥生成
+     *
+     * @return {@link RsaJsonWebKey}
+     * @see RsaJsonWebKey
+     */
+    @Bean
+    @SuppressWarnings("checkstyle:MagicNumber")
+    public RsaJsonWebKey rsaJsonWebKey() {
+        // 生成一个RSA密钥对，用于签署和验证JWT，包装在JWK中
+        try {
+            var rsaJsonWebKey = RsaJwkGenerator.generateJwk(2048);
+            rsaJsonWebKey.setKeyId(Constants.KEY_ID);
+            rsaJsonWebKey.setAlgorithm(AlgorithmIdentifiers.RSA_USING_SHA256);
+            return rsaJsonWebKey;
+        } catch (JoseException e) {
+            throw new RuntimeException("Failed to generate jwk, message: " + e.getMessage());
+        }
     }
 }

@@ -2,7 +2,6 @@ package tech.valinaa.medishop.auth.util;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.jose4j.json.JsonUtil;
 import org.jose4j.jwa.AlgorithmConstraints;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.AlgorithmIdentifiers;
@@ -14,10 +13,18 @@ import org.jose4j.jwt.consumer.ErrorCodes;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.lang.JoseException;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import tech.valinaa.medishop.auth.security.exception.AuthenticationFailedException;
 import tech.valinaa.medishop.core.model.Result;
+import tech.valinaa.medishop.utils.Constants;
 import tech.valinaa.medishop.utils.JacksonUtil;
+import tech.valinaa.medishop.utils.SpringContextHolder;
+
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 /**
  * @author Valinaa
@@ -25,16 +32,15 @@ import tech.valinaa.medishop.utils.JacksonUtil;
  * @Description : Jwt生成类
  */
 @Slf4j
+@Component
 @UtilityClass
-@SuppressWarnings("checkstyle:MagicNumber")
-public class JwtUtil {
-    
-    // 生成一个RSA密钥对，用于签署和验证JWT，包装在JWK中
-    private static final RsaJsonWebKey RSA_JSON_WEB_KEY = KeyPairGeneratorUtil.getInstance(AlgorithmIdentifiers.RSA_USING_SHA256);
-    private static final String KEY_ID = RSA_JSON_WEB_KEY.getKeyId();
-    private static final String PUBLIC_KEY_STR = RSA_JSON_WEB_KEY.toJson(RsaJsonWebKey.OutputControlLevel.PUBLIC_ONLY);
-    private static final String PRIVATE_KEY_STR = RSA_JSON_WEB_KEY.toJson(RsaJsonWebKey.OutputControlLevel.INCLUDE_PRIVATE);
+@DependsOn("springContextHolder")
+@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:HideUtilityClassConstructor"})
+public final class JwtUtil {
     private static final long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 24;
+    private static final RsaJsonWebKey RSA_JSON_WEB_KEY = SpringContextHolder.getBean(RsaJsonWebKey.class);
+    private static final PublicKey PUBLIC_KEY = RSA_JSON_WEB_KEY.getPublicKey();
+    private static final PrivateKey PRIVATE_KEY = RSA_JSON_WEB_KEY.getPrivateKey();
     
     /**
      * jws创建token
@@ -43,7 +49,7 @@ public class JwtUtil {
      * @return {@link String}
      * @see String
      */
-    public String createToken(UserDetails userDetails) {
+    public static String createToken(UserDetails userDetails) {
         try {
             // Payload
             var claims = new JwtClaims();
@@ -51,6 +57,7 @@ public class JwtUtil {
             claims.setGeneratedJwtId();
             // 当令牌被发布/创建时（现在）
             claims.setIssuedAtToNow();
+            // TODO 考虑使用redis存储
             //expire time
             var date = NumericDate.now();
             date.addSeconds(ACCESS_TOKEN_EXPIRATION_TIME);
@@ -64,7 +71,10 @@ public class JwtUtil {
             // 主题 ,是令牌的对象
             claims.setSubject(userDetails.getUsername());
             // 令牌将被发送给谁
-            claims.setAudience(String.valueOf(userDetails.getAuthorities()));
+            claims.setAudience(userDetails.getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toArray(String[]::new));
             //添加自定义参数或附加属性,必须是字符串类型
             claims.setClaim("verifyToken", Result.success());
             claims.setClaim("username", userDetails.getUsername());
@@ -75,11 +85,11 @@ public class JwtUtil {
             // 在jw/jws上设置签名算法RS256，该算法将完整性保护声明
             jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
             // 设置关键ID（kid）头，因为这是一种礼貌的做法。 在这个例子中，我们只有一个键但是使用键ID可以帮助 促进平稳的关键滚动过程
-            jws.setKeyIdHeaderValue(KEY_ID);
+            jws.setKeyIdHeaderValue(Constants.KEY_ID);
             // JWS的有效负载是JWT声明的JSON内容
             jws.setPayload(claims.toJson());
             // JWT使用私钥签署
-            jws.setKey(new RsaJsonWebKey(JsonUtil.parseJson(PRIVATE_KEY_STR)).getPrivateKey());
+            jws.setKey(PRIVATE_KEY);
             
             /*
              * 签署JWS并生成紧凑的序列化或完整的jw/JWS 表示，它是由三个点（'.'）分隔的字符串
@@ -103,7 +113,7 @@ public class JwtUtil {
      * @return {@link String}
      * @see String
      */
-    public String verifyToken(String token, UserDetails userDetails) {
+    public static String verifyToken(String token, UserDetails userDetails) {
         /*
          * 使用JwtConsumer builder构建适当的JwtConsumer，它将 用于验证和处理JWT。 JWT的具体验证需求是上下文相关的
          * 但通常建议需要一个（合理的）过期时间，一个受信任的时间 发行人, 以及将你的系统定义为预期接收者的受众。
@@ -122,13 +132,16 @@ public class JwtUtil {
                     .setExpectedIssuer("Valinaa")
                     .setExpectedSubject(userDetails.getUsername())
                     // JWT的目的是给谁, 用来验证观众
-                    .setExpectedAudience(String.valueOf(userDetails.getAuthorities()))
+                    .setExpectedAudience(userDetails.getAuthorities()
+                            .stream()
+                            .map(GrantedAuthority::getAuthority)
+                            .toArray(String[]::new))
                     .setEvaluationTime(NumericDate.now())
                     // 只允许在给定上下文中预期的签名算法,使用指定的算法验证
                     .setJwsAlgorithmConstraints(new AlgorithmConstraints(AlgorithmConstraints.ConstraintType.PERMIT,
                             AlgorithmIdentifiers.RSA_USING_SHA256))
                     // 用公钥验证签名 ,验证秘钥
-                    .setVerificationKey(new RsaJsonWebKey(JsonUtil.parseJson(PUBLIC_KEY_STR)).getPublicKey())
+                    .setVerificationKey(PUBLIC_KEY)
                     .build();
             // 验证JWT并将其处理为jwtClaims
             var claims = consumer.processToClaims(token);
@@ -143,9 +156,6 @@ public class JwtUtil {
                 }
                 return username;
             }
-        } catch (JoseException e) {
-            log.error("Public Key JSON parse error! message: " + e.getMessage());
-            throw new AuthenticationFailedException(60002, "verify token error: " + e.getMessage());
         } catch (InvalidJwtException e) {
             processJwtException(e);
         }
@@ -159,7 +169,7 @@ public class JwtUtil {
      * @return {@link String}
      * @see String
      */
-    public String getUsernameByToken(String token) {
+    public static String getUsernameByToken(String token) {
         try {
             return new JwtConsumerBuilder()
                     .build()
@@ -171,7 +181,7 @@ public class JwtUtil {
         return null;
     }
     
-    private void processJwtException(Exception e) {
+    private static void processJwtException(Exception e) {
         if (e instanceof MalformedClaimException mce) {
             log.error("Can not get Expiration Time, Audience, Subject etc. message:  " + mce.getMessage());
             throw new AuthenticationFailedException(60003, "Can not get properties of Claim. message:  " + mce.getMessage());

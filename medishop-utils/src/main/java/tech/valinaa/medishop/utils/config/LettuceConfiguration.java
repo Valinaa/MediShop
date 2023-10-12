@@ -154,7 +154,7 @@ public class LettuceConfiguration implements CachingConfigurer {
     @Override
     public CacheErrorHandler errorHandler() {
         //! 异常处理，当Redis发生异常时，打印日志，但是程序正常走
-        log.info("初始化 -> [{}]", "Redis CacheErrorHandler");
+        log.info("Initialized -> [{}]", "Redis CacheErrorHandler");
         return new CacheErrorHandler() {
             @Override
             public void handleCacheGetError(@NotNull RuntimeException e, @NotNull Cache cache, @NotNull Object key) {
