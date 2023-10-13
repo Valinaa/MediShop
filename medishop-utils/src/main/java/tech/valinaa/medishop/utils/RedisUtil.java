@@ -1,7 +1,8 @@
 package tech.valinaa.medishop.utils;
 
-import jakarta.annotation.Resource;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.util.CollectionUtils;
@@ -19,20 +20,12 @@ import java.util.concurrent.TimeUnit;
  * @Description redis工具类，封装并简化redis功能的实现
  */
 @Slf4j
-@SuppressWarnings("unused")
+@UtilityClass
+@DependsOn("springContextHolder")
+@SuppressWarnings({"unused", "unchecked"})
 public final class RedisUtil {
     
-    private RedisUtil() {
-        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
-    }
-    
-    private static RedisTemplate<String, Object> redisTemplate;
-    
-    @Resource
-    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
-        RedisUtil.redisTemplate = redisTemplate;
-    }
-    
+    private static final RedisTemplate<String, Object> redisTemplate = (RedisTemplate<String, Object>) SpringContextHolder.getBean(RedisTemplate.class);
     //! =============================common============================
     
     /**

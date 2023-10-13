@@ -21,6 +21,7 @@ import org.springframework.security.web.session.SessionInformationExpiredStrateg
 import org.springframework.stereotype.Component;
 import tech.valinaa.medishop.core.model.Result;
 import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
+import tech.valinaa.medishop.utils.Constants;
 import tech.valinaa.medishop.utils.JacksonUtil;
 
 import java.io.IOException;
@@ -35,8 +36,23 @@ import java.util.Objects;
 public class CustomAuthenticationHandler implements AuthenticationSuccessHandler,
         AuthenticationFailureHandler, LogoutSuccessHandler, SessionInformationExpiredStrategy,
         AccessDeniedHandler, AuthenticationEntryPoint {
-    public static final String CONTENT_TYPE = "application/json";
-    public static final String CHARACTER_ENCODING = "UTF-8";
+    
+    private static StringBuilder getExceptionMessage(RuntimeException runtimeException) {
+        var detailMessage = new StringBuilder(runtimeException
+                .getClass().getSimpleName() + " --- ");
+        if (runtimeException instanceof MissingCsrfTokenException) {
+            detailMessage.append("Not found CSRF TOKEN, post it from form or HEADER please.");
+        }
+        if (runtimeException instanceof InvalidCsrfTokenException) {
+            detailMessage.append("Invalid CSRF TOKEN");
+        }
+        if (runtimeException instanceof InsufficientAuthenticationException) {
+            detailMessage.append("login first please!");
+        } else {
+            detailMessage.append(runtimeException.getLocalizedMessage());
+        }
+        return detailMessage;
+    }
     
     /**
      * 认证失败处理
@@ -51,8 +67,8 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         var detailMessage = getExceptionMessage(authException);
-        response.setCharacterEncoding(CHARACTER_ENCODING);
-        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+        response.setContentType(Constants.CONTENT_TYPE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().write(
                 Objects.requireNonNull(
@@ -72,8 +88,8 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException {
         StringBuilder detailMessage = getExceptionMessage(accessDeniedException);
-        response.setCharacterEncoding(CHARACTER_ENCODING);
-        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+        response.setContentType(Constants.CONTENT_TYPE);
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.getWriter().write(
                 Objects.requireNonNull(
@@ -89,8 +105,8 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
                                         HttpServletResponse response,
                                         AuthenticationException authException) throws IOException {
         var detailMessage = getExceptionMessage(authException);
-        response.setCharacterEncoding(CHARACTER_ENCODING);
-        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+        response.setContentType(Constants.CONTENT_TYPE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().write(
                 Objects.requireNonNull(
@@ -105,8 +121,8 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-        response.setCharacterEncoding(CHARACTER_ENCODING);
-        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+        response.setContentType(Constants.CONTENT_TYPE);
         response.setStatus(HttpStatus.OK.value());
         // SecurityContext在设置Authentication的时候并不会自动写入Session，读的时候却会根据Session判断，所以需要手动写入一次，否则下一次刷新时SecurityContext是新创建的实例。
         request.getSession().setAttribute(HttpSessionSecurityContextRepository
@@ -131,8 +147,8 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
         var message = "The account has been logged in from other devices, "
                 + "please change the password in time if it is not your own operation.";
         final var response = event.getResponse();
-        response.setCharacterEncoding(CHARACTER_ENCODING);
-        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+        response.setContentType(Constants.CONTENT_TYPE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().println(
                 JacksonUtil.toJSONString(
@@ -153,29 +169,12 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
     public void onLogoutSuccess(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Authentication authentication) throws IOException {
-        response.setCharacterEncoding(CHARACTER_ENCODING);
-        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+        response.setContentType(Constants.CONTENT_TYPE);
         response.setStatus(HttpStatus.OK.value());
         response.getWriter().println(JacksonUtil.toJSONString(
                 Result.build(authentication, HttpStatus.OK.value(), "Logout Success!")
         ));
-    }
-    
-    private static StringBuilder getExceptionMessage(RuntimeException runtimeException) {
-        var detailMessage = new StringBuilder(runtimeException
-                .getClass().getSimpleName() + " --- ");
-        if (runtimeException instanceof MissingCsrfTokenException) {
-            detailMessage.append("Not found CSRF TOKEN, post it from form or HEADER please.");
-        }
-        if (runtimeException instanceof InvalidCsrfTokenException) {
-            detailMessage.append("Invalid CSRF TOKEN");
-        }
-        if (runtimeException instanceof InsufficientAuthenticationException) {
-            detailMessage.append("login first please!");
-        } else {
-            detailMessage.append(runtimeException.getLocalizedMessage());
-        }
-        return detailMessage;
     }
 }
 

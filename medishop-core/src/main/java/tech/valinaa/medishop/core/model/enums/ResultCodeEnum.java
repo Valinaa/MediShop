@@ -14,6 +14,11 @@ public enum ResultCodeEnum {
     
     SUCCESS(200, "成功"),
     
+    TOKEN_INVALID(4001, "token不合法！已过期或被篡改！"),
+    DUPLICATE_USERNAME(4002, "用户名已存在！"),
+    FORBIDDEN(4003, "没有权限"),
+    ILLEGAL_CALLBACK_REQUEST_ERROR(4004, "非法回调请求"),
+    ILLEGAL_REQUEST(4005, "非法请求"),
     FAIL(5000, "失败"),
     REGISTER_FAILED(5001, "注册失败！请联系管理员！"),
     SERVICE_ERROR(5002, "服务异常"),
@@ -30,12 +35,7 @@ public enum ResultCodeEnum {
     
     ORDER_PRICE_ERROR(5201, "订单商品价格变化"),
     ORDER_STOCK_FALL(5202, "订单库存锁定失败"),
-    CREATE_ORDER_FAIL(5203, "创建订单失败"),
-    
-    DUPLICATE_USERNAME(4002, "用户名已存在！"),
-    FORBIDDEN(4003, "没有权限"),
-    ILLEGAL_CALLBACK_REQUEST_ERROR(4004, "非法回调请求"),
-    ILLEGAL_REQUEST(4005, "非法请求");
+    CREATE_ORDER_FAIL(5203, "创建订单失败");
     
     private final Integer code;
     private final String message;

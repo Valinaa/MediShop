@@ -23,28 +23,23 @@ import java.text.SimpleDateFormat;
  */
 @Slf4j
 @UtilityClass
-@SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "unused"})
+@SuppressWarnings("unused")
 public class JacksonUtil {
+    private static final ObjectMapper objectMapper;
     
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    // 时间日期格式
-    private static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    
-    //以静态代码块初始化
     static {
-        //对象的所有字段全部列入序列化
-        OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.ALWAYS);
-        //取消默认转换timestamps形式
-        OBJECT_MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        //忽略空Bean转json的错误
-        OBJECT_MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        //所有的日期格式都统一为以下的格式，即yyyy-MM-dd HH:mm:ss
-        OBJECT_MAPPER.setDateFormat(new SimpleDateFormat(STANDARD_FORMAT));
-        //忽略 在json字符串中存在，但在java对象中不存在对应属性的情况。防止错误
-        OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper = new ObjectMapper()
+                //所有的日期格式都统一为以下的格式，即yyyy-MM-dd HH:mm:ss
+                .setDateFormat(new SimpleDateFormat(Constants.STANDARD_FORMAT))
+                //对象的所有字段全部列入序列化
+                .setDefaultPropertyInclusion(JsonInclude.Include.ALWAYS)
+                //取消默认转换timestamps形式
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                //忽略空Bean转json的错误
+                .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+                //忽略 在json字符串中存在，但在java对象中不存在对应属性的情况。防止错误
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
-    
-    
     /*
     ===========================以下是从JSON中获取对象====================================
     */
@@ -59,7 +54,7 @@ public class JacksonUtil {
      */
     public static <T> T parseObject(String jsonString, Class<T> object) {
         try {
-            return OBJECT_MAPPER.readValue(jsonString, object);
+            return objectMapper.readValue(jsonString, object);
         } catch (JsonProcessingException e) {
             log.error("JsonString转为自定义对象失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -76,7 +71,7 @@ public class JacksonUtil {
      */
     public static <T> T parseObject(File file, Class<T> object) {
         try {
-            return OBJECT_MAPPER.readValue(file, object);
+            return objectMapper.readValue(file, object);
         } catch (IOException e) {
             log.error("从文件中读取json字符串转为自定义对象失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -93,7 +88,7 @@ public class JacksonUtil {
      */
     public static <T> T parseJSONArray(String jsonArray, TypeReference<T> reference) {
         try {
-            return OBJECT_MAPPER.readValue(jsonArray, reference);
+            return objectMapper.readValue(jsonArray, reference);
         } catch (JsonProcessingException e) {
             log.error("JSONArray转为List列表或者Map集合失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -110,7 +105,7 @@ public class JacksonUtil {
      */
     public static <T> T parseObject(String jsonString, TypeReference<T> reference) {
         try {
-            return OBJECT_MAPPER.readValue(jsonString, reference);
+            return objectMapper.readValue(jsonString, reference);
         } catch (JsonProcessingException e) {
             log.error("JSONArray转为List列表或者Map集合失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -129,7 +124,7 @@ public class JacksonUtil {
      */
     public static String toJSONString(Object object) {
         try {
-            return OBJECT_MAPPER.writeValueAsString(object);
+            return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error("Object转JSONString失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -144,7 +139,7 @@ public class JacksonUtil {
      */
     public static byte[] toByteArray(Object object) {
         try {
-            return OBJECT_MAPPER.writeValueAsBytes(object);
+            return objectMapper.writeValueAsBytes(object);
         } catch (JsonProcessingException e) {
             log.error("Object转ByteArray失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -159,7 +154,7 @@ public class JacksonUtil {
      */
     public static void objectToFile(File file, Object object) {
         try {
-            OBJECT_MAPPER.writeValue(file, object);
+            objectMapper.writeValue(file, object);
         } catch (JsonProcessingException e) {
             log.error("Object写入文件失败：{}", e.getMessage(), e);
         } catch (IOException e) {
@@ -179,7 +174,7 @@ public class JacksonUtil {
      */
     public static JsonNode parseJSONObject(String jsonString) {
         try {
-            return OBJECT_MAPPER.readTree(jsonString);
+            return objectMapper.readTree(jsonString);
         } catch (JsonProcessingException e) {
             log.error("JSONString转为JsonNode失败：{}", e.getMessage(), e);
             throw new RuntimeException(e);
@@ -193,7 +188,7 @@ public class JacksonUtil {
      * @return JsonNode对象
      */
     public static JsonNode parseJSONObject(Object object) {
-        return OBJECT_MAPPER.valueToTree(object);
+        return objectMapper.valueToTree(object);
     }
     
     /**
@@ -204,7 +199,7 @@ public class JacksonUtil {
      */
     public static String toJSONString(JsonNode jsonNode) {
         try {
-            return OBJECT_MAPPER.writeValueAsString(jsonNode);
+            return objectMapper.writeValueAsString(jsonNode);
         } catch (JsonProcessingException e) {
             log.error("JsonNode转JSONString失败：{}", e.getMessage(), e);
             throw new RuntimeException(e);
@@ -218,7 +213,7 @@ public class JacksonUtil {
      * @return ObjectNode对象
      */
     public static ObjectNode newJSONObject() {
-        return OBJECT_MAPPER.createObjectNode();
+        return objectMapper.createObjectNode();
     }
     
     /**
@@ -227,7 +222,7 @@ public class JacksonUtil {
      * @return ArrayNode对象
      */
     public static ArrayNode newJSONArray() {
-        return OBJECT_MAPPER.createArrayNode();
+        return objectMapper.createArrayNode();
     }
     
     /*

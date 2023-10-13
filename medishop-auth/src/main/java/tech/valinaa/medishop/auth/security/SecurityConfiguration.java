@@ -126,10 +126,6 @@ public class SecurityConfiguration {
                 .exceptionHandling((exceptionHandling) -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationHandler)
                         .accessDeniedHandler(customAuthenticationHandler))
-//                .formLogin((formLogin) -> formLogin.loginPage("/login")
-//                        .loginProcessingUrl("/login")
-//                        .successForwardUrl("/index")
-//                        .permitAll())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         // 允许所有OPTIONS请求

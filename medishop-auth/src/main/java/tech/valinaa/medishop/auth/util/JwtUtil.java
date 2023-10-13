@@ -18,9 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import tech.valinaa.medishop.auth.security.exception.AuthenticationFailedException;
-import tech.valinaa.medishop.core.model.Result;
 import tech.valinaa.medishop.utils.Constants;
-import tech.valinaa.medishop.utils.JacksonUtil;
 import tech.valinaa.medishop.utils.SpringContextHolder;
 
 import java.security.PrivateKey;
@@ -35,7 +33,7 @@ import java.security.PublicKey;
 @Component
 @UtilityClass
 @DependsOn("springContextHolder")
-@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:HideUtilityClassConstructor"})
+@SuppressWarnings("checkstyle:MagicNumber")
 public final class JwtUtil {
     private static final long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 24;
     private static final RsaJsonWebKey RSA_JSON_WEB_KEY = SpringContextHolder.getBean(RsaJsonWebKey.class);
@@ -57,7 +55,6 @@ public final class JwtUtil {
             claims.setGeneratedJwtId();
             // 当令牌被发布/创建时（现在）
             claims.setIssuedAtToNow();
-            // TODO 考虑使用redis存储
             //expire time
             var date = NumericDate.now();
             date.addSeconds(ACCESS_TOKEN_EXPIRATION_TIME);
@@ -76,8 +73,7 @@ public final class JwtUtil {
                     .map(GrantedAuthority::getAuthority)
                     .toArray(String[]::new));
             //添加自定义参数或附加属性,必须是字符串类型
-            claims.setClaim("verifyToken", Result.success());
-            claims.setClaim("username", userDetails.getUsername());
+            claims.setClaim("user", userDetails);
             
             // JWT是一个JWS和/或一个带有JSON声明的JWE作为有效负载。
             // 在这个例子中，它是一个JWS，所以我们创建一个JsonWebSignature对象。
@@ -110,10 +106,10 @@ public final class JwtUtil {
      *
      * @param token       token
      * @param userDetails userDetails
-     * @return {@link String}
+     * @return 验证是否通过
      * @see String
      */
-    public static String verifyToken(String token, UserDetails userDetails) {
+    public static boolean verifyToken(String token, UserDetails userDetails) {
         /*
          * 使用JwtConsumer builder构建适当的JwtConsumer，它将 用于验证和处理JWT。 JWT的具体验证需求是上下文相关的
          * 但通常建议需要一个（合理的）过期时间，一个受信任的时间 发行人, 以及将你的系统定义为预期接收者的受众。
@@ -147,34 +143,32 @@ public final class JwtUtil {
             var claims = consumer.processToClaims(token);
             if (claims != null) {
                 log.info("认证通过！");
-                var verifyInfo = JacksonUtil.toJSONString(claims.getClaimValue("verifyToken"));
-                var username = String.valueOf(claims.getClaimValue("username"));
+                var user = claims.getClaimValue("user", UserDetails.class);
                 if (log.isDebugEnabled()) {
-                    log.debug("token payload携带的自定义内容:Jwt验证是否成功？ =>" + verifyInfo);
-                    log.debug("token payload携带的自定义内容:携带该token的用户名 =>" + username);
+                    log.debug("token payload携带的自定义内容:携带该token的用户名 =>" + user.getUsername());
                     log.debug("Jwt Succeed! The JwtClaims:" + claims);
                 }
-                return username;
+                return true;
             }
-        } catch (InvalidJwtException e) {
+        } catch (InvalidJwtException | MalformedClaimException e) {
             processJwtException(e);
         }
-        return null;
+        return false;
     }
     
     /**
-     * 通过token获取用户名
+     * 通过token获取用户
      *
      * @param token token
-     * @return {@link String}
+     * @return {@link UserDetails}
      * @see String
      */
-    public static String getUsernameByToken(String token) {
+    public static UserDetails getUserDetailsByToken(String token) {
         try {
             return new JwtConsumerBuilder()
                     .build()
                     .processToClaims(token)
-                    .getSubject();
+                    .getClaimValue("user", UserDetails.class);
         } catch (InvalidJwtException | MalformedClaimException e) {
             processJwtException(e);
         }

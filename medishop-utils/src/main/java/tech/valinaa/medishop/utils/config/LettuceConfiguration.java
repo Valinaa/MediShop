@@ -39,7 +39,6 @@ import java.util.Objects;
 @EnableCaching
 @RequiredArgsConstructor
 @Slf4j
-//@SuppressWarnings("all")
 public class LettuceConfiguration implements CachingConfigurer {
     
     private final LettuceConnectionFactory connectionFactory;

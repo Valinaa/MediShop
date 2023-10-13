@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @SuppressWarnings("unused")
-public class SpringContextHolder implements ApplicationContextAware {
+public final class SpringContextHolder implements ApplicationContextAware {
     
     private static ApplicationContext applicationContext;
     

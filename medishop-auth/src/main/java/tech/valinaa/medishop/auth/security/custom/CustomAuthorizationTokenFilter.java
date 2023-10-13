@@ -4,19 +4,21 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import tech.valinaa.medishop.auth.user.UserService;
 import tech.valinaa.medishop.auth.util.JwtUtil;
+import tech.valinaa.medishop.core.model.Result;
+import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
+import tech.valinaa.medishop.utils.Constants;
+import tech.valinaa.medishop.utils.JacksonUtil;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * @author Valinaa
@@ -25,26 +27,17 @@ import java.util.Optional;
  */
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
     
-    /**
-     * JWT存储的请求头
-     */
-    private static final String AUTH_HEADER = "Authorization";
-    private static final String TOKEN_HEAD = "Bearer";
-    
-    private final UserService userService;
-    
-    @SuppressWarnings("checkstyle:ReturnCount")
     @Override
+    @SuppressWarnings("checkstyle:ReturnCount")
     protected void doFilterInternal(HttpServletRequest request,
-                                    @NotNull HttpServletResponse response,
-                                    @NotNull FilterChain filterChain) throws ServletException, IOException {
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         // 获取Header
-        final String authHeader = request.getHeader(AUTH_HEADER);
+        final String authHeader = request.getHeader(Constants.AUTH_HEADER);
         // 存在token但不是tokenHead开头
-        if (Optional.ofNullable(authHeader).isEmpty() || !authHeader.startsWith(TOKEN_HEAD)) {
+        if (authHeader == null || !authHeader.startsWith(Constants.DEFAULT_TOKEN_HEAD)) {
             if (log.isDebugEnabled()) {
                 log.debug("authHeader is null come from TokenFilter, URL: {}", request.getRequestURI());
             }
@@ -61,27 +54,29 @@ public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        // 根据authToken获取username
-        final var username = JwtUtil.getUsernameByToken(token);
-        // token存在用户名但未登录
-        if (null != username && null == SecurityContextHolder.getContext().getAuthentication()) {
-            // 登录
-            var userDetails = userService.loadUserByUsername(username);
+        // 根据authToken获取user信息
+        final var userDetails = JwtUtil.getUserDetailsByToken(token);
+        // token存在用户但未登录
+        if (null != userDetails && null == SecurityContextHolder.getContext().getAuthentication()) {
             // 验证token是否有效，如果有效，将他重新放到用户对象里
-            // TODO 此处token有效性可以从redis｜数据库中获取
-            Optional.ofNullable(JwtUtil.verifyToken(token, userDetails))
-                    .ifPresentOrElse(
-                            t -> {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("Token is valid, username: {}", t);
-                                }
-                                var authentication = new UsernamePasswordAuthenticationToken(
-                                        userDetails, null, userDetails.getAuthorities());
-                                // 重新设置到用户对象里
-                                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                                SecurityContextHolder.getContext().setAuthentication(authentication);
-                            },
-                            () -> log.warn("Token is invalid, username: {}", username));
+            if (!JwtUtil.verifyToken(token, userDetails)) {
+                log.error("Token is invalid, username: {}", userDetails.getUsername());
+                response.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+                response.setContentType(Constants.CONTENT_TYPE);
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.getWriter().write(
+                        Objects.requireNonNull(
+                                JacksonUtil.toJSONString(Result.failure(ResultCodeEnum.TOKEN_INVALID))));
+                return;
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("Token is valid, username: {}", userDetails.getUsername());
+            }
+            var authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            // 重新设置到用户对象里
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         // 放行
         filterChain.doFilter(request, response);

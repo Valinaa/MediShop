@@ -1,6 +1,5 @@
 package tech.valinaa.medishop.auth.security.custom;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
@@ -14,12 +13,9 @@ import java.util.Collection;
  * @Date 2023/10/2 11:58
  * @Description 获取访问路径所需权限
  */
-@RequiredArgsConstructor
 @Slf4j
 @Component
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
-    
-    //    private final IUserService userService;
     private static final String AUTHENTICATION = "/login";
     
     @Override
