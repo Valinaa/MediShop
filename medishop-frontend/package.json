@@ -128,7 +128,6 @@
     "htmlWhitespaceSensitivity": "ignore",
     "singleAttributePerLine": true,
     "endOfLine": "auto",
-    "semi": false,
-    "editorconfig": false
+    "semi": false
   }
 }

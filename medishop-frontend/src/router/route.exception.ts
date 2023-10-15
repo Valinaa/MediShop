@@ -2,27 +2,27 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 const exceptionRoutes: Array<RouteRecordRaw> = [
-    {
-        path: '/401',
-        name: '401',
-        meta: {
-            title: '需要登录',
-        },
-        component: () => import('@/views/401.vue'),
+  {
+    path: '/401',
+    name: '401',
+    meta: {
+      title: '需要登录',
     },
-    {
-        path: '/404',
-        name: '404',
-        meta: {
-            title: '非常抱歉,页面走丢了',
-        },
-        component: () => import('@/views/404.vue'),
+    component: () => import('@/views/401.vue'),
+  },
+  {
+    path: '/404',
+    name: '404',
+    meta: {
+      title: '非常抱歉,页面走丢了',
     },
-    {
-        path: '/:pathMatch(.*)',
-        meta: {},
-        redirect: '/404',
-    },
+    component: () => import('@/views/404.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)',
+    meta: {},
+    redirect: '/404',
+  },
 ]
 
 export default exceptionRoutes

@@ -5,16 +5,16 @@ const registerPage = () => import('@/pages/register.vue')
 const loginPage = () => import('@/pages/login.vue')
 
 const commonRoutes: Array<RouteRecordRaw> = [
-    {
-        path: '/',
-        name: 'loginPage',
-        component: loginPage,
-    },
-    {
-        path: '/register',
-        name: 'registerPage',
-        component: registerPage,
-    },
+  {
+    path: '/',
+    name: 'loginPage',
+    component: loginPage,
+  },
+  {
+    path: '/register',
+    name: 'registerPage',
+    component: registerPage,
+  },
 ]
 
 export default commonRoutes
