@@ -1,29 +1,29 @@
-import { ErrorTypeEnum } from '@/enums/exceptionEnum';
+import { ErrorTypeEnum } from '@/enums/exceptionEnum'
 
 // Lock screen information
 export interface LockInfo {
   // Password required
-  pwd?: string | undefined;
+  pwd?: string | undefined
   // Is it locked?
-  isLock?: boolean;
+  isLock?: boolean
 }
 
 // Error-log information
 export interface ErrorLogInfo {
   // Type of error
-  type: ErrorTypeEnum;
+  type: ErrorTypeEnum
   // Error file
-  file: string;
+  file: string
   // Error name
-  name?: string;
+  name?: string
   // Error message
-  message: string;
+  message: string
   // Error stack
-  stack?: string;
+  stack?: string
   // Error detail
-  detail: string;
+  detail: string
   // Error url
-  url: string;
+  url: string
   // Error time
-  time?: string;
+  time?: string
 }

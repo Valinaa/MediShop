@@ -5,13 +5,13 @@ const locale = zhCn
 </script>
 
 <template>
-    <el-config-provider :locale="locale">
-        <el-container class="app-container">
-            <el-header>
-                <BootNav />
-            </el-header>
-            <el-container>
-                <!-- <el-aside :width="Collapse ? '90.5px' : '220px'">
+  <el-config-provider :locale="locale">
+    <el-container class="app-container">
+      <el-header>
+        <BootNav />
+      </el-header>
+      <el-container>
+        <!-- <el-aside :width="Collapse ? '90.5px' : '220px'">
                     <el-menu
                         class="side-bar font-bold font-mono"
                         default-active="/"
@@ -107,140 +107,128 @@ const locale = zhCn
                         </el-menu-item>
                     </el-menu>
                 </el-aside> -->
-                <!-- <el-container> -->
-                <el-main>
-                    <router-view />
-                </el-main>
-                <el-footer>
-                    <TheFooter />
-                </el-footer>
-                <!-- </el-container> -->
-            </el-container>
-        </el-container>
-    </el-config-provider>
+        <!-- <el-container> -->
+        <el-main>
+          <router-view />
+        </el-main>
+        <el-footer>
+          <TheFooter />
+        </el-footer>
+        <!-- </el-container> -->
+      </el-container>
+    </el-container>
+  </el-config-provider>
 </template>
 
 <style lang="scss" scoped>
 .side-bar {
-    border-right: solid 1px var(--el-border-color);
+  border-right: solid 1px var(--el-border-color);
 }
 
 .el-menu-item * {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .el-sub-menu * {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .sub-menu-icon {
-    display: block;
-    width: 50px;
-    text-align: center;
+  display: block;
+  width: 50px;
+  text-align: center;
 }
 
 .menu-item-icon {
-    display: block;
-    width: 25px !important;
-    margin-bottom: 4px !important;
-    text-align: left !important;
+  display: block;
+  width: 25px !important;
+  margin-bottom: 4px !important;
+  text-align: left !important;
 }
 
 .el-menu-item > i {
-    width: 50px;
-    text-align: center;
+  width: 50px;
+  text-align: center;
 }
 
 .el-menu--collapse {
-    min-width: 82px;
+  min-width: 82px;
 }
 
 .el-menu--collapse .el-sub-menu--collapse > .el-menu {
-    flex: 1;
-    overflow: hidden;
+  flex: 1;
+  overflow: hidden;
 }
 
 .side-bar:not(.el-menu--collapse) {
-    width: 220px;
+  width: 220px;
 }
 </style>
 
 <style lang="scss">
 .app-container {
-    // z-index: 100;
-    //     flex: 1;
-    // display: flex;
-    // flex-direction: column;
-    height: 100%;
-    background-image: linear-gradient(
-        326deg,
-        #bb667f,
-        #bd8f9d,
-        #b8b6bb,
-        #addddb
-    );
+  // z-index: 100;
+  //     flex: 1;
+  // display: flex;
+  // flex-direction: column;
+  height: 100%;
+  background-image: linear-gradient(326deg, #bb667f, #bd8f9d, #b8b6bb, #addddb);
 }
 
 .dark .app-container {
-    background-image: linear-gradient(
-        315deg,
-        #003160,
-        #36466b,
-        #575c76,
-        #767481
-    );
+  background-image: linear-gradient(315deg, #003160, #36466b, #575c76, #767481);
 }
 
 .el-footer {
-    margin-top: auto; /* 将 el-footer 推至页面底部 */
-    text-align: center;
+  margin-top: auto; /* 将 el-footer 推至页面底部 */
+  text-align: center;
 }
 
 .el-aside {
-    display: flex;
-    width: auto;
+  display: flex;
+  width: auto;
 
-    --el-menu-icon-width: 0;
+  --el-menu-icon-width: 0;
 }
 
 .el-header {
-    padding: 0;
+  padding: 0;
 
-    --el-header-height: inherit;
+  --el-header-height: inherit;
 }
 
 .el-main {
-    min-height: 610px;
+  min-height: 610px;
 }
 
 .navbar {
-    --bs-navbar-padding-y: 0 !important;
+  --bs-navbar-padding-y: 0 !important;
 }
 
 .dropdown-toggle {
-    margin-bottom: 2px;
+  margin-bottom: 2px;
 }
 
 .dark .dropdown-menu {
-    --bs-dropdown-bg: black;
+  --bs-dropdown-bg: black;
 }
 
 .dark .dropdown-item:hover,
 .dropdown-item:focus {
-    background-color: #5d6d7e !important;
+  background-color: #5d6d7e !important;
 }
 
 .dropdown-item:hover,
 .dropdown-item:focus {
-    background-color: #ccd1d1 !important;
+  background-color: #ccd1d1 !important;
 }
 
 .dark .dropdown-item {
-    color: white !important;
+  color: white !important;
 }
 
 .nav-item {
-    width: 135px;
+  width: 135px;
 }
 
 .container,
@@ -250,11 +238,11 @@ const locale = zhCn
 .container-lg,
 .container-md,
 .container-sm {
-    --bs-gutter-x: 0 !important;
+  --bs-gutter-x: 0 !important;
 }
 
 :root {
-    --el-menu-bg-color: transparent;
-    --el-menu-border-color: transparent;
+  --el-menu-bg-color: transparent;
+  --el-menu-border-color: transparent;
 }
 </style>
