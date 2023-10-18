@@ -14,6 +14,7 @@ import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.lang.JoseException;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.util.Pair;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ import tech.valinaa.medishop.utils.SpringContextHolder;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.List;
 
 /**
  * @author Valinaa
@@ -35,19 +37,16 @@ import java.security.PublicKey;
 @DependsOn("springContextHolder")
 @SuppressWarnings("checkstyle:MagicNumber")
 public final class JwtUtil {
-    private static final long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 24;
+    // access_token 过期时间 3小时
+    private static final long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 3;
+    // refresh_token 过期时间 14天
+    private static final long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 24 * 14;
     private static final RsaJsonWebKey RSA_JSON_WEB_KEY = SpringContextHolder.getBean(RsaJsonWebKey.class);
     private static final PublicKey PUBLIC_KEY = RSA_JSON_WEB_KEY.getPublicKey();
     private static final PrivateKey PRIVATE_KEY = RSA_JSON_WEB_KEY.getPrivateKey();
     
-    /**
-     * jws创建token
-     *
-     * @param userDetails userDetails
-     * @return {@link String}
-     * @see String
-     */
-    public static String createToken(UserDetails userDetails) {
+    public static <T> String createToken(UserDetails userDetails, NumericDate expirationTime,
+                                         List<Pair<String, T>> claimPairs) {
         try {
             // Payload
             var claims = new JwtClaims();
@@ -56,9 +55,7 @@ public final class JwtUtil {
             // 当令牌被发布/创建时（现在）
             claims.setIssuedAtToNow();
             //expire time
-            var date = NumericDate.now();
-            date.addSeconds(ACCESS_TOKEN_EXPIRATION_TIME);
-            claims.setExpirationTime(date);
+            claims.setExpirationTime(expirationTime);
             // 在此之前，令牌无效（2分钟前）
             claims.setNotBeforeMinutesInThePast(2);
             // 令牌失效的时间长（从现在开始20分钟）
@@ -73,8 +70,9 @@ public final class JwtUtil {
                     .map(GrantedAuthority::getAuthority)
                     .toArray(String[]::new));
             //添加自定义参数或附加属性,必须是字符串类型
-            claims.setClaim("user", userDetails);
-            
+            for (Pair<String, T> pair : claimPairs) {
+                claims.setClaim(pair.getFirst(), pair.getSecond());
+            }
             // JWT是一个JWS和/或一个带有JSON声明的JWE作为有效负载。
             // 在这个例子中，它是一个JWS，所以我们创建一个JsonWebSignature对象。
             var jws = new JsonWebSignature();
@@ -97,7 +95,20 @@ public final class JwtUtil {
             log.error("Token Create Failed with Exception!" + e.getMessage());
             throw new AuthenticationFailedException(60001, "Token Create Failed with message: " + e.getMessage());
         }
-        
+    }
+    
+    /**
+     * jws创建access_token
+     *
+     * @param userDetails userDetails
+     * @return {@link String}
+     * @see String
+     */
+    public static String createAccessToken(UserDetails userDetails) {
+        var expirationTime = NumericDate.now();
+        expirationTime.addSeconds(ACCESS_TOKEN_EXPIRATION_TIME);
+        var claimPairs = List.of(Pair.of("user", userDetails));
+        return createToken(userDetails, expirationTime, claimPairs);
     }
     
     /**
@@ -172,6 +183,10 @@ public final class JwtUtil {
         } catch (InvalidJwtException | MalformedClaimException e) {
             processJwtException(e);
         }
+        return null;
+    }
+    
+    public static String createRefreshToken() {
         return null;
     }
     

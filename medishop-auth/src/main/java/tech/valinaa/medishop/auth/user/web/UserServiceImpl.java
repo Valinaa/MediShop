@@ -61,7 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                             auth -> {
                                 log.info("authenticate: {}", auth);
                                 SecurityContextHolder.getContext().setAuthentication(auth);
-                                var token = JwtUtil.createToken((UserDetails) auth.getPrincipal());
+                                var token = JwtUtil.createAccessToken((UserDetails) auth.getPrincipal());
                                 map.put("token", token);
                             },
                             () -> log.error("login error: authenticate is null")
