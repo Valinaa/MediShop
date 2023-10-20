@@ -206,7 +206,7 @@ medishop:
   startTime: 竞拍开始时间
   createTime: 竞拍时间
   endTime: 竞拍结束时间
-  salerName: 卖家
+  businessName: 商家
   goodInfo: 商品信息
   goodName: 商品名称
   goodType: 商品类型

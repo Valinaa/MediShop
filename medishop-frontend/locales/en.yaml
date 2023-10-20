@@ -204,7 +204,7 @@ medishop:
   createTime: Auction Time
   startTime: Start Time
   endTime: End Time
-  salerName: Saler Name
+  businessName: Business Name
   goodInfo: Good Info
   goodName: Good Name
   goodType: Good Type

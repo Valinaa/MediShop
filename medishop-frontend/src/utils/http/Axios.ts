@@ -4,7 +4,7 @@ import qs from 'qs'
 
 import { cloneDeep } from 'lodash-es'
 
-import { isFunction } from '@/utils/is'
+import { isFunction } from '@/utils/isType'
 import { ContentTypeEnum, RequestEnum } from '@/enums/httpEnum'
 
 import { AxiosCanceler } from './axiosCancel'

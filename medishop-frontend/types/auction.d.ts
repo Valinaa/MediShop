@@ -11,7 +11,7 @@ export interface GoodsInfo {
   packMail: string
   pic: string
   pricePlus: number
-  salerName: string
+  businessName: string
   startPrice: number
   startTime: string
   status: number
@@ -54,7 +54,7 @@ export interface Goods {
   goods_dec: string
   status: string
   now_price: number
-  saler_name: string
+  business_name: string
   goodType: string
   pack_mail: boolean
   oimei: string

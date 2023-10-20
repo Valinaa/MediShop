@@ -122,8 +122,8 @@ function ViewRank(good: GoodsInfo) {
         </template>
       </el-table-column>
       <el-table-column
-        prop="salerName"
-        :label="t('medishop.salerName')"
+        prop="businessName"
+        :label="t('medishop.businessName')"
         width="90px"
         align="center" />
       <el-table-column
