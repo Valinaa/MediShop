@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import tech.valinaa.medishop.auth.JWTResponse;
 import tech.valinaa.medishop.auth.user.UserConverter;
 import tech.valinaa.medishop.auth.user.UserService;
 import tech.valinaa.medishop.auth.user.pojo.UserDO;
@@ -23,6 +24,7 @@ import tech.valinaa.medishop.auth.user.pojo.enums.AuthorityEnum;
 import tech.valinaa.medishop.auth.util.JwtUtil;
 import tech.valinaa.medishop.core.model.Result;
 import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
+import tech.valinaa.medishop.utils.Constants;
 import tech.valinaa.medishop.utils.JacksonUtil;
 
 import java.io.IOException;
@@ -30,8 +32,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -52,8 +53,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private BCryptPasswordEncoder passwordEncoder;
     
     @Override
-    public Result<Map<String, String>> login(String username, String password) {
-        var map = new HashMap<String, String>();
+    public Result<JWTResponse> login(String username, String password) {
+        var jwtRes = new JWTResponse();
         var authentication = new UsernamePasswordAuthenticationToken(username, password);
         try {
             Optional.ofNullable(authenticationManager.authenticate(authentication))
@@ -61,17 +62,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                             auth -> {
                                 log.info("authenticate: {}", auth);
                                 SecurityContextHolder.getContext().setAuthentication(auth);
-                                var token = JwtUtil.createAccessToken((UserDetails) auth.getPrincipal());
-                                map.put("token", token);
+                                jwtRes.setAccessToken(JwtUtil.createAccessToken((UserDetails) auth.getPrincipal()));
+                                jwtRes.setRefreshToken(JwtUtil.createRefreshToken((UserDetails) auth.getPrincipal()));
+                                jwtRes.setExpiresIn(LocalDateTime.now().plusSeconds(Constants.ACCESS_TOKEN_EXPIRATION_TIME));
                             },
                             () -> log.error("login error: authenticate is null")
                     );
         } catch (AuthenticationException e) {
             log.error("login error:{}", e.getMessage());
         }
-        return map.isEmpty()
+        return jwtRes.getAccessToken().isBlank()
                 ? Result.failure(ResultCodeEnum.LOGIN_ERROR)
-                : Result.success(map);
+                : Result.success(jwtRes);
     }
     
     @Override

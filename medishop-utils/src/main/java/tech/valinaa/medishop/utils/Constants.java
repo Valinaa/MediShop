@@ -23,6 +23,10 @@ public class Constants {
      */
     public static final String AUTH_HEADER = "Authorization";
     public static final String DEFAULT_TOKEN_HEAD = "Bearer";
+    // access_token 过期时间 3小时
+    public static final long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 3;
+    // refresh_token 过期时间 14天
+    public static final long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 24 * 14;
     // 时间日期格式
     public static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
 }

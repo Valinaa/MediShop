@@ -2,12 +2,11 @@ package tech.valinaa.medishop.auth.user;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import tech.valinaa.medishop.auth.JWTResponse;
 import tech.valinaa.medishop.auth.user.pojo.UserDO;
 import tech.valinaa.medishop.auth.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.user.pojo.UserResponse;
 import tech.valinaa.medishop.core.model.Result;
-
-import java.util.Map;
 
 /**
  * @author Valinaa
@@ -22,7 +21,7 @@ public interface UserService extends IService<UserDO>, UserDetailsService {
      * @param password 密码
      * @return token
      */
-    Result<Map<String, String>> login(String username, String password);
+    Result<JWTResponse> login(String username, String password);
     
     /**
      * 用户注册

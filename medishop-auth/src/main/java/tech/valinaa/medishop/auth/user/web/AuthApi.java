@@ -7,11 +7,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import tech.valinaa.medishop.auth.JWTResponse;
 import tech.valinaa.medishop.auth.user.pojo.UserRequest;
 import tech.valinaa.medishop.auth.user.pojo.UserResponse;
 import tech.valinaa.medishop.core.model.Result;
-
-import java.util.Map;
 
 /**
  * @author Valinaa
@@ -31,7 +30,7 @@ public interface AuthApi {
      */
     @PostMapping("/login")
     @Operation(summary = "用户登录", description = "用户登录成功后返回token")
-    Result<Map<String, String>> login(@NotBlank String username, @NotBlank String password);
+    Result<JWTResponse> login(@NotBlank String username, @NotBlank String password);
     
     /**
      * 用户注册Api

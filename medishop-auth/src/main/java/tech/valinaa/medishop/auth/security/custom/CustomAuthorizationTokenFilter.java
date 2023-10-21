@@ -59,7 +59,7 @@ public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
         // token存在用户但未登录
         if (null != userDetails && null == SecurityContextHolder.getContext().getAuthentication()) {
             // 验证token是否有效，如果有效，将他重新放到用户对象里
-            if (!JwtUtil.verifyToken(token, userDetails)) {
+            if (!JwtUtil.verifyAccessToken(token, userDetails)) {
                 log.error("Token is invalid, username: {}", userDetails.getUsername());
                 response.setCharacterEncoding(Constants.CHARACTER_ENCODING);
                 response.setContentType(Constants.CONTENT_TYPE);
