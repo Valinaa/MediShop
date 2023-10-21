@@ -10,7 +10,7 @@ import type { Goods } from 'types/auction'
 const { user } = storeToRefs(useAuctionStore())
 const route = useRoute()
 const maxPrice = ref(0)
-const salerId = ref(0)
+const businessId = ref(0)
 const goods = (): Goods => {
   const list = route.params.data
   if (Array.isArray(list)) {
@@ -27,7 +27,7 @@ const goods = (): Goods => {
       goods_dec: '',
       status: '',
       now_price: -1,
-      saler_name: '',
+      business_name: '',
       goodType: '',
       pack_mail: false,
       oimei: '',
@@ -46,7 +46,7 @@ defaultHttp
   .then((res) => {
     console.log(res)
     maxPrice.value = res.nowPrice
-    salerId.value = res.salerId
+    businessId.value = res.businessId
   })
   .catch((err) => {
     ElMessage.error(`获取账户信息失败!${err})`)
@@ -66,7 +66,7 @@ const doAuction = (value: number) => {
           url: url.value,
           data: {
             gid: goods().id,
-            salerId: salerId.value,
+            businessId: businessId.value,
             goodName: goods().good_name,
             startPrice: maxPrice.value,
             myPlus: value,
@@ -172,7 +172,7 @@ const auction = () => {
         </p>
         <p>
           <b>卖家:</b>
-          {{ goods().saler_name }}
+          {{ goods().business_name }}
         </p>
       </div>
       <div class="card-footer">

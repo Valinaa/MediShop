@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { isObject, isString } from '@/utils/is'
+import { isObject, isString } from '@/utils/isType'
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm'
 

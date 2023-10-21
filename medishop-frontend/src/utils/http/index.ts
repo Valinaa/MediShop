@@ -8,7 +8,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { deepMerge, setObjToUrlParams } from '@/utils'
 
 import { ContentTypeEnum, RequestEnum, ResultEnum } from '@/enums/httpEnum'
-import { isString } from '@/utils/is'
+import { isString } from '@/utils/isType'
 import { useErrorLogStoreWithOut } from '@/store/errorLog'
 
 import i18n from '../i18n'

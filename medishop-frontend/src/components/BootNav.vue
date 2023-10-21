@@ -21,7 +21,7 @@ const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 const form = reactive({
   accountId: user.value.accountId,
-  salerName: user.value.name,
+  businessName: user.value.name,
   identity: user.value.identity,
   goodName: '',
   goodType: 2,

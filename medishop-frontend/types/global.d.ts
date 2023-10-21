@@ -1,5 +1,4 @@
 import type {
-  // ComponentRenderProxy,
   VNode,
   VNodeChild,
   ComponentPublicInstance,
@@ -21,32 +20,10 @@ declare global {
   //  type PropType<T> = VuePropType<T>;
   type VueNode = VNodeChild | JSX.Element
 
-  export type Writable<T> = {
-    -readonly [P in keyof T]: T[P]
-  }
-
   type Nullable<T> = T | null
   type NullUndefable<T> = T | null | undefined
   type Recordable<T = any> = Record<string, T>
-  type ReadonlyRecordable<T = any> = {
-    readonly [key: string]: T
-  }
-  type Indexable<T = any> = {
-    [key: string]: T
-  }
-  type DeepPartial<T> = {
-    [P in keyof T]?: DeepPartial<T[P]>
-  }
-  type TimeoutHandle = ReturnType<typeof setTimeout>
-  type IntervalHandle = ReturnType<typeof setInterval>
 
-  interface ChangeEvent extends Event {
-    target: HTMLInputElement
-  }
-
-  interface WheelEvent {
-    path?: EventTarget[]
-  }
   interface ImportMetaEnv extends ViteEnv {
     __: unknown
   }
