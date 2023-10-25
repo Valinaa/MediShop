@@ -1,22 +1,30 @@
 import CreateAxios from '../utils/http/index'
+import {ApiVersionEnum} from "@/enums/httpEnum.ts";
 
-const defaultHttp = CreateAxios({
+const apiVersionPrefix = '/api' + ApiVersionEnum.V1
+export default defaultHttp = CreateAxios({
   // baseURL: 'https://118.89.71.118',
   requestOptions: {
-    apiUrl: '/auction',
+    apiUrl: '/medishop',
   },
 })
 export const userHttp = CreateAxios({
   requestOptions: {
-    apiUrl: '/api',
+    apiUrl: apiVersionPrefix,
     urlPrefix: '/user',
   },
 })
 
-export const accountHttp = CreateAxios({
+export const medicineHttp = CreateAxios({
   requestOptions: {
-    apiUrl: '/api',
-    urlPrefix: '/account',
-  },
+    apiUrl: apiVersionPrefix,
+    urlPrefix: '/medicine',
+  }
 })
-export default defaultHttp
+
+export const medicineDetailHttp = CreateAxios({
+  requestOptions: {
+    apiUrl: apiVersionPrefix,
+    urlPrefix: '/medicine/detail',
+  }
+})

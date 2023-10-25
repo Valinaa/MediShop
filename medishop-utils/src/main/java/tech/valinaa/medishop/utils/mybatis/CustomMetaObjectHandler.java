@@ -2,6 +2,8 @@ package tech.valinaa.medishop.utils.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -14,8 +16,9 @@ import java.time.LocalDateTime;
 public class CustomMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "creator", () -> "Valinaa", String.class);
-        this.strictInsertFill(metaObject, "modifier", () -> "Valinaa", String.class);
+        var currentUsername = getCurrentUsername();
+        this.strictInsertFill(metaObject, "creator", () -> currentUsername, String.class);
+        this.strictInsertFill(metaObject, "modifier", () -> currentUsername, String.class);
         this.strictInsertFill(metaObject, "gmtCreated", LocalDateTime::now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "gmtModified", LocalDateTime::now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "deleted", () -> 0, Integer.class);
@@ -25,7 +28,14 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
     
     @Override
     public void updateFill(MetaObject metaObject) {
+        var currentUsername = getCurrentUsername();
         this.strictUpdateFill(metaObject, "gmtModified", LocalDateTime::now, LocalDateTime.class);
-        this.strictUpdateFill(metaObject, "modifier", () -> "Valinaa", String.class);
+        this.strictUpdateFill(metaObject, "modifier", () -> currentUsername, String.class);
+    }
+    
+    private String getCurrentUsername() {
+        return ((UserDetails)
+                (SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+        ).getUsername();
     }
 }

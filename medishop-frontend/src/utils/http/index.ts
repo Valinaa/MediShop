@@ -3,24 +3,24 @@
 // axios配置  可自行根据项目进行更改，只需更改该文件即可，其他文件可以不动
 // The axios configuration can be changed according to the project, just change the file, other files can be left unchanged
 
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {ElMessage, ElMessageBox} from 'element-plus'
 
-import { deepMerge, setObjToUrlParams } from '@/utils'
+import {deepMerge, setObjToUrlParams} from '@/utils'
 
-import { ContentTypeEnum, RequestEnum, ResultEnum } from '@/enums/httpEnum'
-import { isString } from '@/utils/isType'
-import { useErrorLogStoreWithOut } from '@/store/errorLog'
+import {ContentTypeEnum, RequestEnum, ResultEnum} from '@/enums/httpEnum'
+import {isString} from '@/utils/isType'
+import {useErrorLogStoreWithOut} from '@/store/errorLog'
 
 import i18n from '../i18n'
 
-import { formatRequestDate, joinTimestamp } from './helper'
-import { VAxios } from './Axios'
+import {formatRequestDate, joinTimestamp} from './helper'
+import {VAxios} from './Axios'
 
-import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform'
-import type { RequestOptions, Result } from 'types/axios'
-import type { AxiosResponse } from 'axios'
+import type {AxiosTransform, CreateAxiosOptions} from './axiosTransform'
+import type {RequestOptions, Result} from 'types/axios'
+import type {AxiosResponse} from 'axios'
 
-const { t } = i18n.global
+const {t} = i18n.global
 /**
  * @description: 数据处理，方便区分多种处理方式
  */
@@ -32,7 +32,7 @@ const transform: AxiosTransform = {
     res: AxiosResponse<Result>,
     options: RequestOptions
   ) => {
-    const { isTransformResponse, isReturnNativeResponse } = options
+    const {isTransformResponse, isReturnNativeResponse} = options
     // 是否返回原生响应头 比如：需要获取响应头时使用该属性
     if (isReturnNativeResponse) {
       return res
@@ -46,13 +46,13 @@ const transform: AxiosTransform = {
 
     // 错误的时候返回
 
-    const { data: resp } = res
+    const {data: resp} = res
     if (!resp) {
       // return '[HTTP] Request has no return value';
       throw new Error(t('sys.api.apiRequestFailed'))
     }
     //  这里 code，data，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, data, message } = resp
+    const {code, data, message} = resp
 
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = resp && Reflect.has(resp, 'code') && code === 200
@@ -189,7 +189,7 @@ const transform: AxiosTransform = {
   responseInterceptorsCatch: (error: any) => {
     const errorLogStore = useErrorLogStoreWithOut()
     errorLogStore.addAjaxErrorInfo(error)
-    const { code, message, config } = error || {}
+    const {code, message, config} = error || {}
     const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none'
     // const msg: string = response?.data?.error?.message ?? ''
     const err: string = error?.toString?.() ?? ''
@@ -244,13 +244,12 @@ export default function createAxios(opt?: Partial<CreateAxiosOptions>) {
       {
         // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes
         // authentication schemes，e.g: Bearer
-        // authenticationScheme: 'Bearer',
-        authenticationScheme: '',
+        authenticationScheme: 'Bearer',
         timeout: 10 * 1000,
         // 基础接口地址
         // baseURL: globSetting.apiUrl,
 
-        headers: { 'Content-Type': ContentTypeEnum.JSON },
+        headers: {'Content-Type': ContentTypeEnum.JSON},
         // 如果是form-data格式
         // headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
         // 数据处理方式
