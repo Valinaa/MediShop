@@ -27,7 +27,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import tech.valinaa.medishop.auth.security.custom.CustomAuthenticationHandler;
 import tech.valinaa.medishop.auth.security.custom.CustomAuthorizationTokenFilter;
-import tech.valinaa.medishop.auth.user.UserService;
+import tech.valinaa.medishop.core.service.UserService;
 import tech.valinaa.medishop.utils.Constants;
 
 import java.util.ArrayList;

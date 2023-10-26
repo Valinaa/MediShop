@@ -5,7 +5,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import tech.valinaa.medishop.core.model.Result;
+import tech.valinaa.medishop.api.Result;
 
 import java.util.Optional;
 

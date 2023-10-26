@@ -3,7 +3,7 @@ package tech.valinaa.medishop.api.medicine.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import tech.valinaa.medishop.core.model.enums.MedicineStatusEnum;
+import tech.valinaa.medishop.api.enums.MedicineStatusEnum;
 
 /**
  * @author Valinaa

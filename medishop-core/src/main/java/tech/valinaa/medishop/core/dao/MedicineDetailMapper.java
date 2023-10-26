@@ -1,7 +1,7 @@
 package tech.valinaa.medishop.core.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import tech.valinaa.medishop.core.model.dataobject.MedicineDetailDO;
+import tech.valinaa.medishop.core.model.MedicineDetailDO;
 
 /**
  * @author Valinaa

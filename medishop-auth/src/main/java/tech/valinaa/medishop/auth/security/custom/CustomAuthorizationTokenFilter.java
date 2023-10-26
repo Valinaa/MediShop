@@ -11,11 +11,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import tech.valinaa.medishop.auth.util.JwtUtil;
-import tech.valinaa.medishop.core.model.Result;
-import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
+import tech.valinaa.medishop.api.Result;
+import tech.valinaa.medishop.api.enums.ResultCodeEnum;
 import tech.valinaa.medishop.utils.Constants;
 import tech.valinaa.medishop.utils.JacksonUtil;
+import tech.valinaa.medishop.utils.JwtUtil;
 
 import java.io.IOException;
 import java.util.Objects;

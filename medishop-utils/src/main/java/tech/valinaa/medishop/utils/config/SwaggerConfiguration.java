@@ -20,7 +20,7 @@ public class SwaggerConfiguration {
     public GroupedOpenApi userOpenApi() {
         return GroupedOpenApi.builder()
                 .group("medishop-user")
-                .packagesToScan("tech.valinaa.medishop.auth.user.web")
+                .packagesToScan("tech.valinaa.medishop.security.user.web")
                 .pathsToMatch("/api/v1/**")
                 .build();
     }

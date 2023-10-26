@@ -19,8 +19,8 @@ import org.springframework.security.web.csrf.MissingCsrfTokenException;
 import org.springframework.security.web.session.SessionInformationExpiredEvent;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.stereotype.Component;
-import tech.valinaa.medishop.core.model.Result;
-import tech.valinaa.medishop.core.model.enums.ResultCodeEnum;
+import tech.valinaa.medishop.api.Result;
+import tech.valinaa.medishop.api.enums.ResultCodeEnum;
 import tech.valinaa.medishop.utils.Constants;
 import tech.valinaa.medishop.utils.JacksonUtil;
 

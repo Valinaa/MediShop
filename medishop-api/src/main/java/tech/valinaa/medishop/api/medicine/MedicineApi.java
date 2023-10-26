@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import tech.valinaa.medishop.api.authorization.BusinessOnly;
-import tech.valinaa.medishop.api.authorization.LoginRequired;
+import tech.valinaa.medishop.api.Result;
+import tech.valinaa.medishop.api.authorization.annotation.BusinessOnly;
+import tech.valinaa.medishop.api.authorization.annotation.LoginRequired;
 import tech.valinaa.medishop.api.medicine.request.MedicineRequest;
 import tech.valinaa.medishop.api.medicine.response.MedicineResponse;
-import tech.valinaa.medishop.core.model.Result;
-import tech.valinaa.medishop.core.model.page.BasePageRequest;
-import tech.valinaa.medishop.core.model.page.PageResult;
+import tech.valinaa.medishop.api.page.BasePageRequest;
+import tech.valinaa.medishop.api.page.PageResult;
 
 /**
  * @author Valinaa

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tech.valinaa.medishop.core.dao.MedicineDetailMapper;
-import tech.valinaa.medishop.core.model.dataobject.MedicineDetailDO;
+import tech.valinaa.medishop.core.model.MedicineDetailDO;
 import tech.valinaa.medishop.core.service.MedicineDetailService;
 
 /**

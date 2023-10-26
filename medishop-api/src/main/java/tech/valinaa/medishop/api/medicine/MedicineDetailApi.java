@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import tech.valinaa.medishop.api.authorization.BusinessOnly;
-import tech.valinaa.medishop.api.authorization.LoginRequired;
+import tech.valinaa.medishop.api.Result;
+import tech.valinaa.medishop.api.authorization.annotation.BusinessOnly;
+import tech.valinaa.medishop.api.authorization.annotation.LoginRequired;
 import tech.valinaa.medishop.api.medicine.request.MedicineDetailRequest;
 import tech.valinaa.medishop.api.medicine.response.MedicineDetailResponse;
-import tech.valinaa.medishop.core.model.Result;
 
 /**
  * @author Valinaa

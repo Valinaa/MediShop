@@ -1,7 +1,7 @@
 package tech.valinaa.medishop.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import tech.valinaa.medishop.core.model.dataobject.MedicineDO;
+import tech.valinaa.medishop.core.model.MedicineDO;
 
 /**
  * @author Valinaa

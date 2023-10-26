@@ -36,7 +36,7 @@ export enum PermissionModeEnum {
   ROLE = 'ROLE',
   // black
   BACK = 'BACK',
-  // route mapping
+  // route annotation
   ROUTE_MAPPING = 'ROUTE_MAPPING',
 }
 
