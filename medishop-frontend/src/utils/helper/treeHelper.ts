@@ -1,3 +1,5 @@
+import type { Fn } from 'types'
+
 /* eslint-disable no-param-reassign */
 interface TreeHelperConfig {
   id: string
@@ -56,7 +58,7 @@ export function treeToList<T = any>(
 
 export function findNode<T = any>(
   tree: any,
-  func: Fn,
+  func: Fn<T>,
   config: Partial<TreeHelperConfig> = {}
 ): T | null {
   config = getConfig(config)
@@ -73,7 +75,7 @@ export function findNode<T = any>(
 
 export function findNodeAll<T = any>(
   tree: any,
-  func: Fn,
+  func: Fn<T>,
   config: Partial<TreeHelperConfig> = {}
 ): T[] {
   config = getConfig(config)
@@ -89,7 +91,7 @@ export function findNodeAll<T = any>(
 
 export function findPath<T = any>(
   tree: any,
-  func: Fn,
+  func: Fn<T>,
   config: Partial<TreeHelperConfig> = {}
 ): T | T[] | null {
   config = getConfig(config)
@@ -116,7 +118,7 @@ export function findPath<T = any>(
 
 export function findPathAll(
   tree: any,
-  func: Fn,
+  func: Fn<any>,
   config: Partial<TreeHelperConfig> = {}
 ) {
   config = getConfig(config)
@@ -181,7 +183,7 @@ export function forEach<T = any>(
  */
 export function treeMap<T = any>(
   treeData: T[],
-  opt: { children?: string; conversion: Fn }
+  opt: { children?: string; conversion: Fn<T> }
 ): T[] {
   return treeData.map((item) => treeMapEach(item, opt))
 }
@@ -191,7 +193,10 @@ export function treeMap<T = any>(
  */
 export function treeMapEach(
   data: any,
-  { children = 'children', conversion }: { children?: string; conversion: Fn }
+  {
+    children = 'children',
+    conversion,
+  }: { children?: string; conversion: Fn<any> }
 ) {
   const haveChildren =
     Array.isArray(data[children]) && data[children].length > 0

@@ -3,7 +3,7 @@
  */
 import { format } from 'date-fns'
 
-const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm'
+const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm:ss'
 const DATE_FORMAT = 'yyyy-MM-dd '
 
 export function formatToDateTime(

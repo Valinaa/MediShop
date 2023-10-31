@@ -8,12 +8,12 @@ import useAuctionStore from '@/store/auction'
 
 const { hasLogin } = useAuctionStore()
 const formData = ref({
-  account: '',
+  username: '',
   password: '',
 })
 
 const formRules = {
-  account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 }
 
@@ -22,14 +22,14 @@ const submitForm = () => {
     .post({
       url: '/login',
       data: {
-        account: formData.value.account,
+        username: formData.value.username,
         password: formData.value.password,
       },
     })
     .then((res) => {
       ElMessage.success('登录成功')
       router.push('/index')
-      hasLogin(res.account)
+      hasLogin(res.username)
     })
     .catch((err) => {
       ElMessage.error(err)
@@ -47,8 +47,8 @@ const submitForm = () => {
         label-width="80px">
         <el-form-item
           label="用户名"
-          prop="account">
-          <el-input v-model="formData.account"></el-input>
+          prop="username">
+          <el-input v-model="formData.username"></el-input>
         </el-form-item>
         <el-form-item
           label="密码"

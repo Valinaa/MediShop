@@ -11,7 +11,7 @@ ElNotification({
   title: 'Issue',
   message: `${t(
     'issue'
-  )}<br/><b><i>https://github.com/Valinaa/Auction/issues<i/><b/>`,
+  )}<br/><b><i>https://github.com/Valinaa/Medishop/issues<i/><b/>`,
   dangerouslyUseHTMLString: true,
   duration: 5000,
 })
