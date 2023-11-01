@@ -2,11 +2,12 @@ package tech.valinaa.medishop.api.user.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Null;
 import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import tech.valinaa.medishop.core.model.enums.UserTypeEnum;
+import tech.valinaa.medishop.api.enums.UserTypeEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class UserRequest {
     @NotBlank
     @Schema(title = "fullName", description = "全名", type = "string", requiredMode = Schema.RequiredMode.REQUIRED)
     private String fullName;
-    @NotBlank
+    @Email
     @Schema(title = "email", description = "邮箱", type = "string", requiredMode = Schema.RequiredMode.REQUIRED)
     private String email;
     @Schema(title = "phoneNumber", description = "电话号码", type = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

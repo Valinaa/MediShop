@@ -5,11 +5,10 @@ import NProgress from 'nprogress'
 
 import { ElMessage } from 'element-plus'
 
-import useAuctionStore from '@/store/auction'
-
 import exceptionRoutes from '@/router/route.exception'
 import asyncRoutes from '@/router/route.async'
 import commonRoutes from '@/router/route.common'
+import useAuthStore from '@/store/auth'
 
 const routes: Array<RouteRecordRaw> = [
   // 无鉴权的业务路由 ex:登录
@@ -35,7 +34,7 @@ const router: Router = createRouter({
  *
  */
 router.beforeEach((to, from) => {
-  console.log('全局路由前置守卫：to,from\n', to, from)
+  console.log('全局路由前置守卫,to, from\n', to, from)
   // 设置页面标题
   document.title = (to.meta.title as string) || import.meta.env.VITE_APP_TITLE
   if (!NProgress.isStarted()) {
@@ -43,8 +42,8 @@ router.beforeEach((to, from) => {
   }
 })
 router.beforeEach((to, from, next) => {
-  const auctionStore = useAuctionStore()
-  const { isAuthenticated } = storeToRefs(auctionStore)
+  const authStore = useAuthStore()
+  const { isAuthenticated } = storeToRefs(authStore)
   if (to.matched.length === 0) {
     from.name ? next({ name: from.name }) : next('/')
   } else if (to.meta.requireAuth && !isAuthenticated.value) {

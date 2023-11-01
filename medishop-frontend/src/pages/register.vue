@@ -5,17 +5,28 @@ import router from '@/router'
 
 import defaultHttp from '@/api/http'
 
-const formData = ref({
-  account: '',
-  name: '',
-  identity: '2',
+import { UserTypeEnum } from '@/enums/medishopEnum'
+
+import type { UserRequest } from 'types/medishop/user'
+
+const formData: UserRequest = reactive({
+  username: '',
   password: '',
+  authorities: [''],
+  fullName: '',
+  email: '',
+  phoneNumber: '',
+  address: '',
+  ipAddress: null,
+  ipRegion: null,
+  userType: UserTypeEnum.GUEST,
+  licenseImageUrl: '',
 })
 
 const formRules = {
-  account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  name: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
-  identity: [{ required: true, message: '请输入身份', trigger: 'blur' }],
+  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  fullName: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
+  userType: [{ required: true, message: '请输入身份', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 }
 
@@ -24,10 +35,10 @@ const submitForm = () => {
     .post({
       url: '/register',
       data: {
-        account: formData.value.account,
-        name: formData.value.name,
-        identity: Number(formData.value.identity),
-        password: formData.value.password,
+        username: formData.username,
+        fullName: formData.fullName,
+        userType: formData.userType,
+        password: formData.password,
       },
     })
     .then((res) => {
@@ -51,18 +62,18 @@ const submitForm = () => {
         label-width="80px">
         <el-form-item
           label="用户名"
-          prop="account">
-          <el-input v-model="formData.account"></el-input>
+          prop="username">
+          <el-input v-model="formData.username"></el-input>
         </el-form-item>
         <el-form-item
           label="姓名"
-          prop="name">
-          <el-input v-model="formData.name"></el-input>
+          prop="fullName">
+          <el-input v-model="formData.fullName"></el-input>
         </el-form-item>
         <el-form-item
           label="身份"
-          prop="identity">
-          <el-select v-model="formData.identity">
+          prop="userType">
+          <el-select v-model="formData.userType">
             <el-option
               label="普通成员"
               value="2" />

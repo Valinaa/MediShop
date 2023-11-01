@@ -1,9 +1,6 @@
 package tech.valinaa.medishop.api.authorization.response;
 
 import lombok.Data;
-import tech.valinaa.medishop.core.Constants;
-
-import java.time.LocalDateTime;
 
 /**
  * @author Valinaa
@@ -17,7 +14,7 @@ public class JWTResponse {
     // 刷新token
     private String refreshToken;
     // token类型,默认Bearer
-    private String tokenType = Constants.DEFAULT_TOKEN_HEAD;
-    // 过期时间
-    private LocalDateTime expiresIn;
+    private String tokenType = "Bearer";
+    // 过期时间，单位秒
+    private Long expiredIn;
 }

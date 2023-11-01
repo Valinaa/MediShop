@@ -4,9 +4,11 @@ import { ElMessage } from 'element-plus'
 import router from '@/router'
 
 import defaultHttp from '@/api/http'
-import useAuctionStore from '@/store/auction'
+import useAuthStore from '@/store/auth'
 
-const { hasLogin } = useAuctionStore()
+import type { JWTResponse, User } from 'types/medishop/user'
+
+const { resolveRes } = useAuthStore()
 const formData = ref({
   username: '',
   password: '',
@@ -26,10 +28,11 @@ const submitForm = () => {
         password: formData.value.password,
       },
     })
-    .then((res) => {
+    .then((res: { jwt: JWTResponse; userInfo: User }) => {
       ElMessage.success('登录成功')
+      // TODO 可考虑异步执行
+      resolveRes(res.jwt, res.userInfo)
       router.push('/index')
-      hasLogin(res.username)
     })
     .catch((err) => {
       ElMessage.error(err)

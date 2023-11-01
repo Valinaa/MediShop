@@ -34,8 +34,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 /**
  * @author Valinaa
@@ -63,15 +65,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                             auth -> {
                                 log.info("authenticate: {}", auth);
                                 SecurityContextHolder.getContext().setAuthentication(auth);
-                                jwtRes.setAccessToken(JwtUtil.createAccessToken((UserDetails) auth.getPrincipal()));
-                                jwtRes.setRefreshToken(JwtUtil.createRefreshToken((UserDetails) auth.getPrincipal()));
-                                jwtRes.setExpiresIn(LocalDateTime.now().plusSeconds(Constants.ACCESS_TOKEN_EXPIRATION_TIME));
+                                var userDetail = (UserDetails) auth.getPrincipal();
+                                jwtRes.setAccessToken(JwtUtil.createAccessToken(userDetail));
+                                jwtRes.setRefreshToken(JwtUtil.createRefreshToken(userDetail));
+                                jwtRes.setExpiredIn(LocalDateTime.now(ZoneId.of("CTT"))
+                                        .plusSeconds(Constants.ACCESS_TOKEN_EXPIRATION_TIME)
+                                        .toInstant(ZoneOffset.UTC)
+                                        .toEpochMilli());
                             },
                             () -> log.error("login error: authenticate is null")
                     );
         } catch (AuthenticationException e) {
             log.error("login error:{}", e.getMessage());
         }
+        var user = this.lambdaQuery().eq(UserDO::getUsername, username).one();
+        new HashMap<String, Object>() {{
+            put("userInfo", user);
+            put("jwt", jwtRes);
+        }};
         return jwtRes.getAccessToken().isBlank()
                 ? Result.failure(ResultCodeEnum.LOGIN_ERROR)
                 : Result.success(jwtRes);
@@ -87,11 +98,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                             var ipAddr = attribute.getRequest().getRemoteAddr();
                             userRequest.setIpAddress(ipAddr);
                             var uri = URI.create("https://ip.useragentinfo.com/ipv6/" + ipAddr);
-                            final var ipv4Pattern = Pattern.compile("^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
-                                    + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
-                                    + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
-                                    + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-                            var isIpv4 = ipv4Pattern.matcher(ipAddr).matches();
+                            var isIpv4 = Constants.IPV4_PATTERN.matcher(ipAddr).matches();
                             if (isIpv4) {
                                 uri = URI.create("https://ip.useragentinfo.com/jsonp?ip=" + ipAddr);
                             }
@@ -102,25 +109,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                                         .body();
                                 var res = isIpv4 ? httpRes.substring(9, httpRes.length() - 2) : httpRes;
                                 var json = JacksonUtil.parseJSONObject(res);
-                                var ipRegin = JacksonUtil.getString(json, "country");
+                                var ipRegion = JacksonUtil.getString(json, "country");
                                 if (isIpv4) {
-                                    ipRegin += " " + JacksonUtil.getString(json, "province")
+                                    ipRegion += " " + JacksonUtil.getString(json, "province")
                                             + " " + JacksonUtil.getString(json, "city")
                                             + " " + JacksonUtil.getString(json, "area");
                                 } else {
-                                    ipRegin += " " + JacksonUtil.getString(json, "region")
+                                    ipRegion += " " + JacksonUtil.getString(json, "region")
                                             + " " + JacksonUtil.getString(json, "city");
                                 }
-                                userRequest.setIpRegion(ipRegin.strip());
+                                userRequest.setIpRegion(ipRegion.strip());
                             } catch (IOException | InterruptedException e) {
                                 log.error("Cannot get ip address: {}", e.getMessage());
                             }
                         },
                         () -> log.warn("Cannot get ip address ———— Request attributes is null!"));
-        var username = userRequest.getUsername();
         userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         var userRes = UserConverter.INSTANCE.req2Response(userRequest);
-        if (this.lambdaQuery().eq(UserDO::getUsername, username).one() != null) {
+        if (this.lambdaQuery().eq(UserDO::getUsername, userRequest.getUsername()).one() != null) {
             return Result.failure(userRes, ResultCodeEnum.DUPLICATE_USERNAME);
         }
         if (!this.save(UserConverter.INSTANCE.req2DO(userRequest))) {

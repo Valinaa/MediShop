@@ -247,6 +247,7 @@ export default function createAxios(opt?: Partial<CreateAxiosOptions>) {
         authenticationScheme: 'Bearer',
         timeout: 10 * 1000,
         // 基础接口地址
+        // baseURL: 'https://118.89.71.118',
         // baseURL: globSetting.apiUrl,
 
         headers: { 'Content-Type': ContentTypeEnum.JSON },
