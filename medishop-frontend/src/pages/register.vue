@@ -25,8 +25,8 @@ const formData: UserRequest = reactive({
 
 const formRules = {
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  fullName: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
-  userType: [{ required: true, message: '请输入身份', trigger: 'blur' }],
+  fullName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+  userType: [{ required: true, message: '请选择身份', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 }
 
@@ -75,11 +75,14 @@ const submitForm = () => {
           prop="userType">
           <el-select v-model="formData.userType">
             <el-option
-              label="普通成员"
+              label="顾客"
+              value="1" />
+            <el-option
+              label="商家"
               value="2" />
             <el-option
-              label="VIP成员"
-              value="4" />
+              label="管理员"
+              value="3" />
           </el-select>
         </el-form-item>
         <el-form-item

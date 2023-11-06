@@ -2,7 +2,7 @@
   <div class="text-center container">
     <p class="color-text">
       &copy; 2023
-      <b>www.valinaa-wei.tech</b>
+      <b>www.valinaa.tech</b>
     </p>
     <br />
     <p class="color-text">All rights reserved.</p>

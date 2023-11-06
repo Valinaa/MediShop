@@ -4,13 +4,12 @@ import { Iphone, Location, Tickets, User } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
 import defaultHttp from '@/api/http'
-import useAuctionStore from '@/store/auction'
+import useAuthStore from '@/store/auth'
 
-import type { UserInfo } from 'types/auction'
+import type { User as UserInfo } from 'types/medishop/user'
 
-const { user } = storeToRefs(useAuctionStore())
+const { userInfo } = storeToRefs(useAuthStore())
 const route = useRoute()
-const { t } = useI18n()
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 const goodsList = (): UserInfo => {
@@ -18,15 +17,9 @@ const goodsList = (): UserInfo => {
   if (Array.isArray(list)) {
     ElMessage.warning('返回的数据不是字符串！')
     return {
-      account: '',
-      name: '',
-      identity: -1,
-      sex: '',
-      location: '',
-      phone: '',
-      email: '',
-      personalSign: '',
-      love: '',
+      id: 0,
+      username: '',
+      password: '',
     }
   }
   const result = JSON.parse(decodeURIComponent(list))
@@ -34,7 +27,7 @@ const goodsList = (): UserInfo => {
 }
 const form = reactive({
   name: goodsList().name,
-  aid: user.value.accountId,
+  aid: userInfo.value.id,
   sex: goodsList().sex === '' || null ? '' : goodsList().sex,
   location: goodsList().location === '' || null ? '' : goodsList().location,
   phone: goodsList().phone === '' || null ? '' : goodsList().phone,
