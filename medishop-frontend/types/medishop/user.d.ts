@@ -28,7 +28,7 @@ export interface UserRequest {
 /** 用户实体 */
 export interface User extends UserRequest {
   /** User Id */
-  id: number
+  id: Nullable<number>
   ipAddress: string
   ipRegion: string
 }

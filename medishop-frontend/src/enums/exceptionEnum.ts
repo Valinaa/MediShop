@@ -2,7 +2,6 @@
  * @description: Exception related enumeration
  */
 export enum ExceptionEnum {
-
   PAGE_NOT_ACCESS = 403,
 
   PAGE_NOT_FOUND = 404,

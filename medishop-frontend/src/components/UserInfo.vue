@@ -6,36 +6,37 @@ import { ElMessage } from 'element-plus'
 import defaultHttp from '@/api/http'
 import useAuthStore from '@/store/auth'
 
+import { UserTypeEnum } from '@/enums/medishopEnum'
+
 import type { User as UserInfo } from 'types/medishop/user'
 
 const { userInfo } = storeToRefs(useAuthStore())
 const route = useRoute()
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
-const goodsList = (): UserInfo => {
+const user = (): UserInfo => {
   const list = route.params.data
   if (Array.isArray(list)) {
     ElMessage.warning('返回的数据不是字符串！')
     return {
-      id: 0,
+      id: null,
       username: '',
       password: '',
+      authorities: [''],
+      userType: UserTypeEnum.GUEST,
+      fullName: '',
+      email: '',
+      phoneNumber: '',
+      address: '',
+      ipAddress: '',
+      ipRegion: '',
+      licenseImageUrl: '',
     }
   }
   const result = JSON.parse(decodeURIComponent(list))
   return result
 }
-const form = reactive({
-  name: goodsList().name,
-  aid: userInfo.value.id,
-  sex: goodsList().sex === '' || null ? '' : goodsList().sex,
-  location: goodsList().location === '' || null ? '' : goodsList().location,
-  phone: goodsList().phone === '' || null ? '' : goodsList().phone,
-  email: goodsList().email === '' || null ? '' : goodsList().email,
-  personalSign:
-    goodsList().personalSign === '' || null ? '' : goodsList().personalSign,
-  love: goodsList().love === '' || null ? '' : goodsList().love,
-})
+const form = reactive({})
 
 const iconStyle = computed(() => {
   const marginMap = {
@@ -88,7 +89,7 @@ function submitUpdate() {
           Account
         </div>
       </template>
-      {{ goodsList().account }}
+      {{ user().account }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -99,7 +100,7 @@ function submitUpdate() {
           Telephone
         </div>
       </template>
-      {{ goodsList().phone === null ? 'unknown' : goodsList().phone }}
+      {{ user().phone === null ? 'unknown' : user().phone }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -110,7 +111,7 @@ function submitUpdate() {
           name
         </div>
       </template>
-      {{ goodsList().name }}
+      {{ user().name }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -121,7 +122,7 @@ function submitUpdate() {
           性别
         </div>
       </template>
-      {{ goodsList().sex === null ? 'unknown' : goodsList().sex }}
+      {{ user().sex === null ? 'unknown' : user().sex }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -132,7 +133,7 @@ function submitUpdate() {
           Email
         </div>
       </template>
-      {{ goodsList().email === null ? 'unknown' : goodsList().email }}
+      {{ user().email === null ? 'unknown' : user().email }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -144,7 +145,7 @@ function submitUpdate() {
         </div>
       </template>
       <el-tag size="small">
-        {{ goodsList().love === null ? 'unknown' : goodsList().love }}
+        {{ user().love === null ? 'unknown' : user().love }}
       </el-tag>
     </el-descriptions-item>
     <el-descriptions-item>
@@ -156,7 +157,7 @@ function submitUpdate() {
           地址
         </div>
       </template>
-      {{ goodsList().location === null ? 'unknown' : goodsList().location }}
+      {{ user().location === null ? 'unknown' : user().location }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -167,9 +168,7 @@ function submitUpdate() {
           个性签名
         </div>
       </template>
-      {{
-        goodsList().personalSign === null ? 'unknown' : goodsList().personalSign
-      }}
+      {{ user().personalSign === null ? 'unknown' : user().personalSign }}
     </el-descriptions-item>
   </el-descriptions>
   <el-dialog
