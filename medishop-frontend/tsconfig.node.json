@@ -7,7 +7,7 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "./**.config.ts",
+    "./**.config.**",
     "presets"
   ]
 }

@@ -15,17 +15,28 @@
     "build": "vue-tsc --noEmit --skipLibCheck && vite build",
     "preview": "vite preview",
     "lint": "eslint src",
-    "lint-time": "set TIMING=1 && eslint src/main.ts"
+    "lint-staged": "lint-staged",
+    "lint-time": "set TIMING=1 && eslint src/main.ts",
+    "prepare": "husky install",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "medishop-frontend/node_modules/cz-custom"
+    },
+    "cz-custom": {
+      "config": ".cz-config.cjs"
+    }
   },
   "dependencies": {
-    "@iconify/json": "^2.2.135",
-    "@intlify/unplugin-vue-i18n": "^1.4.0",
+    "@iconify/json": "^2.2.139",
+    "@intlify/unplugin-vue-i18n": "^1.5.0",
     "@vueuse/core": "^10.5.0",
-    "axios": "^1.6.0",
+    "axios": "^1.6.1",
     "bootstrap": "^5.3.2",
     "bootstrap-vue-next": "^0.14.10",
     "date-fns": "^2.30.0",
-    "element-plus": "^2.4.1",
+    "element-plus": "^2.4.2",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "nprogress": "^0.2.0",
@@ -35,33 +46,40 @@
     "pug": "^3.0.2",
     "qs": "^6.11.2",
     "vite-plugin-style-import": "^2.0.0",
-    "vue": "^3.3.7",
+    "vue": "^3.3.8",
     "vue-axios": "^3.5.2",
-    "vue-i18n": "^9.6.2",
+    "vue-i18n": "^9.6.5",
     "vue-router": "^4.2.5",
     "vue-types": "^5.1.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.2.0",
+    "@commitlint/config-conventional": "^18.1.0",
     "@iconify/vue": "^4.1.1",
-    "@types/node": "^20.8.10",
-    "@types/nprogress": "^0.2.2",
-    "@types/qs": "^6.9.9",
-    "@typescript-eslint/eslint-plugin": "^6.9.1",
-    "@typescript-eslint/parser": "^6.9.1",
-    "@unocss/eslint-config": "^0.57.1",
-    "@unocss/reset": "^0.57.1",
-    "@vitejs/plugin-vue": "^4.4.0",
+    "@types/node": "^20.9.0",
+    "@types/nprogress": "^0.2.3",
+    "@types/qs": "^6.9.10",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "@unocss/eslint-config": "^0.57.2",
+    "@unocss/reset": "^0.57.2",
+    "@vitejs/plugin-vue": "^4.4.1",
     "@vitejs/plugin-vue-jsx": "3.0.2",
     "@zmtlwzy/eslint-config": "^0.3.1",
     "autoprefixer": "^10.4.16",
+    "commitizen": "^4.3.0",
+    "commitlint-config-cz": "^0.13.3",
     "consola": "^3.2.3",
-    "eslint": "^8.52.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-custom": "^0.0.2",
+    "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-node": "^0.3.9",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-vue": "^9.18.1",
+    "husky": "^8.0.0",
     "lint-staged": "^15.0.2",
     "postcss": "^8.4.31",
     "postcss-html": "^1.5.0",
@@ -76,10 +94,10 @@
     "stylelint-declaration-block-no-ignored-properties": "^2.7.0",
     "stylelint-order": "^6.0.3",
     "typescript": "^5.2.2",
-    "unocss": "^0.57.1",
+    "unocss": "^0.57.2",
     "unplugin-auto-import": "^0.16.7",
     "unplugin-fonts": "^1.0.3",
-    "unplugin-icons": "^0.17.1",
+    "unplugin-icons": "^0.17.3",
     "unplugin-vue-components": "^0.25.2",
     "vite": "^4.5.0",
     "vite-plugin-compression": "^0.5.1",
@@ -106,6 +124,12 @@
     "{!(package)*.json,.!(browserslist)*rc}": [
       "prettier --write--parser json"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "browserslist": [
     "last 2 version",
