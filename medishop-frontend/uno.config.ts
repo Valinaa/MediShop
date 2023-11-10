@@ -78,7 +78,7 @@ export default defineConfig({
       },
     ],
     [
-      /^ease-(?:(in|out|in-out)-)(\d+)$/,
+      /^ease-(in|out|in-out)-(\d+)$/,
       ([, timingFun, duration]) => {
         return {
           'transition-timing-function': `var(--app-bezier${
