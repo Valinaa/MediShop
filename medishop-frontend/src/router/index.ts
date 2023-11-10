@@ -1,5 +1,4 @@
-import type { RouteRecordRaw, Router } from 'vue-router'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router/auto'
 
 import NProgress from 'nprogress'
 
@@ -9,6 +8,8 @@ import exceptionRoutes from '@/router/route.exception'
 import asyncRoutes from '@/router/route.async'
 import commonRoutes from '@/router/route.common'
 import useAuthStore from '@/store/auth'
+
+import type { RouteRecordRaw, Router } from 'vue-router/auto'
 
 const routes: Array<RouteRecordRaw> = [
   // 无鉴权的业务路由 ex:登录

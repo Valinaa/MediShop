@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 
 import router from '@/router'
@@ -44,7 +44,7 @@ const submitForm = () => {
     .then((res) => {
       console.log(res)
       ElMessage.success('注册成功')
-      router.push('/')
+      router.push('/login')
     })
     .catch((err) => {
       ElMessage.error(`意外错误！${err}`)

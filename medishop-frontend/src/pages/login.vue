@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 
 import router from '@/router'
@@ -32,7 +32,7 @@ const submitForm = () => {
       ElMessage.success('登录成功')
       // TODO 可考虑异步执行
       resolveRes(res.jwt, res.userInfo)
-      router.push('/index')
+      router.push('/')
     })
     .catch((err) => {
       ElMessage.error(err)
