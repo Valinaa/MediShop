@@ -1,8 +1,8 @@
 <template>
   <div class="not-found">
     <img
-      src="@/assets/404.gif"
-      alt="您访问的页面不存在哦~" />
+      alt="您访问的页面不存在哦~"
+      src="../assets/404.gif" />
   </div>
 </template>
 
