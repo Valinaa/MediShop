@@ -1,5 +1,6 @@
 package tech.valinaa.medishop.core.service.impl;
 
+import cn.hutool.captcha.AbstractCaptcha;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import tech.valinaa.medishop.core.converter.UserConverter;
 import tech.valinaa.medishop.core.dao.UserMapper;
 import tech.valinaa.medishop.core.model.UserDO;
 import tech.valinaa.medishop.core.service.UserService;
+import tech.valinaa.medishop.utils.CaptchaUtils;
 import tech.valinaa.medishop.utils.Constants;
 import tech.valinaa.medishop.utils.JacksonUtil;
 import tech.valinaa.medishop.utils.JwtUtil;
@@ -36,7 +38,6 @@ import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.HashMap;
 import java.util.Optional;
 
 /**
@@ -47,6 +48,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
     
+    private AbstractCaptcha originalCaptcha;
     @Lazy
     @Resource
     private AuthenticationManager authenticationManager;
@@ -56,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private BCryptPasswordEncoder passwordEncoder;
     
     @Override
-    public Result<JWTResponse> login(String username, String password) {
+    public Result<JWTResponse> login(String username, String password, String captcha) {
         var jwtRes = new JWTResponse();
         var authentication = new UsernamePasswordAuthenticationToken(username, password);
         try {
@@ -78,11 +80,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         } catch (AuthenticationException e) {
             log.error("login error:{}", e.getMessage());
         }
-        var user = this.lambdaQuery().eq(UserDO::getUsername, username).one();
-        new HashMap<String, Object>() {{
-            put("userInfo", user);
-            put("jwt", jwtRes);
-        }};
+        if (!originalCaptcha.verify(captcha)) {
+            // TODO 刷新验证码
+            return Result.failure(ResultCodeEnum.CAPTCHA_ERROR);
+        }
         return jwtRes.getAccessToken().isBlank()
                 ? Result.failure(ResultCodeEnum.LOGIN_ERROR)
                 : Result.success(jwtRes);
@@ -133,6 +134,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             return Result.failure(userRes, ResultCodeEnum.REGISTER_FAILED);
         }
         return Result.success(userRes);
+    }
+    
+    @Override
+    public Result<String> getCaptcha(Long timestamp) {
+        this.originalCaptcha = CaptchaUtils.randomCaptcha(timestamp);
+        return Result.success(originalCaptcha.getImageBase64());
     }
     
     @Override

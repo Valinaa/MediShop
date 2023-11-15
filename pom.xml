@@ -26,6 +26,7 @@
         <boot.version>3.1.4</boot.version>
         <cloud.version>2022.0.0</cloud.version>
         <alibaba.version>2022.0.0.0-RC2</alibaba.version>
+        <hutool.version>5.8.23</hutool.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <fastjson2.version>2.0.25</fastjson2.version>
         <knife4j.version>4.3.0</knife4j.version>
@@ -61,6 +62,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-validation</artifactId>
                 <version>${boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-captcha</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>

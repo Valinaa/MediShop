@@ -21,7 +21,7 @@ public interface UserService extends IService<UserDO>, UserDetailsService {
      * @param password 密码
      * @return token
      */
-    Result<JWTResponse> login(String username, String password);
+    Result<JWTResponse> login(String username, String password, String captcha);
     
     /**
      * 用户注册
@@ -30,4 +30,12 @@ public interface UserService extends IService<UserDO>, UserDetailsService {
      * @return 用户信息
      */
     Result<UserResponse> register(UserRequest userRequest);
+    
+    /**
+     * 获取验证码
+     *
+     * @param timestamp 时间戳
+     * @return 验证码
+     */
+    Result<String> getCaptcha(Long timestamp);
 }

@@ -19,6 +19,8 @@ public enum ResultCodeEnum {
     FORBIDDEN(4003, "没有权限"),
     ILLEGAL_CALLBACK_REQUEST_ERROR(4004, "非法回调请求"),
     ILLEGAL_REQUEST(4005, "非法请求"),
+    CAPTCHA_ERROR(4006, "验证码错误"),
+    CAPTCHA_EXPIRED(4007, "验证码已过期"),
     FAIL(5000, "失败"),
     REGISTER_FAILED(5001, "注册失败！请联系管理员！"),
     SERVICE_ERROR(5002, "服务异常"),

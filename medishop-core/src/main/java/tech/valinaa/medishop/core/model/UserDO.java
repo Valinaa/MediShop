@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import tech.valinaa.medishop.api.BaseDO;
 import tech.valinaa.medishop.api.enums.AuthorityEnum;
 import tech.valinaa.medishop.api.enums.UserTypeEnum;
 import tech.valinaa.medishop.core.mybatis.List2StringTypeHandler;

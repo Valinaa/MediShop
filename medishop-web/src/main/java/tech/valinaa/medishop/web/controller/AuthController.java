@@ -25,8 +25,8 @@ public class AuthController implements AuthApi {
     private final UserService userService;
     
     @Override
-    public Result<JWTResponse> login(@NotBlank String username, @NotBlank String password) {
-        return userService.login(username, password);
+    public Result<JWTResponse> login(@NotBlank String username, @NotBlank String password, @NotBlank String captcha) {
+        return userService.login(username, password, captcha);
     }
     
     @Override
@@ -37,6 +37,11 @@ public class AuthController implements AuthApi {
     @Override
     public Result<Boolean> logout(@RequestBody @Validated UserRequest userRequest) {
         return Result.success(false);
+    }
+    
+    @Override
+    public Result<String> getCaptcha(Long timestamp) {
+        return userService.getCaptcha(timestamp);
     }
     
 }

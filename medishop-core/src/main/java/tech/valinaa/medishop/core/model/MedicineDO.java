@@ -3,6 +3,7 @@ package tech.valinaa.medishop.core.model;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import tech.valinaa.medishop.api.BaseDO;
 import tech.valinaa.medishop.api.enums.MedicineStatusEnum;
 
 import java.math.BigDecimal;

@@ -41,4 +41,14 @@ public class Constants {
             + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
             + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
             + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+    /**
+     * 验证码相关
+     */
+    
+    // 验证码字符数
+    public static final int CAPTCHA_CHAR_COUNT = 5;
+    // 验证码宽度
+    public static final int CAPTCHA_WIDTH = 200;
+    // 验证码高度
+    public static final int CAPTCHA_HEIGHT = 80;
 }

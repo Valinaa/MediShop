@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public interface AuthApi {
      */
     @PostMapping("/login")
     @Operation(summary = "用户登录", description = "用户登录成功后返回token")
-    Result<JWTResponse> login(@NotBlank String username, @NotBlank String password);
+    Result<JWTResponse> login(@NotBlank String username, @NotBlank String password, @NotBlank String captcha);
     
     /**
      * 用户注册Api
@@ -51,4 +52,8 @@ public interface AuthApi {
     @PostMapping("/logout")
     @Operation(summary = "用户登出", description = "用户登出成功后返回true")
     Result<Boolean> logout(@RequestBody @Validated UserRequest userRequest);
+    
+    @GetMapping("/captcha")
+    @Operation(summary = "获取验证码", description = "获取验证码")
+    Result<String> getCaptcha(Long timestamp);
 }
