@@ -37,7 +37,7 @@ public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
         // 获取Header
         final String authHeader = request.getHeader(Constants.AUTH_HEADER);
         // 存在token但不是tokenHead开头
-        if (authHeader == null || !authHeader.startsWith(Constants.DEFAULT_TOKEN_HEAD)) {
+        if (authHeader == null || !authHeader.startsWith("Bearer")) {
             if (log.isDebugEnabled()) {
                 log.debug("authHeader is null come from TokenFilter, URL: {}", request.getRequestURI());
             }

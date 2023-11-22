@@ -120,8 +120,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                                             + " " + JacksonUtil.getString(json, "city");
                                 }
                                 userRequest.setIpRegion(ipRegion.strip());
-                            } catch (IOException | InterruptedException e) {
+                            } catch (IOException e) {
                                 log.error("Cannot get ip address: {}", e.getMessage());
+                            } catch (InterruptedException e) {
+                                log.error("Cannot get ip address: {}", e.getMessage());
+                                Thread.currentThread().interrupt();
                             }
                         },
                         () -> log.warn("Cannot get ip address ———— Request attributes is null!"));

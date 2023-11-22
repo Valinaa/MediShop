@@ -51,7 +51,7 @@ public class SwaggerConfiguration {
                                 .description("Microservice Platform API Document")
                                 .version("v1.0.0")
                                 .contact(new Contact().name("Valinaa").email("1114854003@qq.com").url("https://www.valinaa.tech"))
-                                .license(new License().name("Apache 2.0").url("http://springdoc.org"))
+                                .license(new License().name("Apache 2.0").url("https://springdoc.org"))
                 )
                 .path("/api/v1/**", null);
     }

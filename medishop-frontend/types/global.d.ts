@@ -1,8 +1,7 @@
 import type {
-  VNode,
-  VNodeChild,
   ComponentPublicInstance,
   FunctionalComponent,
+  VNodeChild,
 } from 'vue'
 
 declare global {
@@ -57,9 +56,11 @@ declare global {
     interface ElementAttributesProperty {
       $props: {}
     }
+
     interface IntrinsicElements {
       [elem: string]: any
     }
+
     interface IntrinsicAttributes {
       [elem: string]: any
     }

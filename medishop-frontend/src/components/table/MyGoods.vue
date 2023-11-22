@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 
 import router from '@/router'
@@ -30,14 +30,12 @@ const updateStatus = () => {
 
     if (currentTime < startTime) {
       // 当前时间小于开始时间，不做任何操作
-      continue
     } else if (currentTime >= startTime && currentTime < endTime) {
       // 当前时间在开始时间和结束时间之间，将状态改为1
       item.status = 1
     } else {
       // 当前时间超过结束时间，将状态改为2，并不再遍历该值
       item.status = 2
-      continue
     }
   }
 }
@@ -55,6 +53,7 @@ onMounted(() => {
 onUnmounted(() => {
   stopTimer()
 })
+
 function ViewGood(good: GoodsInfo) {
   const url = ref(`/getGoodInfoById/${good.id}/${user.value.accountId}`)
   defaultHttp
@@ -71,6 +70,7 @@ function ViewGood(good: GoodsInfo) {
       console.log(err)
     })
 }
+
 function ViewRank(good: GoodsInfo) {
   const url = ref(`/getAuctionRank/${good.id}`)
   defaultHttp
@@ -92,17 +92,17 @@ function ViewRank(good: GoodsInfo) {
   <div>
     <el-table
       :data="goodsList()"
-      style="width: 100%"
       max-height="600px"
       row-key="id"
-      stripe
       lazy
+      stripe
       highlight-current-row
-      border>
+      border
+      style="width: 100%">
       <el-table-column
         :label="t('medishop.startTime')"
-        width="190px"
-        align="center">
+        align="center"
+        width="190px">
         <template #default="{ row }">
           <div style="display: flex; align-items: center">
             <i-ep-timer style="margin-right: 10px" />
@@ -112,8 +112,8 @@ function ViewRank(good: GoodsInfo) {
       </el-table-column>
       <el-table-column
         :label="t('medishop.endTime')"
-        width="190px"
-        align="center">
+        align="center"
+        width="190px">
         <template #default="{ row }">
           <div style="display: flex; align-items: center">
             <i-ep-timer style="margin-right: 10px" />
@@ -122,67 +122,67 @@ function ViewRank(good: GoodsInfo) {
         </template>
       </el-table-column>
       <el-table-column
-        prop="businessName"
         :label="t('medishop.businessName')"
-        width="90px"
-        align="center" />
+        align="center"
+        prop="businessName"
+        width="90px" />
       <el-table-column
         :label="t('medishop.goodInfo')"
         align="center">
         <el-table-column
-          prop="goodName"
           :label="t('medishop.goodName')"
-          width="100px"
-          align="center"></el-table-column>
+          align="center"
+          prop="goodName"
+          width="100px"></el-table-column>
         <el-table-column
-          prop="goodType"
           :label="t('medishop.goodType')"
-          width="90px"
-          align="center"></el-table-column>
+          align="center"
+          prop="goodType"
+          width="90px"></el-table-column>
         <el-table-column
-          prop="goodsDec"
           :label="t('medishop.goodsDec')"
-          width="100px"
-          align="center"></el-table-column>
+          align="center"
+          prop="goodsDec"
+          width="100px"></el-table-column>
         <el-table-column
-          prop="nowPrice"
           :label="t('medishop.nowPrice')"
-          width="100px"
-          align="center"></el-table-column>
+          align="center"
+          prop="nowPrice"
+          width="100px"></el-table-column>
         <el-table-column
-          prop="startPrice"
           :label="t('medishop.startPrice')"
-          width="100px"
-          align="center"></el-table-column>
+          align="center"
+          prop="startPrice"
+          width="100px"></el-table-column>
       </el-table-column>
       <el-table-column
-        prop="pricePlus"
         :label="t('medishop.pricePlus')"
-        width="160px"
-        align="center" />
+        align="center"
+        prop="pricePlus"
+        width="160px" />
       <el-table-column
-        prop="status"
         :label="t('medishop.status')"
-        width="80px"
-        align="center" />
+        align="center"
+        prop="status"
+        width="80px" />
       <el-table-column
         :label="t('operation')"
-        width="150px"
-        align="center">
+        align="center"
+        width="150px">
         <template #default="{ row }">
           <el-button
             class="mb-1"
-            type="primary"
             size="large"
+            type="primary"
             @click="ViewRank(row)">
             {{ t('medishop.viewRank') }}
           </el-button>
           <br />
           <el-button
-            class="mt-1"
-            type="success"
-            size="large"
             :disabled="row.status === 0"
+            class="mt-1"
+            size="large"
+            type="success"
             @click="ViewGood(row)">
             {{ t('medishop.viewGood') }}
           </el-button>
