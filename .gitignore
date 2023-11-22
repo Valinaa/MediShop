@@ -35,5 +35,4 @@ build/
 
 ### Custom ###
 checkstyle.xml
-qodana.yaml
 .husky/_
