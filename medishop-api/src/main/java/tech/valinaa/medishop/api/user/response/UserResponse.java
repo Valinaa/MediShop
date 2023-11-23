@@ -1,7 +1,7 @@
 package tech.valinaa.medishop.api.user.response;
 
 import lombok.Data;
-import tech.valinaa.medishop.core.model.enums.UserTypeEnum;
+import tech.valinaa.medishop.api.enums.UserTypeEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;

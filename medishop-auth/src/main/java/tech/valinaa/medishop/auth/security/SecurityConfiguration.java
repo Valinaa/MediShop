@@ -165,7 +165,6 @@ public class SecurityConfiguration {
      * @see RsaJsonWebKey
      */
     @Bean
-    @SuppressWarnings("checkstyle:MagicNumber")
     public RsaJsonWebKey rsaJsonWebKey() {
         // 生成一个RSA密钥对，用于签署和验证JWT，包装在JWK中
         try {

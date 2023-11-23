@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Description MediShop启动类
  */
 @MapperScan({"tech.valinaa.medishop.core.dao"})
-@SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "checkstyle:MissingJavadocMethod"})
 @SpringBootApplication(scanBasePackages = "tech.valinaa.medishop")
 public class MediShopApplication {
     public static void main(String[] args) {

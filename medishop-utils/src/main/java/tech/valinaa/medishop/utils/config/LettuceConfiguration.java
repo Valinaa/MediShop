@@ -103,7 +103,6 @@ public class LettuceConfiguration implements CachingConfigurer {
     
     @Bean
     @Override
-    @SuppressWarnings("checkstyle:MagicNumber")
     public CacheManager cacheManager() {
         return RedisCacheManager.RedisCacheManagerBuilder
                 // Redis链接工厂

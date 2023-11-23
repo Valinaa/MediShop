@@ -23,6 +23,17 @@ declare module '*.md' {
   export default component
 }
 
+declare module '@vue/runtime-dom' {
+  interface HTMLAttributes {
+    [key: string]: any
+  }
+}
+declare module '@vue/runtime-core' {
+  interface AllowedComponentProps {
+    [key: string]: any
+  }
+}
+
 // 声明 vite 环境变量
 interface ImportMetaEnv {
   readonly VITE_BASE: string

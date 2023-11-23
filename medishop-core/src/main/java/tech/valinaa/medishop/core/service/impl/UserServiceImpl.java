@@ -48,7 +48,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
     
-    private AbstractCaptcha originalCaptcha;
+    private AbstractCaptcha originalCaptcha = null;
     @Lazy
     @Resource
     private AuthenticationManager authenticationManager;
@@ -80,7 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         } catch (AuthenticationException e) {
             log.error("login error:{}", e.getMessage());
         }
-        if (!originalCaptcha.verify(captcha)) {
+        if (originalCaptcha != null && !originalCaptcha.verify(captcha)) {
             // TODO 刷新验证码
             return Result.failure(ResultCodeEnum.CAPTCHA_ERROR);
         }

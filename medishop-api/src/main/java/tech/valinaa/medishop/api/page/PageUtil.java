@@ -21,13 +21,33 @@ import java.util.Objects;
 @UtilityClass
 public class PageUtil {
     
+    /**
+     * 获取分页对象
+     *
+     * @param request 分页请求
+     * @param c       class
+     * @param <T>     泛型
+     * @return 分页对象
+     */
     public static <T> Page<T> getPage(BasePageRequest request, Class<?> c) {
         return getPage(request.getPageNo(), request.getPageSize(), request.getDesc(), request.getOrderBy(), c);
     }
     
+    /**
+     * 获取分页对象
+     *
+     * @param pageNo   当前页数
+     * @param pageSize 每页显示多少条
+     * @param desc     是否倒序
+     * @param orderBy  排序字段
+     * @param c        class
+     * @param <T>      泛型
+     * @return 分页对象
+     */
+    
     public static <T> Page<T> getPage(Integer pageNo, Integer pageSize, Boolean desc, String orderBy, Class<?> c) {
         if (pageSize == -1) {
-            pageSize = 10000;
+            pageSize = 100;
         }
         var page = new Page<T>(pageNo, pageSize);
         if (!orderBy.isBlank()) {
