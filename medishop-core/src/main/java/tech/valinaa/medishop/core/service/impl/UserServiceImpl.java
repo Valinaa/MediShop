@@ -3,7 +3,7 @@ package tech.valinaa.medishop.core.service.impl;
 import cn.hutool.captcha.AbstractCaptcha;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,7 +44,7 @@ import java.util.Optional;
  * @author Valinaa
  * @Date 2023/10/2 19:42
  */
-@Slf4j
+@Log4j2
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
     

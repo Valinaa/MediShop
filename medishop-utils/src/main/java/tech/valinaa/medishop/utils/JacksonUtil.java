@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,14 +21,14 @@ import java.text.SimpleDateFormat;
  * @Date 2023/10/3 13:42
  * @Description Jackson 工具类
  */
-@Slf4j
+@Log4j2
 @UtilityClass
 @SuppressWarnings("unused")
 public class JacksonUtil {
-    private static final ObjectMapper objectMapper;
+    private static final ObjectMapper OBJECT_MAPPER;
     
     static {
-        objectMapper = new ObjectMapper()
+        OBJECT_MAPPER = new ObjectMapper()
                 //所有的日期格式都统一为以下的格式，即yyyy-MM-dd HH:mm:ss
                 .setDateFormat(new SimpleDateFormat(Constants.STANDARD_FORMAT))
                 //对象的所有字段全部列入序列化
@@ -54,7 +54,7 @@ public class JacksonUtil {
      */
     public static <T> T parseObject(String jsonString, Class<T> object) {
         try {
-            return objectMapper.readValue(jsonString, object);
+            return OBJECT_MAPPER.readValue(jsonString, object);
         } catch (JsonProcessingException e) {
             log.error("JsonString转为自定义对象失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -71,7 +71,7 @@ public class JacksonUtil {
      */
     public static <T> T parseObject(File file, Class<T> object) {
         try {
-            return objectMapper.readValue(file, object);
+            return OBJECT_MAPPER.readValue(file, object);
         } catch (IOException e) {
             log.error("从文件中读取json字符串转为自定义对象失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -88,7 +88,7 @@ public class JacksonUtil {
      */
     public static <T> T parseJSONArray(String jsonArray, TypeReference<T> reference) {
         try {
-            return objectMapper.readValue(jsonArray, reference);
+            return OBJECT_MAPPER.readValue(jsonArray, reference);
         } catch (JsonProcessingException e) {
             log.error("JSONArray转为List列表或者Map集合失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -105,7 +105,7 @@ public class JacksonUtil {
      */
     public static <T> T parseObject(String jsonString, TypeReference<T> reference) {
         try {
-            return objectMapper.readValue(jsonString, reference);
+            return OBJECT_MAPPER.readValue(jsonString, reference);
         } catch (JsonProcessingException e) {
             log.error("JSONArray转为List列表或者Map集合失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -124,7 +124,7 @@ public class JacksonUtil {
      */
     public static String toJSONString(Object object) {
         try {
-            return objectMapper.writeValueAsString(object);
+            return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error("Object转JSONString失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -139,7 +139,7 @@ public class JacksonUtil {
      */
     public static byte[] toByteArray(Object object) {
         try {
-            return objectMapper.writeValueAsBytes(object);
+            return OBJECT_MAPPER.writeValueAsBytes(object);
         } catch (JsonProcessingException e) {
             log.error("Object转ByteArray失败：{}", e.getMessage());
             throw new RuntimeException(e);
@@ -154,7 +154,7 @@ public class JacksonUtil {
      */
     public static void objectToFile(File file, Object object) {
         try {
-            objectMapper.writeValue(file, object);
+            OBJECT_MAPPER.writeValue(file, object);
         } catch (JsonProcessingException e) {
             log.error("Object写入文件失败：{}", e.getMessage(), e);
         } catch (IOException e) {
@@ -174,7 +174,7 @@ public class JacksonUtil {
      */
     public static JsonNode parseJSONObject(String jsonString) {
         try {
-            return objectMapper.readTree(jsonString);
+            return OBJECT_MAPPER.readTree(jsonString);
         } catch (JsonProcessingException e) {
             log.error("JSONString转为JsonNode失败：{}", e.getMessage(), e);
             throw new RuntimeException(e);
@@ -188,7 +188,7 @@ public class JacksonUtil {
      * @return JsonNode对象
      */
     public static JsonNode parseJSONObject(Object object) {
-        return objectMapper.valueToTree(object);
+        return OBJECT_MAPPER.valueToTree(object);
     }
     
     /**
@@ -199,7 +199,7 @@ public class JacksonUtil {
      */
     public static String toJSONString(JsonNode jsonNode) {
         try {
-            return objectMapper.writeValueAsString(jsonNode);
+            return OBJECT_MAPPER.writeValueAsString(jsonNode);
         } catch (JsonProcessingException e) {
             log.error("JsonNode转JSONString失败：{}", e.getMessage(), e);
             throw new RuntimeException(e);
@@ -213,7 +213,7 @@ public class JacksonUtil {
      * @return ObjectNode对象
      */
     public static ObjectNode newJSONObject() {
-        return objectMapper.createObjectNode();
+        return OBJECT_MAPPER.createObjectNode();
     }
     
     /**
@@ -222,7 +222,7 @@ public class JacksonUtil {
      * @return ArrayNode对象
      */
     public static ArrayNode newJSONArray() {
-        return objectMapper.createArrayNode();
+        return OBJECT_MAPPER.createArrayNode();
     }
     
     /*

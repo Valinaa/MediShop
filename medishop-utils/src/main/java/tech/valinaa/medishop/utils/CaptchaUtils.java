@@ -4,14 +4,14 @@ import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.generator.RandomGenerator;
 import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * @author Valinaa
  * @Date 2023/11/15 16:40
  * @Description 验证码工具类
  */
-@Slf4j
+@Log4j2
 @UtilityClass
 public class CaptchaUtils {
     
@@ -39,9 +39,7 @@ public class CaptchaUtils {
     public static AbstractCaptcha randomCaptcha(Long timestamp) {
         var captcha = randomCaptchaType(timestamp);
         captcha.setGenerator(new RandomGenerator(Constants.CAPTCHA_CHAR_COUNT));
-        if (log.isDebugEnabled()) {
-            log.debug("生成的验证码为：{}", captcha.getCode());
-        }
+        log.debug("生成的验证码为：{}", captcha::getCode);
         return captcha;
     }
 }

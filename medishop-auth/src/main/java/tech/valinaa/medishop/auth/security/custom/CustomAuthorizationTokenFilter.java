@@ -4,7 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +25,7 @@ import java.util.Objects;
  * @Date 2023/10/2 11:53
  * @Description 自定义验证token
  */
-@Slf4j
+@Log4j2
 @Component
 public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
     
@@ -38,9 +38,7 @@ public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader(Constants.AUTH_HEADER);
         // 存在token但不是tokenHead开头
         if (authHeader == null || !authHeader.startsWith("Bearer")) {
-            if (log.isDebugEnabled()) {
-                log.debug("authHeader is null come from TokenFilter, URL: {}", request.getRequestURI());
-            }
+            log.debug("authHeader is null come from TokenFilter, URL: {}", request::getRequestURI);
             filterChain.doFilter(request, response);
             return;
         }
@@ -48,9 +46,7 @@ public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
         var token = authHeader.split(" ")[1];
         // 没有token,直接放行
         if (token.isBlank()) {
-            if (log.isDebugEnabled()) {
-                log.debug("token is null come from TokenFilter, URL: {}", request.getRequestURI());
-            }
+            log.debug("token is null come from TokenFilter, URL: {}", request::getRequestURI);
             filterChain.doFilter(request, response);
             return;
         }
@@ -69,9 +65,7 @@ public class CustomAuthorizationTokenFilter extends OncePerRequestFilter {
                                 JacksonUtil.toJSONString(Result.failure(ResultCodeEnum.TOKEN_INVALID))));
                 return;
             }
-            if (log.isDebugEnabled()) {
-                log.debug("Token is valid, username: {}", userDetails.getUsername());
-            }
+            log.debug("Token is valid, username: {}", userDetails::getUsername);
             var authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
             // 重新设置到用户对象里

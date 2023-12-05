@@ -13,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = "tech.valinaa.medishop")
 public class MediShopApplication {
     public static void main(String[] args) {
+        System.setProperty("org.springframework.boot.logging.LoggingSystem",
+                "org.springframework.boot.logging.log4j2.Log4J2LoggingSystem");
         SpringApplication.run(MediShopApplication.class);
     }
 }

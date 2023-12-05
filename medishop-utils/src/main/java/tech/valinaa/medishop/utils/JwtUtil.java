@@ -1,7 +1,7 @@
 package tech.valinaa.medishop.utils;
 
 import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.jose4j.jwa.AlgorithmConstraints;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.AlgorithmIdentifiers;
@@ -17,7 +17,6 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.util.Pair;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import tech.valinaa.medishop.utils.exception.security.AuthenticationFailedException;
 
 import java.security.PrivateKey;
@@ -29,8 +28,7 @@ import java.util.List;
  * @Date 2023/10/1 20:43
  * @Description : Jwt生成类
  */
-@Slf4j
-@Component
+@Log4j2
 @UtilityClass
 @DependsOn("springContextHolder")
 @SuppressWarnings("checkstyle:MagicNumber")
@@ -47,6 +45,7 @@ public final class JwtUtil {
      * @param claimPairs     自定义参数
      * @param <T>            自定义参数类型
      * @return {@link String}
+     * @throws AuthenticationFailedException AuthenticationFailedException
      */
     
     public static <T> String createToken(UserDetails userDetails, NumericDate expirationTime,
@@ -96,7 +95,7 @@ public final class JwtUtil {
              */
             return jws.getCompactSerialization();
         } catch (JoseException e) {
-            log.error("Token Create Failed with Exception!" + e.getMessage());
+            log.error(() -> "Token Create Failed with Exception!" + e.getMessage());
             throw new AuthenticationFailedException(60001, "Token Create Failed with message: " + e.getMessage());
         }
     }
@@ -182,10 +181,8 @@ public final class JwtUtil {
             if (claims != null) {
                 log.info("认证通过！");
                 var user = claims.getClaimValue("user", UserDetails.class);
-                if (log.isDebugEnabled()) {
-                    log.debug("token payload携带的自定义内容:携带该token的用户名 =>" + user.getUsername());
-                    log.debug("Jwt Succeed! The JwtClaims:" + claims);
-                }
+                log.debug("token payload携带的自定义内容:携带该token的用户名 => {}", user::getUsername);
+                log.debug("Jwt Succeed! The JwtClaims: {}", () -> claims);
                 return true;
             }
         } catch (InvalidJwtException | MalformedClaimException e) {
@@ -215,17 +212,17 @@ public final class JwtUtil {
     
     private static void processJwtException(Exception e) {
         if (e instanceof MalformedClaimException mce) {
-            log.error("Can not get Expiration Time, Audience, Subject etc. message:  " + mce.getMessage());
+            log.error("Can not get Expiration Time, Audience, Subject etc. message: {}", mce.getMessage());
             throw new AuthenticationFailedException(60003, "Can not get properties of Claim. message:  " + mce.getMessage());
         }
         if (e instanceof InvalidJwtException ije) {
-            log.warn("Jwt Invalid!" + e);
+            log.warn("Jwt Invalid!", e);
             try {
                 if (ije.hasExpired()) {
-                    log.warn("JWT expired at " + ije.getJwtContext().getJwtClaims().getExpirationTime());
+                    log.warn("JWT expired at {}", ije.getJwtContext().getJwtClaims().getExpirationTime());
                 }
                 if (ije.hasErrorCode(ErrorCodes.AUDIENCE_INVALID)) {
-                    log.error("JWT had wrong audience: " + ije.getJwtContext().getJwtClaims().getAudience());
+                    log.error("JWT had wrong audience: {}", ije.getJwtContext().getJwtClaims().getAudience());
                 }
             } catch (MalformedClaimException ex) {
                 processJwtException(ex);

@@ -1,6 +1,9 @@
 server:
   port: 8999
 spring:
+  output:
+    ansi:
+      enabled: always
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: medishop
@@ -23,14 +26,14 @@ spring:
       repositories:
         enabled: false
 mybatis-plus:
-  type-aliases-package: tech.valinaa.medishop.core.model.dataobject
+  type-aliases-package: tech.valinaa.medishop.core.model
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
-#logging:
-#  config: classpath:log4j2.xml
-#  level:
-#    web: debug
+logging:
+  level:
+    root: info
+    web: debug
 knife4j:
   enable: true
   setting:

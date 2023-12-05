@@ -1,7 +1,7 @@
 package tech.valinaa.medishop.api.medicine.response;
 
 import lombok.Data;
-import tech.valinaa.medishop.core.model.enums.MedicineStatusEnum;
+import tech.valinaa.medishop.api.enums.MedicineStatusEnum;
 
 /**
  * @author Valinaa

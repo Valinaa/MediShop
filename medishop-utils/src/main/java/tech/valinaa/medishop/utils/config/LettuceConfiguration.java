@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurer;
@@ -38,7 +38,7 @@ import java.util.Objects;
 @Configuration
 @EnableCaching
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class LettuceConfiguration implements CachingConfigurer {
     
     private final LettuceConnectionFactory connectionFactory;
@@ -67,7 +67,7 @@ public class LettuceConfiguration implements CachingConfigurer {
                     sb.append(Objects.requireNonNull(JacksonUtil.toJSONString(obj)).hashCode());
                 }
             }
-            log.info("redis cache key str: " + sb);
+            log.info("redis cache key str: {}", sb);
             return sb.toString();
         };
     }

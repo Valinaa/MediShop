@@ -4,7 +4,7 @@
 !当设置成trace时，可以看到log4j2内部各种详细输出
 -->
 <!--!monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数-->
-<configuration monitorInterval="4">
+<configuration monitorInterval="4" status="DEBUG">
     <!--!日志级别以及优先级排序:
     !OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
     -->
@@ -18,10 +18,10 @@
             !%msg：日志消息，%n是换行符
         -->
         <!--
-        !%logger{36} 表示 Logger 名字最长36个字符
+        !%logger{36} 表示 logger 名字最长36个字符
         -->
         <property name="LOG_PATTERN"
-                  value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level}[%thread] %style{%logger{36}}{cyan} : %msg%n"/>
+                  value="%clr{%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}}{blue} %highlight{%-5level}[%thread] %clr{%pid}{magenta} %clr{---}{blue} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %msg%n%xwEx"/>
         <!--!定义日志存储的路径，不要配置相对路径 -->
         <property name="FILE_PATH" value="logs/"/>
         <property name="FILE_NAME" value="logs"/>
@@ -107,9 +107,9 @@
         </logger>
         <!--!监控系统信息-->
         <!--!若是additivity设为false，则 子Logger 只会在自己的appender里输出，而不会在 父Logger 的appender里输出。-->
-        <Logger name="org.springframework" level="info" additivity="false">
+        <logger name="org.springframework" level="info" additivity="false">
             <AppenderRef ref="Console"/>
-        </Logger>
+        </logger>
         <root level="info">
             <appender-ref ref="Console"/>
             <appender-ref ref="FileLog"/>
@@ -122,15 +122,15 @@
             <appender-ref ref="druidSqlRollingFile"/>
         </logger>-->
         <!--!log4j2 自带过滤日志-->
-        <Logger name="org.apache.catalina.startup.DigesterFactory" level="error"/>
-        <Logger name="org.apache.catalina.util.LifecycleBase" level="error"/>
-        <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn"/>
+        <logger name="org.apache.catalina.startup.DigesterFactory" level="error"/>
+        <logger name="org.apache.catalina.util.LifecycleBase" level="error"/>
+        <logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn"/>
         <logger name="org.apache.sshd.common.util.SecurityUtils" level="warn"/>
-        <Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn"/>
-        <Logger name="org.crsh.plugin" level="warn"/>
+        <logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn"/>
+        <logger name="org.crsh.plugin" level="warn"/>
         <logger name="org.crsh.ssh" level="warn"/>
-        <Logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error"/>
-        <Logger name="org.hibernate.validator.internal.util.Version" level="warn"/>
+        <logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error"/>
+        <logger name="org.hibernate.validator.internal.util.Version" level="warn"/>
         <logger name="org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration" level="warn"/>
         <logger name="org.springframework.boot.actuate.endpoint.jmx" level="warn"/>
         <logger name="org.thymeleaf" level="warn"/>
