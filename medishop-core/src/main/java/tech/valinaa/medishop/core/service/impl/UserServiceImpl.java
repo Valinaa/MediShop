@@ -146,6 +146,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
     
     @Override
+    public Result<Boolean> verifyRecaptcha(String token) {
+        var verifyUrl = "https://www.google.com/recaptcha/api/siteverify";
+        var secret = System.getProperty("RecaptchaSecret");
+        var client = HttpClient.newHttpClient();
+        var request = HttpRequest.newBuilder()
+                .uri(URI.create(verifyUrl))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(HttpRequest.BodyPublishers.ofString("secret=" + secret + "&response=" + token))
+                .build();
+        try {
+            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            var jsonRes = JacksonUtil.parseJSONObject(response.body());
+            log.debug("Recaptcha verify result: {}", jsonRes::toPrettyString);
+            var isLegal = JacksonUtil.getBoolean(jsonRes, "success");
+            return Boolean.TRUE.equals(isLegal)
+                    ? Result.success(true)
+                    : Result.failure(isLegal, ResultCodeEnum.RECAPTCHA_ERROR);
+        } catch (IOException e) {
+            log.error("Cannot verify recaptcha: {}", e.getMessage());
+        } catch (InterruptedException e) {
+            log.error("Cannot verify recaptcha: {}", e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+        return Result.failure(false, ResultCodeEnum.NETWORK_ERROR);
+    }
+    
+    @Override
     public UserDetails loadUserByUsername(String username) {
         var user = Optional.of(this.lambdaQuery().eq(UserDO::getUsername, username).oneOpt())
                 .orElseThrow(() -> new UsernameNotFoundException("Error when search username from database!"))

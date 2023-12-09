@@ -34,6 +34,8 @@ public enum ResultCodeEnum {
     FETCH_ACCESS_TOKEN_FAILED(5010, "获取accessToken失败"),
     FETCH_USERINFO_ERROR(5011, "获取用户信息失败"),
     DATABASE_OPERATION_FAILED(5012, "数据库操作失败"),
+    NETWORK_ERROR(5013, "网络错误"),
+    RECAPTCHA_ERROR(5014, "recaptcha验证未通过"),
     
     ORDER_PRICE_ERROR(5201, "订单商品价格变化"),
     ORDER_STOCK_FALL(5202, "订单库存锁定失败"),

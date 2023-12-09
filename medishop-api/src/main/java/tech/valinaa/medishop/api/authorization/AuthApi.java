@@ -27,6 +27,7 @@ public interface AuthApi {
      *
      * @param username 用户名
      * @param password 密码
+     * @param captcha  验证码
      * @return token
      */
     @PostMapping("/login")
@@ -53,7 +54,23 @@ public interface AuthApi {
     @Operation(summary = "用户登出", description = "用户登出成功后返回true")
     Result<Boolean> logout(@RequestBody @Validated UserRequest userRequest);
     
+    /**
+     * 获取验证码Api
+     *
+     * @param timestamp 时间戳
+     * @return 验证码
+     */
     @GetMapping("/captcha")
     @Operation(summary = "获取验证码", description = "获取验证码")
     Result<String> getCaptcha(Long timestamp);
+    
+    /**
+     * 验证Recaptcha
+     *
+     * @param token token
+     * @return 验证结果
+     */
+    @PostMapping("/verifyRecaptcha")
+    @Operation(summary = "验证Recaptcha", description = "验证Recaptcha")
+    Result<Boolean> verifyRecaptcha(@NotBlank String token);
 }

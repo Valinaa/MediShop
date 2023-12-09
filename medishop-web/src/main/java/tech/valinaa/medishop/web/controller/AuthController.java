@@ -44,4 +44,9 @@ public class AuthController implements AuthApi {
         return userService.getCaptcha(timestamp);
     }
     
+    @Override
+    public Result<Boolean> verifyRecaptcha(String token) {
+        return userService.verifyRecaptcha(token);
+    }
+    
 }
