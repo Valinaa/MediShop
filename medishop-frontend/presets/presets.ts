@@ -17,16 +17,16 @@ import {
 import UnoCSS from 'unocss/vite'
 import Unfonts from 'unplugin-fonts/vite'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
-import { ConfigEnv } from 'vite'
 import { resolve } from 'path'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
-export default (env: ConfigEnv) => {
+export default (env: Record<string, string>) => {
   return [
     VueRouter({
+      dts: true,
       routesFolder: 'src/pages',
       extensions: ['.vue'],
       exclude: [],
-      dts: './typed-router.d.ts',
       routeBlockLang: 'json5',
       importMode: 'async',
     }),
@@ -36,7 +36,7 @@ export default (env: ConfigEnv) => {
     vueJsx(),
     svgLoader(),
     AutoImport({
-      dts: './auto-imports.d.ts',
+      dts: true,
       imports: [
         'vue',
         'pinia',
@@ -47,6 +47,7 @@ export default (env: ConfigEnv) => {
           axios: [
             ['default', 'axios'], // import { default as axios } from 'axios',
           ],
+          /*
           'echarts/core': [['*', 'echarts']],
           'echarts/charts': [
             'BarChart',
@@ -68,6 +69,7 @@ export default (env: ConfigEnv) => {
             'TooltipComponent',
             'TransformComponent',
           ],
+          */
         },
       ],
       // Generate corresponding .eslintrc-auto-import.json file.
@@ -82,11 +84,15 @@ export default (env: ConfigEnv) => {
     //   threshold: 1024000,
     // }),
     Components({
-      dts: './components.d.ts',
+      dts: true,
       extensions: ['vue', 'md'],
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       // imports 指定组件所在位置，默认为 src/components; 有需要也可以加上 view 目录
-      dirs: ['src/components/', 'src/views/', 'src/pages'],
+      dirs: [
+        'src/components/',
+        'src/views/',
+        // 'src/pages'  基于filename的路由，不需要动态导入
+      ],
       resolvers: [
         ElementPlusResolver(),
         BootstrapVueNextResolver(),
@@ -97,7 +103,24 @@ export default (env: ConfigEnv) => {
         VueUseComponentsResolver(),
       ],
     }),
-    vitePluginImp(),
+    vitePluginImp({
+      libList: [
+        {
+          libName: 'element-plus',
+          libDirectory: 'es/components',
+          nameFormatter: (name) => {
+            return name.replace('el-', '')
+          },
+          style: (name) => {
+            if (['el-config-provider', 'effect'].includes(name)) return false
+            return `element-plus/es/components/${name.replace(
+              'el-',
+              ''
+            )}/style/css.mjs`
+          },
+        },
+      ],
+    }),
     Icons({
       compiler: 'vue3',
       autoInstall: true,
@@ -117,5 +140,14 @@ export default (env: ConfigEnv) => {
       include: [resolve(__dirname, '../locales/**')],
     }),
     UnoCSS({}),
+    createHtmlPlugin({
+      minify: true,
+      inject: {
+        data: {
+          title: env.VITE_APP_TITLE,
+          reCaptchaScript: `<script src='https://www.google.com/recaptcha/api.js?render=${env.VITE_LOCALHOST_RECAPTCHA_SITE_KEY}'></script>`,
+        },
+      },
+    }),
   ]
 }

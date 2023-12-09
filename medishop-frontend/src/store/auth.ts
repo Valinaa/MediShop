@@ -6,13 +6,13 @@ const useAuthStore = defineStore(
   'medishop-auth',
   () => {
     const isAuthenticated = ref(false)
-    const tokenInfo = ref({
+    const tokenInfo: JWTResponse = reactive({
       accessToken: '',
       refreshToken: '',
-      expiredIn: '',
+      expiredIn: 0,
       tokenType: '',
     })
-    const userInfo = ref({
+    const userInfo: User = reactive({
       id: -1,
       username: '',
       password: '',
@@ -28,22 +28,22 @@ const useAuthStore = defineStore(
     })
 
     const resolveRes = (jwt: JWTResponse, user: User) => {
-      tokenInfo.value.accessToken = jwt.accessToken
-      tokenInfo.value.refreshToken = jwt.refreshToken
-      tokenInfo.value.tokenType = jwt.tokenType
-      tokenInfo.value.expiredIn = new Date(jwt.expiredIn).toLocaleString()
-      userInfo.value.id = user.id
-      userInfo.value.username = user.username
-      userInfo.value.password = user.password
-      userInfo.value.authorities = user.authorities
-      userInfo.value.fullName = user.fullName
-      userInfo.value.email = user.email
-      userInfo.value.phoneNumber = user.phoneNumber
-      userInfo.value.address = user.address
-      userInfo.value.ipAddress = user.ipAddress
-      userInfo.value.ipRegion = user.ipRegion
-      userInfo.value.userType = user.userType
-      userInfo.value.licenseImageUrl = user.licenseImageUrl
+      tokenInfo.accessToken = jwt.accessToken
+      tokenInfo.refreshToken = jwt.refreshToken
+      tokenInfo.tokenType = jwt.tokenType
+      tokenInfo.expiredIn = new Date(jwt.expiredIn).getUTCMilliseconds()
+      userInfo.id = user.id
+      userInfo.username = user.username
+      userInfo.password = user.password
+      userInfo.authorities = user.authorities
+      userInfo.fullName = user.fullName
+      userInfo.email = user.email
+      userInfo.phoneNumber = user.phoneNumber
+      userInfo.address = user.address
+      userInfo.ipAddress = user.ipAddress
+      userInfo.ipRegion = user.ipRegion
+      userInfo.userType = user.userType
+      userInfo.licenseImageUrl = user.licenseImageUrl
       isAuthenticated.value = true
     }
     return { isAuthenticated, tokenInfo, userInfo, resolveRes }

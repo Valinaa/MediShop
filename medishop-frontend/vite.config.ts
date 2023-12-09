@@ -12,7 +12,7 @@ export default defineConfig((env) => {
   return {
     // envDir: resolve(__dirname),
     base: viteEnv.VITE_BASE || './',
-    plugins: [presets(env)],
+    plugins: [presets(viteEnv)],
     esbuild: {
       drop: ['console', 'debugger'],
     },

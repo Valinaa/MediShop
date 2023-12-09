@@ -31,24 +31,45 @@ const formRules = {
 }
 
 const submitForm = () => {
-  defaultHttp
-    .post({
-      url: '/register',
-      data: {
-        username: formData.username,
-        fullName: formData.fullName,
-        userType: formData.userType,
-        password: formData.password,
-      },
-    })
-    .then((res) => {
-      console.log(res)
-      ElMessage.success('注册成功')
-      router.push('/login')
-    })
-    .catch((err) => {
-      ElMessage.error(`意外错误！${err}`)
-    })
+  grecaptcha.ready(function () {
+    grecaptcha
+      .execute(import.meta.env.VITE_LOCALHOST_RECAPTCHA_SITE_KEY, {
+        action: 'submit',
+      })
+      .then(function (token: string) {
+        defaultHttp
+          .post({
+            url: '/verifyRecaptcha',
+            data: {
+              token,
+            },
+          })
+          .then(() => {
+            ElMessage.success(`人机验证成功！`)
+            defaultHttp
+              .post({
+                url: '/register',
+                data: {
+                  username: formData.username,
+                  fullName: formData.fullName,
+                  userType: formData.userType,
+                  password: formData.password,
+                },
+              })
+              .then((res) => {
+                console.log(res)
+                ElMessage.success('注册成功')
+                router.push('/login')
+              })
+              .catch((err) => {
+                ElMessage.error(`意外错误！${err}`)
+              })
+          })
+          .catch((err) => {
+            ElMessage.error(`人机验证失败！${err}`)
+          })
+      })
+  })
 }
 </script>
 
