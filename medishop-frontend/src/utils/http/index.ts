@@ -16,6 +16,8 @@ import i18n from '../i18n'
 import { formatRequestDate, joinTimestamp } from './helper'
 import { VAxios } from './Axios'
 
+import type { Recordable } from 'types'
+
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform'
 import type { RequestOptions, Result } from 'types/axios'
 import type { AxiosResponse } from 'axios'
@@ -29,7 +31,7 @@ const transform: AxiosTransform = {
    * @description: 处理请求数据。如果数据不是预期格式，可直接抛出错误
    */
   transformRequestHook: (
-    res: AxiosResponse<Result>,
+    res: AxiosResponse<Result<any>>,
     options: RequestOptions
   ) => {
     const { isTransformResponse, isReturnNativeResponse } = options

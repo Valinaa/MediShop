@@ -5,7 +5,7 @@ import { pinia } from '@/store'
 import { formatToDateTime } from '@/utils/dateUtil'
 import { ErrorTypeEnum } from '@/enums/exceptionEnum'
 
-import type { ErrorLogInfo } from 'types/index'
+import type { ErrorLogInfo, Nullable } from 'types/index'
 
 export interface ErrorLogState {
   errorLogInfoList: Nullable<ErrorLogInfo[]>

@@ -1,4 +1,7 @@
-import vue from '@vitejs/plugin-vue'
+import { resolve } from 'node:path'
+
+import VueDevTools from 'vite-plugin-vue-devtools'
+import Vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -15,22 +18,16 @@ import {
   VueUseComponentsResolver,
 } from 'unplugin-vue-components/resolvers'
 import UnoCSS from 'unocss/vite'
-import Unfonts from 'unplugin-fonts/vite'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
-import { resolve } from 'path'
 import { createHtmlPlugin } from 'vite-plugin-html'
 
 export default (env: Record<string, string>) => {
   return [
     VueRouter({
-      dts: true,
-      routesFolder: 'src/pages',
-      extensions: ['.vue'],
-      exclude: [],
-      routeBlockLang: 'json5',
-      importMode: 'async',
+      extensions: ['.vue', '.md'],
     }),
-    vue({
+    VueDevTools(),
+    Vue({
       include: [/\.vue$/, /\.md$/],
     }),
     vueJsx(),
@@ -39,10 +36,10 @@ export default (env: Record<string, string>) => {
       dts: true,
       imports: [
         'vue',
-        'pinia',
-        VueRouterAutoImports,
         'vue-i18n',
+        'pinia',
         '@vueuse/core',
+        VueRouterAutoImports,
         {
           axios: [
             ['default', 'axios'], // import { default as axios } from 'axios',
@@ -72,11 +69,10 @@ export default (env: Record<string, string>) => {
           */
         },
       ],
-      // Generate corresponding .eslintrc-auto-import.json file.
-      // eslint globals Docs - https://eslint.org/docs/user-guide/configuring/language-options#specifying-globals
       eslintrc: {
         enabled: true,
       },
+      vueTemplate: true,
       resolvers: [ElementPlusResolver()],
     }),
     // ViteCompression({
@@ -87,12 +83,6 @@ export default (env: Record<string, string>) => {
       dts: true,
       extensions: ['vue', 'md'],
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      // imports 指定组件所在位置，默认为 src/components; 有需要也可以加上 view 目录
-      dirs: [
-        'src/components/',
-        'src/views/',
-        // 'src/pages'  基于filename的路由，不需要动态导入
-      ],
       resolvers: [
         ElementPlusResolver(),
         BootstrapVueNextResolver(),
@@ -112,7 +102,9 @@ export default (env: Record<string, string>) => {
             return name.replace('el-', '')
           },
           style: (name) => {
-            if (['el-config-provider', 'effect'].includes(name)) return false
+            if (['el-config-provider', 'effect'].includes(name)) {
+              return false
+            }
             return `element-plus/es/components/${name.replace(
               'el-',
               ''
@@ -130,11 +122,6 @@ export default (env: Record<string, string>) => {
         ),
       },
     }),
-    Unfonts({
-      google: {
-        families: ['Open Sans', 'Montserrat', 'Fira Sans'],
-      },
-    }),
     VueI18nPlugin({
       defaultSFCLang: 'yaml',
       include: [resolve(__dirname, '../locales/**')],
@@ -149,5 +136,9 @@ export default (env: Record<string, string>) => {
         },
       },
     }),
+    // webfontDownload([
+    //   // 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap',
+    //   // 'https://fonts.googleapis.com/css2?family=Fira+Code&display=swap',
+    // ]),
   ]
 }

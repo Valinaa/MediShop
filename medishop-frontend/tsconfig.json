@@ -6,7 +6,6 @@
     "lib": [
       "ESNext",
       "DOM"
-      //      "DOM.Iterable"
     ],
     "skipLibCheck": true,
     /* Bundler mode */
@@ -30,7 +29,7 @@
       "element-plus/global",
       "@intlify/unplugin-vue-i18n/messages"
     ],
-    // baseUrl来告诉编译器到哪里去查找模块，所有非相对模块导入都会被当做相对于 baseUrl。
+    // baseUrl来告诉编译器到哪里去查找模块，所有非相对模块导入都会被当做相对于 baseUrl
     "baseUrl": ".",
     // 非相对模块导入的路径映射配置
     "paths": {
@@ -40,15 +39,11 @@
     }
   },
   "include": [
-    "./**.config.**",
-    "auto-imports.d.ts",
-    "components.d.ts",
+    "./**.ts",
     "presets",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "typed-router.d.ts"
-    // "types"
   ]
 }

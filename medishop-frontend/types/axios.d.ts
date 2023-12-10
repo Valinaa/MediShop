@@ -25,21 +25,8 @@ export interface RequestOptions {
   withToken?: boolean
 }
 
-export interface Result<T = any> {
+export interface Result<T> {
   code: number
   message: string
   data: T
 }
-
-// multipart/form-data: upload file
-// export interface UploadFileParams {
-//   // Other parameters
-//   data?: Recordable;
-//   // File parameter interface field name
-//   name?: string;
-//   // file name
-//   file: File | Blob;
-//   // file name
-//   filename?: string;
-//   [key: string]: any;
-// }

@@ -33,7 +33,7 @@ export default defineConfig((env) => {
         '/api': {
           target: 'http://localhost:8999',
           //     target: 'https://118.89.71.118/',
-          changeOrigin: true, // 允许跨域
+          changeOrigin: true,
           rewrite: (path) => path.replace('/api/', '/'),
         },
       },

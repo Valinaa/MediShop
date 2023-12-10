@@ -3,7 +3,4 @@ node_modules
 dist
 dist-ssr
 *.local
-presets
-**/*.d.ts
-*.d.ts
 **/node_modules/**

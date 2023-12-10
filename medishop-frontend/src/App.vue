@@ -109,7 +109,7 @@ const locale = zhCn
                 </el-aside> -->
         <!-- <el-container> -->
         <el-main>
-          <router-view />
+          <RouterView />
         </el-main>
         <el-footer>
           <TheFooter />

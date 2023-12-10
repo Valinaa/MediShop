@@ -229,8 +229,8 @@ export class VAxios {
 
     return new Promise((resolve, reject) => {
       this.axiosInstance
-        .request<any, AxiosResponse<Result>>(conf)
-        .then((res: AxiosResponse<Result>) => {
+        .request<any, AxiosResponse<Result<T>>>(conf)
+        .then((res: AxiosResponse<Result<T>>) => {
           if (transformRequestHook && isFunction(transformRequestHook)) {
             try {
               const ret = transformRequestHook(res, opt)

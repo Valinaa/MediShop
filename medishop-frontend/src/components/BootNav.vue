@@ -8,21 +8,16 @@ import router from '@/router'
 import avatar from '@/assets/avatar.jpg'
 import { saveLanguage } from '@/utils/i18n'
 import defaultHttp from '@/api/http'
-import useAuctionStore from '@/store/auction'
-import Timer from '@/utils/times'
-
-import type { AuctionInfo, GoodsInfo, UserInfo } from 'types/auction'
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
 const { t, availableLocales, locale } = useI18n()
-const { user } = storeToRefs(useAuctionStore())
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 const form = reactive({
-  accountId: user.value.accountId,
-  businessName: user.value.name,
-  identity: user.value.identity,
+  accountId: 1,
+  businessName: '',
+  identity: '',
   goodName: '',
   goodType: 2,
   startPrice: 0,
@@ -39,7 +34,7 @@ function toggleLocales() {
 }
 
 function goPage(path: string) {
-  const aid = user.value.accountId
+  const aid = 10086
   const url = ref('')
   switch (path) {
     case '/userInfo':
@@ -55,16 +50,13 @@ function goPage(path: string) {
     case '/myAuctions':
       url.value = `/getAuctionRecord/${aid}`
       break
-    // case '/shopCart':
-    //     url.value = `/getShoppingCartList/${aid}`
-    //     break
   }
   if (!(url.value === '/getAccountInfo')) {
     defaultHttp
       .get({
         url: url.value,
       })
-      .then((res: Array<GoodsInfo | AuctionInfo | UserInfo>) => {
+      .then((res: Array<any>) => {
         const goods = encodeURIComponent(JSON.stringify(res))
         ElMessage.success('get list success!')
         const paths = `${path}/${goods}`
@@ -78,13 +70,13 @@ function goPage(path: string) {
       .post({
         url: url.value,
         data: {
-          id: user.value.accountId,
-          account: user.value.account,
-          name: user.value.name,
-          identity: user.value.identity,
+          id: 10086,
+          account: 'todo',
+          name: '',
+          identity: '',
         },
       })
-      .then((res: Array<AuctionInfo>) => {
+      .then((res: Array<any>) => {
         const goods = encodeURIComponent(JSON.stringify(res))
         ElMessage.success('get list success!')
         const paths = `${path}/${goods}`
@@ -102,13 +94,8 @@ function submitAddGood() {
       url,
       data: form,
     })
-    .then((res: any) => {
+    .then((_res: any) => {
       ElMessage.success('添加成功！')
-      const timer = new Timer(Date.now().toString())
-      const targetTime = new Date(form.endTime).getTime()
-      const needTime = (targetTime - Date.now()) / 1000
-      timer.start(needTime, '拍卖结束！')
-      timer.watchDestroy()
       goPage('/myGoods')
     })
     .catch((err: any) => {
@@ -126,7 +113,6 @@ function getEmails() {
   void ElMessageBox.alert(
     `${t('email content')}<br/>
         <ul>
-            <li><b>valinaa@valinaa-wei.tech<b/></li>
             <li><b>1114854003@qq.com<b/></li>
             <li><b>ecustck@163.com<b/></li>
             <li><b>20002605@mail.ecust.edu.cn<b/></li>
@@ -212,7 +198,7 @@ function getEmails() {
             <i class="menu-item-icon">
               <i-tabler-bulb />
             </i>
-            {{ t('medishop.myAuctions') }}
+            待国际化
           </span>
         </b-nav-item>
         <b-nav-item @click="goPage('/myGoods')">

@@ -3,7 +3,6 @@ import router from '@/router/index'
 import i18n from './utils/i18n'
 import { usePiniaStore } from './store'
 
-// vue-router
 import App from './App.vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -14,8 +13,6 @@ import 'virtual:uno.css'
 
 // import 'virtual:unocss-devtools'
 import '@unocss/reset/normalize.css'
-
-// import '@/assets/styles/index.css'
 
 import '@/assets/styles/index.scss'
 

@@ -49,7 +49,6 @@ rules:
   # 引入模块检查
   import/no-extraneous-dependencies:
     - 1
-    - devDependencies: true
   # import/default: 1
   import/prefer-default-export: 1
   import/order:
@@ -233,6 +232,7 @@ rules:
         - index
         - register
         - login
+        - '[...path]'
 settings:
   prettier-vue:
     SFCBlocks:

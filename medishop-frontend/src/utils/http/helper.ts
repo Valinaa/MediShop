@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { isObject, isString } from '@/utils/isType'
 
+import type { Recordable } from 'types'
+
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm'
 
 export function joinTimestamp<T extends boolean>(

@@ -24,3 +24,6 @@ declare interface Fn<T, R = T> {
 }
 
 declare type TargetContext = '_self' | '_blank'
+declare type Nullable<T> = T | null
+declare type NullUndefable<T> = T | null | undefined
+declare type Recordable<T = any> = Record<string, T>
