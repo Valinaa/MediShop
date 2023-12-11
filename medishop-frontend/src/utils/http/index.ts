@@ -16,7 +16,7 @@ import i18n from '../i18n'
 import { formatRequestDate, joinTimestamp } from './helper'
 import { VAxios } from './Axios'
 
-import type { Recordable } from 'types'
+import type { Recordable } from 'types/utils'
 
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform'
 import type { RequestOptions, Result } from 'types/axios'

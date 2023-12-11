@@ -7,10 +7,11 @@ import {
   presetTypography,
   presetUno,
   presetWebFonts,
-  presetWind,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+
+import presetRemToPx from '@unocss/preset-rem-to-px'
 
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
@@ -92,10 +93,9 @@ export default defineConfig({
   presets: [
     presetUno(),
     presetAttributify({
-      prefix: 'u:',
+      prefix: 'uno:',
       prefixedOnly: false,
     }),
-    presetWind(),
     presetIcons({
       warn: true,
       // mode: 'background-img',
@@ -119,10 +119,12 @@ export default defineConfig({
     presetTypography(),
     presetWebFonts({
       fonts: {
-        'dm-sans': 'DM Sans',
-        'dm-serif': 'DM Serif Display',
+        sans: 'DM Sans',
+        serif: 'DM Serif Display',
+        mono: 'DM Mono',
       },
     }),
+    presetRemToPx(),
   ],
   transformers: [transformerDirectives(), transformerVariantGroup()],
 })

@@ -2,6 +2,5 @@
 plugins:
   postcss-preset-env: {}
   postcss-html: {}
-  autoprefixer: {}
   postcss-import: {}
   '@unocss/postcss': {}

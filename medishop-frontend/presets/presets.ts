@@ -4,7 +4,6 @@ import VueDevTools from 'vite-plugin-vue-devtools'
 import Vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
-import vueJsx from '@vitejs/plugin-vue-jsx'
 import svgLoader from 'vite-svg-loader'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -30,7 +29,6 @@ export default (env: Record<string, string>) => {
     Vue({
       include: [/\.vue$/, /\.md$/],
     }),
-    vueJsx(),
     svgLoader(),
     AutoImport({
       dts: true,

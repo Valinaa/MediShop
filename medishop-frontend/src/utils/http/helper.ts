@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { isObject, isString } from '@/utils/isType'
 
-import type { Recordable } from 'types'
+import type { Recordable } from 'types/utils'
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm'
 

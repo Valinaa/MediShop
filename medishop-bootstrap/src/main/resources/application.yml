@@ -1,9 +1,6 @@
 server:
   port: 8999
 spring:
-  output:
-    ansi:
-      enabled: always
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: medishop
