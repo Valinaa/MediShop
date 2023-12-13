@@ -1,0 +1,151 @@
+{
+  "eslint.experimental.useFlatConfig": true,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  // Silent the stylistic rules in you IDE, but still auto fix them
+  "eslint.rules.customizations": [
+    {
+      "rule": "style/*",
+      "severity": "off"
+    },
+    {
+      "rule": "format/*",
+      "severity": "off"
+    },
+    {
+      "rule": "*-indent",
+      "severity": "off"
+    },
+    {
+      "rule": "*-spacing",
+      "severity": "off"
+    },
+    {
+      "rule": "*-spaces",
+      "severity": "off"
+    },
+    {
+      "rule": "*-order",
+      "severity": "off"
+    },
+    {
+      "rule": "*-dangle",
+      "severity": "off"
+    },
+    {
+      "rule": "*-newline",
+      "severity": "off"
+    },
+    {
+      "rule": "*quotes",
+      "severity": "off"
+    },
+    {
+      "rule": "*semi",
+      "severity": "off"
+    }
+  ],
+  // Enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml",
+    "toml"
+  ],
+  "json.format.enable": false,
+  "scss.lint.unknownAtRules": "ignore",
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    "./",
+    ".vscode-insiders",
+    "*.config.*",
+    "*.yaml"
+  ],
+  "cSpell.words": [
+    "antfu",
+    "Attributify",
+    "Axios",
+    "backface",
+    "bidi",
+    "Boxplot",
+    "camelcase",
+    "commitlint",
+    "commitlintrc",
+    "concat",
+    "cond",
+    "consola",
+    "echarts",
+    "entypo",
+    "eqeqeq",
+    "finebi",
+    "Fira",
+    "grecaptcha",
+    "Heroicons",
+    "humbleicons",
+    "icones",
+    "iconify",
+    "iconoir",
+    "intlify",
+    "linkify",
+    "mingcute",
+    "nocheck",
+    "noopener",
+    "nprogress",
+    "oimei",
+    "paren",
+    "parens",
+    "persistedstate",
+    "pinia",
+    "postcss",
+    "powerpack",
+    "preflights",
+    "qlikview",
+    "saler",
+    "tabler",
+    "toggleable",
+    "tsdoc",
+    "twotone",
+    "typeof",
+    "Undefable",
+    "Unfonts",
+    "unocss",
+    "unplugin",
+    "vaadin",
+    "Vite",
+    "vitecamp",
+    "vueuse",
+    "vuex",
+    "webfont",
+    "wechat",
+    "windi",
+    "windicss",
+    "yankeeinlondon",
+    "zmtlwzy"
+  ],
+  "i18n-ally.localesPaths": [
+    "locales"
+  ],
+  "[css]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "[less]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  }
+}
