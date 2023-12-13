@@ -1,26 +1,27 @@
 {
   "name": "medishop-frontend",
-  "private": true,
+  "type": "module",
   "version": "0.0.1",
+  "private": true,
+  "packageManager": "^pnpm@8.6.5",
   "author": {
     "name": "Valinaa",
     "email": "1114854003@qq.com",
     "url": "https://www.valinaa.tech"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Valinaa/medishop.git"
   },
-  "packageManager": "^pnpm@8.6.5",
-  "license": "MIT",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit --skipLibCheck && vite build",
     "preview": "vite preview",
     "lint": "eslint src",
     "lint-staged": "lint-staged",
-    "lint-time": "set TIMING=1 && eslint src/main.ts"
+    "lint-time": "set TIMING=1 && eslint src/main.ts",
+    "view eslint-rules": "pnpm dlx eslint-flat-config-viewer"
   },
   "dependencies": {
     "@iconify/json": "^2.2.154",
@@ -40,7 +41,6 @@
     "prism-theme-vars": "^0.2.4",
     "pug": "^3.0.2",
     "qs": "^6.11.2",
-    "stylelint-config-recommended": "13",
     "vue": "^3.3.11",
     "vue-axios": "^3.5.2",
     "vue-i18n": "^9.8.0",
@@ -48,44 +48,38 @@
     "vue-types": "^5.1.1"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.4.5",
     "@commitlint/cli": "^18.4.3",
-    "@iconify/vue": "^4.1.1",
+    "@html-eslint/eslint-plugin": "^0.22.0",
+    "@html-eslint/parser": "^0.22.0",
     "@types/node": "^20.10.4",
     "@types/nprogress": "^0.2.3",
     "@types/qs": "^6.9.10",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
-    "@unocss/eslint-config": "^0.58.0",
+    "@unocss/eslint-plugin": "^0.58.0",
     "@unocss/preset-rem-to-px": "^0.58.0",
+    "@unocss/transformer-compile-class": "^0.58.0",
     "@vitejs/plugin-vue": "^4.5.2",
-    "@vitejs/plugin-vue-jsx": "3.1.0",
-    "@zmtlwzy/eslint-config": "^0.3.1",
     "commitizen": "^4.3.0",
     "commitlint-config-cz": "^0.13.3",
     "consola": "^3.2.3",
     "cz-custom": "^0.0.2",
     "eslint": "^8.55.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-node": "^0.3.9",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.0",
-    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-tsdoc": "^0.2.17",
+    "eslint-plugin-unicorn": "^49.0.0",
     "eslint-plugin-vue": "^9.19.2",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "postcss": "^8.4.32",
     "postcss-html": "^1.5.0",
-    "postcss-import": "^15.1.0",
-    "postcss-load-config": "^5.0.2",
     "postcss-preset-env": "^9.3.0",
     "postcss-scss": "^4.0.9",
-    "prettier": "^3.1.1",
     "sass": "^1.69.5",
-    "stylelint": "^15.11.0",
+    "stylelint": "^16.0.2",
     "stylelint-config-rational-order": "^0.1.2",
-    "stylelint-config-standard": "^34.0.0",
-    "stylelint-config-standard-scss": "^11.1.0",
-    "stylelint-declaration-block-no-ignored-properties": "^2.7.0",
+    "stylelint-config-standard-scss": "^12.0.0",
+    "stylelint-config-standard-vue": "^1.0.0",
     "stylelint-order": "^6.0.4",
     "typescript": "^5.3.3",
     "unocss": "^0.58.0",
@@ -111,29 +105,19 @@
       "config": ".cz-config.cjs"
     }
   },
-  "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{vue,scss,less,css,html,sass}": [
-      "stylelint --fix"
-    ],
-    "*.{scss,less,css,html,md}": [
-      "prettier --write"
-    ],
-    "package.json": [
-      "prettier --write"
-    ],
-    "{!(package)*.json,.!(browserslist)*rc}": [
-      "prettier --write--parser json"
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx,json,html,md,jsonc,toml,yaml}": [
+      "eslint --fix"
+    ],
+    "*.{vue,scss,less,css,html,sass}": [
+      "stylelint --fix"
+    ]
   },
   "browserslist": [
     "last 2 version",
@@ -141,19 +125,5 @@
     "maintained node versions",
     "not ie 11",
     "not dead"
-  ],
-  "prettier": {
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "printWidth": 80,
-    "useTabs": false,
-    "singleQuote": true,
-    "bracketSpacing": true,
-    "bracketSameLine": true,
-    "vueIndentScriptAndStyle": false,
-    "htmlWhitespaceSensitivity": "ignore",
-    "singleAttributePerLine": true,
-    "endOfLine": "auto",
-    "semi": false
-  }
+  ]
 }
