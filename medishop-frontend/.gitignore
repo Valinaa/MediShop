@@ -127,7 +127,6 @@ dist
 
 # custom
 .eslintrc-auto-import.json
-.vscode
 pnpm-lock.*
 .env**
 *.d.ts
