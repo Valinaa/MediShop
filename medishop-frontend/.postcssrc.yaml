@@ -1,6 +1,4 @@
----
+syntax: postcss-scss
 plugins:
   postcss-preset-env: {}
-  postcss-html: {}
-  postcss-import: {}
   '@unocss/postcss': {}

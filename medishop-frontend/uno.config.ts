@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable import/no-extraneous-dependencies */
 import {
   defineConfig,
   presetAttributify,
@@ -12,10 +10,67 @@ import {
 } from 'unocss'
 
 import presetRemToPx from '@unocss/preset-rem-to-px'
+import transformerCompileClass from '@unocss/transformer-compile-class'
 
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 
 import { getBreakpointWithPX } from './src/enums/breakpointEnum'
+
+function handleShortKeys(key: string): string[] {
+  const J = 'justify-content'
+  const A = 'align-items'
+  const D = 'flex-direction'
+  switch (key) {
+    case 'js': {
+      return [J, 'flex-start']
+    }
+    case 'je': {
+      return [J, 'flex-end']
+    }
+    case 'jc': {
+      return [J, 'center']
+    }
+    case 'jb': {
+      return [J, 'space-between']
+    }
+    case 'ja': {
+      return [J, 'space-around']
+    }
+    case 'jev': {
+      return [J, 'space-evenly']
+    }
+    case 'as': {
+      return [A, 'flex-start']
+    }
+    case 'ae': {
+      return [A, 'flex-end']
+    }
+    case 'ac': {
+      return [A, 'center']
+    }
+    case 'ab': {
+      return [A, 'baseline']
+    }
+    case 'ast': {
+      return [A, 'stretch']
+    }
+    case 'row': {
+      return [D, 'row']
+    }
+    case 'rowr': {
+      return [D, 'row-reverse']
+    }
+    case 'col': {
+      return [D, 'column']
+    }
+    case 'colr': {
+      return [D, 'column-reverse']
+    }
+    default: {
+      return []
+    }
+  }
+}
 
 export default defineConfig({
   content: {
@@ -64,16 +119,17 @@ export default defineConfig({
   rules: [
     [
       /^flex((-(js|je|jc|jb|ja|jev|as|ae|ac|ab|ast|row|rowr|col|colr)){1,3})$/,
-      ([, keyStr]) => {
+      ([, keyString]) => {
+        // eslint-disable-next-line ts/no-unsafe-return
         return {
           display: 'flex',
           ...Object.fromEntries(
-            keyStr
+            keyString
               .split('-')
               .slice(1)
               .map((item) => {
                 return handleShortKeys(item)
-              })
+              }),
           ),
         }
       },
@@ -100,19 +156,18 @@ export default defineConfig({
       warn: true,
       // mode: 'background-img',
       collections: {
-        own: FileSystemIconLoader('src/assets/icons', (svg) =>
-          svg.replace(/^<svg /, '<svg fill="currentColor" ')
-        ),
+        own: FileSystemIconLoader('src/assets/icons', svg =>
+          svg.replace(/^<svg /, '<svg fill="currentColor" ')),
       },
       extraProperties: {
-        display: 'inline-block',
+        'display': 'inline-block',
         'vertical-align': 'middle',
       },
       customizations: {
-        customize(props) {
-          props.width = '1em'
-          props.height = '1em'
-          return props
+        customize(properties) {
+          properties.width = '1em'
+          properties.height = '1em'
+          return properties
         },
       },
     }),
@@ -126,46 +181,11 @@ export default defineConfig({
     }),
     presetRemToPx(),
   ],
-  transformers: [transformerDirectives(), transformerVariantGroup()],
+  transformers: [
+    transformerDirectives(),
+    transformerVariantGroup(),
+    // Compiled to only one class by adding :uno:
+    // Reference: https://unocss.dev/transformers/compile-class
+    transformerCompileClass(),
+  ],
 })
-
-// eslint-disable-next-line complexity
-function handleShortKeys(key: string): string[] {
-  const J = 'justify-content'
-  const A = 'align-items'
-  const D = 'flex-direction'
-  switch (key) {
-    case 'js':
-      return [J, 'flex-start']
-    case 'je':
-      return [J, 'flex-end']
-    case 'jc':
-      return [J, 'center']
-    case 'jb':
-      return [J, 'space-between']
-    case 'ja':
-      return [J, 'space-around']
-    case 'jev':
-      return [J, 'space-evenly']
-    case 'as':
-      return [A, 'flex-start']
-    case 'ae':
-      return [A, 'flex-end']
-    case 'ac':
-      return [A, 'center']
-    case 'ab':
-      return [A, 'baseline']
-    case 'ast':
-      return [A, 'stretch']
-    case 'row':
-      return [D, 'row']
-    case 'rowr':
-      return [D, 'row-reverse']
-    case 'col':
-      return [D, 'column']
-    case 'colr':
-      return [D, 'column-reverse']
-    default:
-      return []
-  }
-}

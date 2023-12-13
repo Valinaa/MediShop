@@ -1,49 +1,49 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
+    "jsx": "preserve",
     "lib": [
       "ESNext",
       "DOM"
     ],
-    "skipLibCheck": true,
-    /* Bundler mode */
+    "useDefineForClassFields": true,
+    // baseUrl来告诉编译器到哪里去查找模块，所有非相对模块导入都会被当做相对于 baseUrl
+    "baseUrl": ".",
+    "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    // 非相对模块导入的路径映射配置
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "preserve",
-    /* Linting */
-    "strict": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
     "types": [
       "node",
       "vite/client",
       "element-plus/global",
       "@intlify/unplugin-vue-i18n/messages"
     ],
-    // baseUrl来告诉编译器到哪里去查找模块，所有非相对模块导入都会被当做相对于 baseUrl
-    "baseUrl": ".",
-    // 非相对模块导入的路径映射配置
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    }
+    "allowImportingTsExtensions": true,
+    /* Linting */
+    "strict": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
   "include": [
+    "eslint.config.js",
     "./**.ts",
     "presets",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
+    "src/**/*.vue"
   ]
 }

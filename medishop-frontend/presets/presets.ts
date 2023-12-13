@@ -1,5 +1,6 @@
-import { resolve } from 'node:path'
-
+import path, { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import type { PluginOption } from 'vite'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import Vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
@@ -20,7 +21,8 @@ import UnoCSS from 'unocss/vite'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
 
-export default (env: Record<string, string>) => {
+export default (environment: Record<string, string>): PluginOption[] => {
+  // eslint-disable-next-line ts/no-unsafe-return
   return [
     VueRouter({
       extensions: ['.vue', '.md'],
@@ -100,12 +102,12 @@ export default (env: Record<string, string>) => {
             return name.replace('el-', '')
           },
           style: (name) => {
-            if (['el-config-provider', 'effect'].includes(name)) {
+            if (['el-config-provider', 'effect'].includes(name))
               return false
-            }
+
             return `element-plus/es/components/${name.replace(
               'el-',
-              ''
+              '',
             )}/style/css.mjs`
           },
         },
@@ -115,22 +117,21 @@ export default (env: Record<string, string>) => {
       compiler: 'vue3',
       autoInstall: true,
       customCollections: {
-        own: FileSystemIconLoader('src/assets/icons', (svg) =>
-          svg.replace(/^<svg /, '<svg fill="currentColor" ')
-        ),
+        own: FileSystemIconLoader('src/assets/icons', svg =>
+          svg.replace(/^<svg /, '<svg fill="currentColor" ')),
       },
     }),
     VueI18nPlugin({
       defaultSFCLang: 'yaml',
-      include: [resolve(__dirname, '../locales/**')],
+      include: [resolve(path.dirname(fileURLToPath(import.meta.url)), '../locales/**')],
     }),
-    UnoCSS({}),
+    UnoCSS(),
     createHtmlPlugin({
       minify: true,
       inject: {
         data: {
-          title: env.VITE_APP_TITLE,
-          reCaptchaScript: `<script src='https://www.google.com/recaptcha/api.js?render=${env.VITE_LOCALHOST_RECAPTCHA_SITE_KEY}'></script>`,
+          title: environment.VITE_APP_TITLE,
+          reCaptchaScript: `<script src='https://www.google.com/recaptcha/api.js?render=${environment.VITE_LOCALHOST_RECAPTCHA_SITE_KEY}'></script>`,
         },
       },
     }),

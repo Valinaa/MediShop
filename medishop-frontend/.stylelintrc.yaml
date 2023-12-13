@@ -1,15 +1,9 @@
----
 extends:
-  - stylelint-config-standard
-  - stylelint-config-standard-scss
   - stylelint-config-rational-order
-plugins:
-  # TODO 该插件尚未支持stylelint 16.x
-  - stylelint-declaration-block-no-ignored-properties
+  - stylelint-config-standard-scss
+  - stylelint-config-standard-vue/scss
 rules:
-  # 禁止使用由于其他属性的原因而被忽略的属性
-  plugin/declaration-block-no-ignored-properties: true
-  #// 标记 CSS 规范中未知的属性-值对
+  # // 标记 CSS 规范中未知的属性-值对
   # declaration-property-value-no-unknown: true
   # 禁止空块
   block-no-empty: true
@@ -79,18 +73,11 @@ rules:
 ignoreFiles:
   - 'static/**'
   - 'public/**'
-  - '*.js'
-  - '*.ts'
-  - '**/*.js'
-  - '**/*.ts'
-  - '**/*.jsx'
-  - '**/*.tsx'
-  - 'src/**/*.js'
-  - 'src/**/*.ts'
-  - 'src/**/*.jsx'
-  - 'src/**/*.tsx'
+  - '*.{js,ts,jsx,tsx}'
+  - '**/*.{js,ts,jsx,tsx}'
 overrides:
   - files:
+      - '*.{vue,html}'
       - '**/*.{vue,html}'
     customSyntax: postcss-html
     rules:

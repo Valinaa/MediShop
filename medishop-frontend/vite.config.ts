@@ -1,4 +1,5 @@
-import { resolve } from 'node:path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import process from 'node:process'
 
@@ -6,19 +7,19 @@ import { defineConfig, loadEnv } from 'vite'
 
 import presets from './presets/presets'
 
-export default defineConfig((env) => {
+export default defineConfig((environment) => {
   // env 环境变量
-  const viteEnv = loadEnv(env.mode, process.cwd())
+  const viteEnvironment = loadEnv(environment.mode, process.cwd())
   return {
-    // envDir: resolve(__dirname),
-    base: viteEnv.VITE_BASE || './',
-    plugins: [presets(viteEnv)],
+    // envDir: path.dirname(fileURLToPath(import.meta.url)),
+    base: viteEnvironment.VITE_BASE || './',
+    plugins: [presets(viteEnvironment)],
     esbuild: {
       drop: ['console', 'debugger'],
     },
     resolve: {
       alias: {
-        '@': resolve(__dirname, 'src'), // 把 @ 指向到 src 目录去
+        '@': path.dirname(fileURLToPath(import.meta.url)),
         'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
       },
     },
@@ -34,7 +35,7 @@ export default defineConfig((env) => {
           target: 'http://localhost:8999',
           //     target: 'https://118.89.71.118/',
           changeOrigin: true,
-          rewrite: (path) => path.replace('/api/', '/'),
+          rewrite: path => path.replace('/api/', '/'),
         },
       },
       build: {
