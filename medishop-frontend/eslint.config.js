@@ -1,6 +1,6 @@
 /* eslint-disable ts/no-unsafe-member-access */
 /* eslint-disable ts/no-unsafe-assignment */
-import antfu from '@antfu/eslint-config'
+import antfu from '@valinaa/eslint-config'
 import htmlParser from '@html-eslint/parser'
 import eslintHtmlPlugin from '@html-eslint/eslint-plugin'
 import eslintUnicornPlugin from 'eslint-plugin-unicorn'
@@ -60,14 +60,14 @@ export default antfu(
       tsdoc: tsdocPlugin,
     },
     rules: {
-      ...eslintUnicornPlugin.configs.recommended.rules,
-      'tsdoc/syntax': 'warn',
+      ...eslintUnicornPlugin.configs['flat/recommended'].rules,
       'unicorn/filename-case': ['error', {
         cases: {
           kebabCase: true,
           pascalCase: true,
         },
       }],
+      'tsdoc/syntax': 'warn',
     },
   },
 )
