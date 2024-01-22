@@ -27,6 +27,11 @@
             <artifactId>medishop-web</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>tech.valinaa</groupId>
+            <artifactId>medishop-neo4j</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

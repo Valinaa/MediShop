@@ -21,6 +21,7 @@
         <module>medishop-web</module>
         <module>medishop-utils</module>
         <module>medishop-auth</module>
+        <module>medishop-neo4j</module>
     </modules>
     <properties>
         <boot.version>3.1.4</boot.version>
@@ -57,6 +58,11 @@
                 <version>${alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-neo4j</artifactId>
+                <version>${boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
