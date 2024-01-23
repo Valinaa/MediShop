@@ -27,7 +27,7 @@
         <boot.version>3.2.2</boot.version>
         <cloud.version>2022.0.0</cloud.version>
         <alibaba.version>2022.0.0.0-RC2</alibaba.version>
-        <hutool.version>5.8.23</hutool.version>
+        <hutool.version>5.8.25</hutool.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <mybatis-spring.version>3.0.3</mybatis-spring.version>
         <fastjson2.version>2.0.25</fastjson2.version>
