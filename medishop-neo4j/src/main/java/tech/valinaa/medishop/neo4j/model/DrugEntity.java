@@ -5,6 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.Relationship;
+import tech.valinaa.medishop.neo4j.model.rel.Cite;
+import tech.valinaa.medishop.neo4j.model.rel.DrugInteraction;
+
+import java.util.List;
 
 /**
  * @author Valinaa
@@ -16,7 +21,8 @@ import org.springframework.data.neo4j.core.schema.Property;
 @RequiredArgsConstructor
 public class DrugEntity {
     @Id
-    private final String id;
+    @Property("id")
+    private final String drugId;
     @Property("name")
     private final String name;
     @Property("state")
@@ -37,4 +43,9 @@ public class DrugEntity {
     private final String created;
     @Property("updated")
     private final String updated;
+    
+    @Relationship(type = "Cite", direction = Relationship.Direction.OUTGOING)
+    private List<Cite> cites;
+    @Relationship(type = "Has Interaction", direction = Relationship.Direction.OUTGOING)
+    private List<DrugInteraction> interactions;
 }
