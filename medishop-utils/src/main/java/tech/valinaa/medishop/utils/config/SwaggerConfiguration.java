@@ -34,6 +34,14 @@ public class SwaggerConfiguration {
     }
     
     @Bean
+    public GroupedOpenApi neo4jOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("medishop-neo4j")
+                .pathsToMatch("/api/v1/neo4j/**")
+                .build();
+    }
+    
+    @Bean
     public GroupedOpenApi allOpenApi() {
         return GroupedOpenApi.builder()
                 .group("medishop")
