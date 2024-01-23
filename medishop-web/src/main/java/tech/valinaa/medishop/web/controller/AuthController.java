@@ -25,7 +25,7 @@ public class AuthController implements AuthApi {
     private final UserService userService;
     
     @Override
-    public Result<JWTResponse> login(@NotBlank String username, @NotBlank String password, @NotBlank String captcha) {
+    public Result<JWTResponse> login(@NotBlank String username, @NotBlank String password, String captcha) {
         return userService.login(username, password, captcha);
     }
     

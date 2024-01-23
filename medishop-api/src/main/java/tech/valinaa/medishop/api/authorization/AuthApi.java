@@ -32,7 +32,7 @@ public interface AuthApi {
      */
     @PostMapping("/login")
     @Operation(summary = "用户登录", description = "用户登录成功后返回token")
-    Result<JWTResponse> login(@NotBlank String username, @NotBlank String password, @NotBlank String captcha);
+    Result<JWTResponse> login(@NotBlank String username, @NotBlank String password, String captcha);
     
     /**
      * 用户注册Api
