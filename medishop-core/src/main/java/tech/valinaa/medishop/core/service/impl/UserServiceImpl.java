@@ -70,7 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                                 var userDetail = (UserDetails) auth.getPrincipal();
                                 jwtRes.setAccessToken(JwtUtil.createAccessToken(userDetail));
                                 jwtRes.setRefreshToken(JwtUtil.createRefreshToken(userDetail));
-                                jwtRes.setExpiredIn(LocalDateTime.now(ZoneId.of("CTT"))
+                                jwtRes.setExpiredIn(LocalDateTime.now(ZoneId.of("Asia/Shanghai"))
                                         .plusSeconds(Constants.ACCESS_TOKEN_EXPIRATION_TIME)
                                         .toInstant(ZoneOffset.UTC)
                                         .toEpochMilli());

@@ -19,8 +19,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import tech.valinaa.medishop.utils.exception.security.AuthenticationFailedException;
 
+import java.security.Key;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.List;
 
 /**
@@ -34,7 +34,7 @@ import java.util.List;
 @SuppressWarnings("checkstyle:MagicNumber")
 public final class JwtUtil {
     private static final RsaJsonWebKey RSA_JSON_WEB_KEY = SpringContextHolder.getBean(RsaJsonWebKey.class);
-    private static final PublicKey PUBLIC_KEY = RSA_JSON_WEB_KEY.getPublicKey();
+    private static final Key PUBLIC_KEY = RSA_JSON_WEB_KEY.getKey();
     private static final PrivateKey PRIVATE_KEY = RSA_JSON_WEB_KEY.getPrivateKey();
     
     /**
@@ -87,7 +87,6 @@ public final class JwtUtil {
             jws.setPayload(claims.toJson());
             // JWT使用私钥签署
             jws.setKey(PRIVATE_KEY);
-            
             /*
              * 签署JWS并生成紧凑的序列化或完整的jw/JWS 表示，它是由三个点（'.'）分隔的字符串
              * 在表单头.payload.签名中使用base64url编码的部件 如果你想对它进行加密，你可以简单地将这个jwt设置为有效负载
@@ -201,6 +200,8 @@ public final class JwtUtil {
     public static UserDetails getUserDetailsByToken(String token) {
         try {
             return new JwtConsumerBuilder()
+                    .setSkipAllDefaultValidators()
+                    .setSkipSignatureVerification()
                     .build()
                     .processToClaims(token)
                     .getClaimValue("user", UserDetails.class);
