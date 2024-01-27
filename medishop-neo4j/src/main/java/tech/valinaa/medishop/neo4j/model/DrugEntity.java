@@ -9,6 +9,7 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 import tech.valinaa.medishop.neo4j.model.rel.Cite;
 import tech.valinaa.medishop.neo4j.model.rel.DrugInteraction;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -40,9 +41,9 @@ public class DrugEntity {
     @Property("indication")
     private final String indication;
     @Property("created")
-    private final String created;
+    private final ZonedDateTime created;
     @Property("updated")
-    private final String updated;
+    private final ZonedDateTime updated;
     
     @Relationship(type = "Cite", direction = Relationship.Direction.OUTGOING)
     private List<Cite> cites;

@@ -17,6 +17,7 @@ import org.springframework.data.neo4j.core.schema.Property;
 @RequiredArgsConstructor
 public class ReferenceEntity {
     @Id
+    @Property("ref_id")
     private final String refId;
     @Property("type")
     private final String type;
