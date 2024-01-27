@@ -57,7 +57,7 @@ public class JacksonUtil {
             return OBJECT_MAPPER.readValue(jsonString, object);
         } catch (JsonProcessingException e) {
             log.error("JsonString转为自定义对象失败：{}", e.getMessage());
-            throw new RuntimeException(e);
+            return null;
         }
     }
     
@@ -74,7 +74,7 @@ public class JacksonUtil {
             return OBJECT_MAPPER.readValue(file, object);
         } catch (IOException e) {
             log.error("从文件中读取json字符串转为自定义对象失败：{}", e.getMessage());
-            throw new RuntimeException(e);
+            return null;
         }
     }
     
@@ -91,7 +91,7 @@ public class JacksonUtil {
             return OBJECT_MAPPER.readValue(jsonArray, reference);
         } catch (JsonProcessingException e) {
             log.error("JSONArray转为List列表或者Map集合失败：{}", e.getMessage());
-            throw new RuntimeException(e);
+            return null;
         }
     }
     
@@ -108,7 +108,7 @@ public class JacksonUtil {
             return OBJECT_MAPPER.readValue(jsonString, reference);
         } catch (JsonProcessingException e) {
             log.error("JSONArray转为List列表或者Map集合失败：{}", e.getMessage());
-            throw new RuntimeException(e);
+            return null;
         }
     }
     
@@ -127,7 +127,7 @@ public class JacksonUtil {
             return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error("Object转JSONString失败：{}", e.getMessage());
-            throw new RuntimeException(e);
+            return null;
         }
     }
     
@@ -142,7 +142,7 @@ public class JacksonUtil {
             return OBJECT_MAPPER.writeValueAsBytes(object);
         } catch (JsonProcessingException e) {
             log.error("Object转ByteArray失败：{}", e.getMessage());
-            throw new RuntimeException(e);
+            return new byte[0];
         }
     }
     
@@ -177,7 +177,7 @@ public class JacksonUtil {
             return OBJECT_MAPPER.readTree(jsonString);
         } catch (JsonProcessingException e) {
             log.error("JSONString转为JsonNode失败：{}", e.getMessage(), e);
-            throw new RuntimeException(e);
+            return null;
         }
     }
     
@@ -202,7 +202,7 @@ public class JacksonUtil {
             return OBJECT_MAPPER.writeValueAsString(jsonNode);
         } catch (JsonProcessingException e) {
             log.error("JsonNode转JSONString失败：{}", e.getMessage(), e);
-            throw new RuntimeException(e);
+            return null;
         }
     }
     

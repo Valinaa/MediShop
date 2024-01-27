@@ -55,6 +55,7 @@ public final class SpringContextHolder implements ApplicationContextAware {
      * @param clazz Bean Class
      * @param <T>   Bean类型
      * @return Bean对象
+     * @throws NoSuchBeanDefinitionException NoSuchBeanDefinitionException
      */
     public static <T> T getBean(Class<T> clazz) {
         checkApplicationContext();
@@ -67,6 +68,8 @@ public final class SpringContextHolder implements ApplicationContextAware {
     
     /**
      * 判断ApplicationContext是否为空.
+     *
+     * @throws IllegalStateException IllegalStateException
      */
     private static void checkApplicationContext() {
         if (applicationContext == null) {

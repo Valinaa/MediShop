@@ -35,13 +35,13 @@ import java.util.Objects;
  * @Date 2023/9/27 11:15
  * @Description lettuce实现的redis配置类
  */
+@Log4j2
 @Configuration
 @EnableCaching
 @RequiredArgsConstructor
-@Log4j2
 public class LettuceConfiguration implements CachingConfigurer {
     
-    private final LettuceConnectionFactory connectionFactory;
+    private final LettuceConnectionFactory lettuceConnectionFactory;
     
     /**
      * key 生成策略<p>
@@ -83,7 +83,7 @@ public class LettuceConfiguration implements CachingConfigurer {
     public RedisTemplate<String, Object> redisTemplate() {
         var template = new RedisTemplate<String, Object>();
         // 设置连接工厂，源码默认
-        template.setConnectionFactory(connectionFactory);
+        template.setConnectionFactory(lettuceConnectionFactory);
         // string序列化
         var stringRedisSerializer = new StringRedisSerializer();
         // json序列化
@@ -106,7 +106,7 @@ public class LettuceConfiguration implements CachingConfigurer {
     public CacheManager cacheManager() {
         return RedisCacheManager.RedisCacheManagerBuilder
                 // Redis链接工厂
-                .fromConnectionFactory(connectionFactory)
+                .fromConnectionFactory(lettuceConnectionFactory)
                 // 缓存配置 通用配置  默认存储4小时
                 .cacheDefaults(getCacheConfigurationWithTtl(Duration.ofHours(4)))
                 // 配置同步修改或删除  put/evict

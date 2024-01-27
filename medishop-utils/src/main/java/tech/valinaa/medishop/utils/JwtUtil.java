@@ -1,8 +1,10 @@
 package tech.valinaa.medishop.utils;
 
+import cn.hutool.core.io.file.FileReader;
 import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
 import org.jose4j.jwa.AlgorithmConstraints;
+import org.jose4j.jwk.PublicJsonWebKey;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -13,7 +15,6 @@ import org.jose4j.jwt.consumer.ErrorCodes;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.lang.JoseException;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.util.Pair;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,12 +31,29 @@ import java.util.List;
  */
 @Log4j2
 @UtilityClass
-@DependsOn("springContextHolder")
 @SuppressWarnings("checkstyle:MagicNumber")
 public final class JwtUtil {
-    private static final RsaJsonWebKey RSA_JSON_WEB_KEY = SpringContextHolder.getBean(RsaJsonWebKey.class);
+    private static final RsaJsonWebKey RSA_JSON_WEB_KEY = initRsaJsonWebKey();
     private static final Key PUBLIC_KEY = RSA_JSON_WEB_KEY.getKey();
     private static final PrivateKey PRIVATE_KEY = RSA_JSON_WEB_KEY.getPrivateKey();
+    
+    private static RsaJsonWebKey initRsaJsonWebKey() {
+        var resource = JwtUtil.class.getClassLoader().getResource("rsa_key.txt");
+        if (resource != null) {
+            try {
+                var rsaJWK = (RsaJsonWebKey)
+                        PublicJsonWebKey.Factory.newPublicJwk(
+                                new FileReader(resource.getPath()).readString()
+                        );
+                rsaJWK.setKeyId(Constants.KEY_ID);
+                rsaJWK.setAlgorithm(AlgorithmIdentifiers.RSA_USING_SHA256);
+                return rsaJWK;
+            } catch (JoseException e) {
+                log.error(e.getMessage(), () -> "No RSA Key File, Message: {}");
+            }
+        }
+        throw new AuthenticationFailedException(60002, "No RSA Key File or resource file is null");
+    }
     
     /**
      * jws 创建token
@@ -179,8 +197,7 @@ public final class JwtUtil {
             var claims = verify(token, userDetails);
             if (claims != null) {
                 log.info("认证通过！");
-                var user = claims.getClaimValue("user", UserDetails.class);
-                log.debug("token payload携带的自定义内容:携带该token的用户名 => {}", user::getUsername);
+                log.debug("token payload携带的自定义内容:携带该token的用户名 => {}", claims.getSubject());
                 log.debug("Jwt Succeed! The JwtClaims: {}", () -> claims);
                 return true;
             }
@@ -191,20 +208,19 @@ public final class JwtUtil {
     }
     
     /**
-     * 通过token获取用户
+     * 通过token获取用户名
      *
-     * @param token token
-     * @return {@link UserDetails}
-     * @see String
+     * @param token JWT token
+     * @return username
      */
-    public static UserDetails getUserDetailsByToken(String token) {
+    public static String getUsernameByToken(String token) {
         try {
             return new JwtConsumerBuilder()
                     .setSkipAllDefaultValidators()
-                    .setSkipSignatureVerification()
+                    .setVerificationKey(PUBLIC_KEY)
                     .build()
                     .processToClaims(token)
-                    .getClaimValue("user", UserDetails.class);
+                    .getSubject();
         } catch (InvalidJwtException | MalformedClaimException e) {
             processJwtException(e);
         }

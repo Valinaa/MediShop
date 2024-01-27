@@ -19,16 +19,16 @@ public class Constants {
      */
     public static final String CONTENT_TYPE = "application/json";
     public static final String CHARACTER_ENCODING = "UTF-8";
-    public static final String KEY_ID = UUID.randomUUID().toString().replaceAll("-", "");
+    public static final String KEY_ID = UUID.randomUUID().toString().replace("-", "");
     
     /**
      * JWT存储的请求头相关
      */
     public static final String AUTH_HEADER = "Authorization";
     // access_token 过期时间 3小时
-    public static final long ACCESS_TOKEN_EXPIRATION_TIME = 60 * 60 * 3;
+    public static final long ACCESS_TOKEN_EXPIRATION_TIME = 60L * 60L * 3L;
     // refresh_token 过期时间 14天
-    public static final long REFRESH_TOKEN_EXPIRATION_TIME = 60 * 60 * 24 * 14;
+    public static final long REFRESH_TOKEN_EXPIRATION_TIME = 60L * 60L * 24L * 14L;
     // 时间日期格式, 类似于 "2021-10-12 10:38:00.000+08:00"
     public static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss.SSSXXX";
     
@@ -37,10 +37,9 @@ public class Constants {
      */
     
     // IPV4地址正则表达式
-    public static final Pattern IPV4_PATTERN = Pattern.compile("^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
-            + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
-            + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."
-            + "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+    public static final Pattern IPV4_PATTERN = Pattern.compile(
+            "^(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)"
+                    + "(\\.(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)){3}$");
     /**
      * 验证码相关
      */
