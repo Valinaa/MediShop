@@ -17,6 +17,6 @@ import java.util.List;
 public interface DrugRepository extends Neo4jQueryRepository<DrugEntity, String> {
     @Override
     @RestResource(rel = "interactions", path = "interactions")
-    @Query("MATCH (drug:Drug)-[:Has Interaction]->(entity:Drug) WHERE id(drug) = $drugId RETURN entity")
+    @Query("MATCH (drug:Drug)-[:`Has Interaction`]->(entity:Drug) WHERE drug.id = $drugId RETURN entity LIMIT 25")
     List<DrugEntity> findListByDrugId(@Param("drugId") String drugId);
 }

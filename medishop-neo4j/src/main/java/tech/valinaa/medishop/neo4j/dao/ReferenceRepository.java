@@ -19,6 +19,6 @@ public interface ReferenceRepository extends Neo4jQueryRepository<ReferenceEntit
     
     @Override
     @RestResource(rel = "drug", path = "drug")
-    @Query("MATCH (drug:Drug)-[:HAS_REFERENCE]->(entity:Reference) WHERE id(drug) = $drugId RETURN entity")
+    @Query("MATCH (drug:Drug)-[:`Cite`]->(entity:Reference) WHERE drug.id = $drugId RETURN entity LIMIT 25")
     List<ReferenceEntity> findListByDrugId(@Param("drugId") String drugId);
 }
