@@ -174,6 +174,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     
     @Override
     public UserDetails loadUserByUsername(String username) {
+        if (username == null) {
+            throw new UsernameNotFoundException("username is null! Please check your token!");
+        }
         var user = Optional.of(this.lambdaQuery().eq(UserDO::getUsername, username).oneOpt())
                 .orElseThrow(() -> new UsernameNotFoundException("Error when search username from database!"))
                 .orElseThrow(() -> new UsernameNotFoundException("不存在username为" + username + "的用户!"));
