@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Valinaa
@@ -23,5 +24,5 @@ public interface BaiDuTranslationApi {
      */
     @Operation(summary = "生物医药领域翻译", description = "生物医药领域翻译")
     @GetMapping("/medical")
-    String medicalTranslate(String query);
+    String medicalTranslate(@RequestParam String query);
 }
