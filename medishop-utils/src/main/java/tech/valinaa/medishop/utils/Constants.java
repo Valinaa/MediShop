@@ -50,4 +50,10 @@ public class Constants {
     public static final int CAPTCHA_WIDTH = 200;
     // 验证码高度
     public static final int CAPTCHA_HEIGHT = 80;
+    
+    /**
+     * 百度翻译
+     */
+    public static final String BAIDU_GENERAL_TRANSLATION_URL = "https://api.fanyi.baidu.com/api/trans/vip/translate";
+    public static final String BAIDU_FIELD_TRANSLATION_URL = "https://api.fanyi.baidu.com/api/trans/vip/fieldtranslate";
 }
