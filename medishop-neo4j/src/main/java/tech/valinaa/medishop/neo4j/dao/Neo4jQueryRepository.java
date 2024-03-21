@@ -1,6 +1,7 @@
 package tech.valinaa.medishop.neo4j.dao;
 
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.neo4j.repository.support.CypherdslConditionExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * @Date 2024/1/21 13:17
  */
 @NoRepositoryBean
-public interface Neo4jQueryRepository<T, I> extends Neo4jRepository<T, I> {
+public interface Neo4jQueryRepository<T, I> extends Neo4jRepository<T, I>, CypherdslConditionExecutor<T> {
     /**
      * 根据药品ID查询关联资源
      *
